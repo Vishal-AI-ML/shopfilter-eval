@@ -1,0 +1,3771 @@
+{
+  "catalog_id": "controlled-demo",
+  "version": "v1",
+  "products": [
+    {
+      "product_id": "SHOE-001",
+      "title": "Nike Black Running Shoes 01",
+      "description": "Nike Black Running Shoes 01. Fixed controlled evaluation product.",
+      "category": "shoes",
+      "subcategory": "running_shoes",
+      "brand": "Nike",
+      "gender": "men",
+      "color": "black",
+      "sizes": [
+        "7",
+        "8",
+        "9",
+        "10"
+      ],
+      "price": "2499",
+      "currency": "INR",
+      "availability": "in_stock",
+      "rating": 4.1,
+      "attributes": {
+        "material": "mesh"
+      },
+      "source_metadata": {
+        "source": "controlled_demo",
+        "scenario_group": "shoes"
+      },
+      "field_provenance": {
+        "title": "controlled",
+        "category": "controlled",
+        "subcategory": "controlled",
+        "brand": "controlled",
+        "gender": "controlled",
+        "color": "controlled",
+        "sizes": "controlled",
+        "price": "controlled",
+        "availability": "controlled",
+        "attributes": "controlled"
+      }
+    },
+    {
+      "product_id": "SHOE-002",
+      "title": "Adidas Blue Sneakers 02",
+      "description": "Adidas Blue Sneakers 02. Fixed controlled evaluation product.",
+      "category": "shoes",
+      "subcategory": "sneakers",
+      "brand": "Adidas",
+      "gender": "women",
+      "color": "blue",
+      "sizes": [
+        "5",
+        "6",
+        "7",
+        "8"
+      ],
+      "price": "1499",
+      "currency": "INR",
+      "availability": "in_stock",
+      "rating": 4.2,
+      "attributes": {
+        "material": "mixed"
+      },
+      "source_metadata": {
+        "source": "controlled_demo",
+        "scenario_group": "shoes"
+      },
+      "field_provenance": {
+        "title": "controlled",
+        "category": "controlled",
+        "subcategory": "controlled",
+        "brand": "controlled",
+        "gender": "controlled",
+        "color": "controlled",
+        "sizes": "controlled",
+        "price": "controlled",
+        "availability": "controlled",
+        "attributes": "controlled"
+      }
+    },
+    {
+      "product_id": "SHOE-003",
+      "title": "Puma White Formal Shoes 03",
+      "description": "Puma White Formal Shoes 03. Fixed controlled evaluation product.",
+      "category": "shoes",
+      "subcategory": "formal_shoes",
+      "brand": "Puma",
+      "gender": "unisex",
+      "color": "white",
+      "sizes": [
+        "7",
+        "8",
+        "9",
+        "10"
+      ],
+      "price": "1999",
+      "currency": "INR",
+      "availability": "in_stock",
+      "rating": 4.3,
+      "attributes": {
+        "material": "mixed"
+      },
+      "source_metadata": {
+        "source": "controlled_demo",
+        "scenario_group": "shoes"
+      },
+      "field_provenance": {
+        "title": "controlled",
+        "category": "controlled",
+        "subcategory": "controlled",
+        "brand": "controlled",
+        "gender": "controlled",
+        "color": "controlled",
+        "sizes": "controlled",
+        "price": "controlled",
+        "availability": "controlled",
+        "attributes": "controlled"
+      }
+    },
+    {
+      "product_id": "SHOE-004",
+      "title": "Reebok Red Sandals 04",
+      "description": "Reebok Red Sandals 04. Fixed controlled evaluation product.",
+      "category": "shoes",
+      "subcategory": "sandals",
+      "brand": "Reebok",
+      "gender": "men",
+      "color": "red",
+      "sizes": [
+        "7",
+        "8",
+        "9",
+        "10"
+      ],
+      "price": "2199",
+      "currency": "INR",
+      "availability": "in_stock",
+      "rating": 4.4,
+      "attributes": {
+        "material": "mixed"
+      },
+      "source_metadata": {
+        "source": "controlled_demo",
+        "scenario_group": "shoes"
+      },
+      "field_provenance": {
+        "title": "controlled",
+        "category": "controlled",
+        "subcategory": "controlled",
+        "brand": "controlled",
+        "gender": "controlled",
+        "color": "controlled",
+        "sizes": "controlled",
+        "price": "controlled",
+        "availability": "controlled",
+        "attributes": "controlled"
+      }
+    },
+    {
+      "product_id": "SHOE-005",
+      "title": "ASICS Grey Boots 05",
+      "description": "ASICS Grey Boots 05. Fixed controlled evaluation product.",
+      "category": "shoes",
+      "subcategory": "boots",
+      "brand": "ASICS",
+      "gender": "women",
+      "color": "grey",
+      "sizes": [
+        "5",
+        "6",
+        "7",
+        "8"
+      ],
+      "price": "2499",
+      "currency": "INR",
+      "availability": "in_stock",
+      "rating": 4.5,
+      "attributes": {
+        "material": "mixed"
+      },
+      "source_metadata": {
+        "source": "controlled_demo",
+        "scenario_group": "shoes"
+      },
+      "field_provenance": {
+        "title": "controlled",
+        "category": "controlled",
+        "subcategory": "controlled",
+        "brand": "controlled",
+        "gender": "controlled",
+        "color": "controlled",
+        "sizes": "controlled",
+        "price": "controlled",
+        "availability": "controlled",
+        "attributes": "controlled"
+      }
+    },
+    {
+      "product_id": "SHOE-006",
+      "title": "Skechers Brown Walking Shoes 06",
+      "description": "Skechers Brown Walking Shoes 06. Fixed controlled evaluation product.",
+      "category": "shoes",
+      "subcategory": "walking_shoes",
+      "brand": "Skechers",
+      "gender": "unisex",
+      "color": "brown",
+      "sizes": [
+        "7",
+        "8",
+        "9",
+        "10"
+      ],
+      "price": "2699",
+      "currency": "INR",
+      "availability": "in_stock",
+      "rating": 4.6,
+      "attributes": {
+        "material": "mesh"
+      },
+      "source_metadata": {
+        "source": "controlled_demo",
+        "scenario_group": "shoes"
+      },
+      "field_provenance": {
+        "title": "controlled",
+        "category": "controlled",
+        "subcategory": "controlled",
+        "brand": "controlled",
+        "gender": "controlled",
+        "color": "controlled",
+        "sizes": "controlled",
+        "price": "controlled",
+        "availability": "controlled",
+        "attributes": "controlled"
+      }
+    },
+    {
+      "product_id": "SHOE-007",
+      "title": "Bata Pink Running Shoes 07",
+      "description": "Bata Pink Running Shoes 07. Fixed controlled evaluation product.",
+      "category": "shoes",
+      "subcategory": "running_shoes",
+      "brand": "Bata",
+      "gender": "men",
+      "color": "pink",
+      "sizes": [
+        "7",
+        "8",
+        "9",
+        "10"
+      ],
+      "price": "2799",
+      "currency": "INR",
+      "availability": "in_stock",
+      "rating": 4.7,
+      "attributes": {
+        "material": "mesh"
+      },
+      "source_metadata": {
+        "source": "controlled_demo",
+        "scenario_group": "shoes"
+      },
+      "field_provenance": {
+        "title": "controlled",
+        "category": "controlled",
+        "subcategory": "controlled",
+        "brand": "controlled",
+        "gender": "controlled",
+        "color": "controlled",
+        "sizes": "controlled",
+        "price": "controlled",
+        "availability": "controlled",
+        "attributes": "controlled"
+      }
+    },
+    {
+      "product_id": "SHOE-008",
+      "title": "Nike Green Sneakers 08",
+      "description": "Nike Green Sneakers 08. Fixed controlled evaluation product.",
+      "category": "shoes",
+      "subcategory": "sneakers",
+      "brand": "Nike",
+      "gender": "women",
+      "color": "green",
+      "sizes": [
+        "5",
+        "6",
+        "7",
+        "8"
+      ],
+      "price": "2899",
+      "currency": "INR",
+      "availability": "in_stock",
+      "rating": 4.8,
+      "attributes": {
+        "material": "mixed"
+      },
+      "source_metadata": {
+        "source": "controlled_demo",
+        "scenario_group": "shoes"
+      },
+      "field_provenance": {
+        "title": "controlled",
+        "category": "controlled",
+        "subcategory": "controlled",
+        "brand": "controlled",
+        "gender": "controlled",
+        "color": "controlled",
+        "sizes": "controlled",
+        "price": "controlled",
+        "availability": "controlled",
+        "attributes": "controlled"
+      }
+    },
+    {
+      "product_id": "SHOE-009",
+      "title": "Adidas Navy Formal Shoes 09",
+      "description": "Adidas Navy Formal Shoes 09. Fixed controlled evaluation product.",
+      "category": "shoes",
+      "subcategory": "formal_shoes",
+      "brand": "Adidas",
+      "gender": "unisex",
+      "color": "navy",
+      "sizes": [
+        "7",
+        "8",
+        "9",
+        "10"
+      ],
+      "price": "2999",
+      "currency": "INR",
+      "availability": "in_stock",
+      "rating": 4.9,
+      "attributes": {
+        "material": "mixed"
+      },
+      "source_metadata": {
+        "source": "controlled_demo",
+        "scenario_group": "shoes"
+      },
+      "field_provenance": {
+        "title": "controlled",
+        "category": "controlled",
+        "subcategory": "controlled",
+        "brand": "controlled",
+        "gender": "controlled",
+        "color": "controlled",
+        "sizes": "controlled",
+        "price": "controlled",
+        "availability": "controlled",
+        "attributes": "controlled"
+      }
+    },
+    {
+      "product_id": "SHOE-010",
+      "title": "Puma Tan Sandals 10",
+      "description": "Puma Tan Sandals 10. Fixed controlled evaluation product.",
+      "category": "shoes",
+      "subcategory": "sandals",
+      "brand": "Puma",
+      "gender": "men",
+      "color": "tan",
+      "sizes": [
+        "7",
+        "8",
+        "9",
+        "10"
+      ],
+      "price": "3000",
+      "currency": "INR",
+      "availability": "in_stock",
+      "rating": 4.0,
+      "attributes": {
+        "material": "mixed"
+      },
+      "source_metadata": {
+        "source": "controlled_demo",
+        "scenario_group": "shoes"
+      },
+      "field_provenance": {
+        "title": "controlled",
+        "category": "controlled",
+        "subcategory": "controlled",
+        "brand": "controlled",
+        "gender": "controlled",
+        "color": "controlled",
+        "sizes": "controlled",
+        "price": "controlled",
+        "availability": "controlled",
+        "attributes": "controlled"
+      }
+    },
+    {
+      "product_id": "SHOE-011",
+      "title": "Reebok Purple Boots 11",
+      "description": "Reebok Purple Boots 11. Fixed controlled evaluation product.",
+      "category": "shoes",
+      "subcategory": "boots",
+      "brand": "Reebok",
+      "gender": "women",
+      "color": "purple",
+      "sizes": [
+        "5",
+        "6",
+        "7",
+        "8"
+      ],
+      "price": "3499",
+      "currency": "INR",
+      "availability": "in_stock",
+      "rating": 4.1,
+      "attributes": {
+        "material": "mixed"
+      },
+      "source_metadata": {
+        "source": "controlled_demo",
+        "scenario_group": "shoes"
+      },
+      "field_provenance": {
+        "title": "controlled",
+        "category": "controlled",
+        "subcategory": "controlled",
+        "brand": "controlled",
+        "gender": "controlled",
+        "color": "controlled",
+        "sizes": "controlled",
+        "price": "controlled",
+        "availability": "controlled",
+        "attributes": "controlled"
+      }
+    },
+    {
+      "product_id": "SHOE-012",
+      "title": "ASICS Black Walking Shoes 12",
+      "description": "ASICS Black Walking Shoes 12. Fixed controlled evaluation product.",
+      "category": "shoes",
+      "subcategory": "walking_shoes",
+      "brand": "ASICS",
+      "gender": "unisex",
+      "color": "black",
+      "sizes": [
+        "7",
+        "8",
+        "9",
+        "10"
+      ],
+      "price": "3999",
+      "currency": "INR",
+      "availability": "in_stock",
+      "rating": 4.2,
+      "attributes": {
+        "material": "mesh"
+      },
+      "source_metadata": {
+        "source": "controlled_demo",
+        "scenario_group": "shoes"
+      },
+      "field_provenance": {
+        "title": "controlled",
+        "category": "controlled",
+        "subcategory": "controlled",
+        "brand": "controlled",
+        "gender": "controlled",
+        "color": "controlled",
+        "sizes": "controlled",
+        "price": "controlled",
+        "availability": "controlled",
+        "attributes": "controlled"
+      }
+    },
+    {
+      "product_id": "SHOE-013",
+      "title": "Skechers Blue Running Shoes 13",
+      "description": "Skechers Blue Running Shoes 13. Fixed controlled evaluation product.",
+      "category": "shoes",
+      "subcategory": "running_shoes",
+      "brand": "Skechers",
+      "gender": "men",
+      "color": "blue",
+      "sizes": [
+        "7",
+        "8",
+        "9",
+        "10"
+      ],
+      "price": "4999",
+      "currency": "INR",
+      "availability": "in_stock",
+      "rating": 4.3,
+      "attributes": {
+        "material": "mesh"
+      },
+      "source_metadata": {
+        "source": "controlled_demo",
+        "scenario_group": "shoes"
+      },
+      "field_provenance": {
+        "title": "controlled",
+        "category": "controlled",
+        "subcategory": "controlled",
+        "brand": "controlled",
+        "gender": "controlled",
+        "color": "controlled",
+        "sizes": "controlled",
+        "price": "controlled",
+        "availability": "controlled",
+        "attributes": "controlled"
+      }
+    },
+    {
+      "product_id": "SHOE-014",
+      "title": "Bata White Sneakers 14",
+      "description": "Bata White Sneakers 14. Fixed controlled evaluation product.",
+      "category": "shoes",
+      "subcategory": "sneakers",
+      "brand": "Bata",
+      "gender": "women",
+      "color": "white",
+      "sizes": [
+        "5",
+        "6",
+        "7",
+        "8"
+      ],
+      "price": "5999",
+      "currency": "INR",
+      "availability": "in_stock",
+      "rating": 4.4,
+      "attributes": {
+        "material": "mixed"
+      },
+      "source_metadata": {
+        "source": "controlled_demo",
+        "scenario_group": "shoes"
+      },
+      "field_provenance": {
+        "title": "controlled",
+        "category": "controlled",
+        "subcategory": "controlled",
+        "brand": "controlled",
+        "gender": "controlled",
+        "color": "controlled",
+        "sizes": "controlled",
+        "price": "controlled",
+        "availability": "controlled",
+        "attributes": "controlled"
+      }
+    },
+    {
+      "product_id": "SHOE-015",
+      "title": "Nike Red Formal Shoes 15",
+      "description": "Nike Red Formal Shoes 15. Fixed controlled evaluation product.",
+      "category": "shoes",
+      "subcategory": "formal_shoes",
+      "brand": "Nike",
+      "gender": "unisex",
+      "color": "red",
+      "sizes": [
+        "7",
+        "8",
+        "9",
+        "10"
+      ],
+      "price": "999",
+      "currency": "INR",
+      "availability": "in_stock",
+      "rating": 4.5,
+      "attributes": {
+        "material": "mixed"
+      },
+      "source_metadata": {
+        "source": "controlled_demo",
+        "scenario_group": "shoes"
+      },
+      "field_provenance": {
+        "title": "controlled",
+        "category": "controlled",
+        "subcategory": "controlled",
+        "brand": "controlled",
+        "gender": "controlled",
+        "color": "controlled",
+        "sizes": "controlled",
+        "price": "controlled",
+        "availability": "controlled",
+        "attributes": "controlled"
+      }
+    },
+    {
+      "product_id": "SHOE-016",
+      "title": "Adidas Grey Sandals 16",
+      "description": "Adidas Grey Sandals 16. Fixed controlled evaluation product.",
+      "category": "shoes",
+      "subcategory": "sandals",
+      "brand": "Adidas",
+      "gender": "men",
+      "color": "grey",
+      "sizes": [
+        "7",
+        "8",
+        "9",
+        "10"
+      ],
+      "price": "1499",
+      "currency": "INR",
+      "availability": "in_stock",
+      "rating": 4.6,
+      "attributes": {
+        "material": "mixed"
+      },
+      "source_metadata": {
+        "source": "controlled_demo",
+        "scenario_group": "shoes"
+      },
+      "field_provenance": {
+        "title": "controlled",
+        "category": "controlled",
+        "subcategory": "controlled",
+        "brand": "controlled",
+        "gender": "controlled",
+        "color": "controlled",
+        "sizes": "controlled",
+        "price": "controlled",
+        "availability": "controlled",
+        "attributes": "controlled"
+      }
+    },
+    {
+      "product_id": "SHOE-017",
+      "title": "Puma Brown Boots 17",
+      "description": "Puma Brown Boots 17. Fixed controlled evaluation product.",
+      "category": "shoes",
+      "subcategory": "boots",
+      "brand": "Puma",
+      "gender": "women",
+      "color": "brown",
+      "sizes": [
+        "5",
+        "6",
+        "7",
+        "8"
+      ],
+      "price": "1999",
+      "currency": "INR",
+      "availability": "out_of_stock",
+      "rating": 4.7,
+      "attributes": {
+        "material": "mixed"
+      },
+      "source_metadata": {
+        "source": "controlled_demo",
+        "scenario_group": "shoes"
+      },
+      "field_provenance": {
+        "title": "controlled",
+        "category": "controlled",
+        "subcategory": "controlled",
+        "brand": "controlled",
+        "gender": "controlled",
+        "color": "controlled",
+        "sizes": "controlled",
+        "price": "controlled",
+        "availability": "controlled",
+        "attributes": "controlled"
+      }
+    },
+    {
+      "product_id": "SHOE-018",
+      "title": "Reebok Pink Walking Shoes 18",
+      "description": "Reebok Pink Walking Shoes 18. Fixed controlled evaluation product.",
+      "category": "shoes",
+      "subcategory": "walking_shoes",
+      "brand": "Reebok",
+      "gender": "unisex",
+      "color": "pink",
+      "sizes": [
+        "7",
+        "8",
+        "9",
+        "10"
+      ],
+      "price": "2199",
+      "currency": "INR",
+      "availability": "in_stock",
+      "rating": 4.8,
+      "attributes": {
+        "material": "mesh"
+      },
+      "source_metadata": {
+        "source": "controlled_demo",
+        "scenario_group": "shoes"
+      },
+      "field_provenance": {
+        "title": "controlled",
+        "category": "controlled",
+        "subcategory": "controlled",
+        "brand": "controlled",
+        "gender": "controlled",
+        "color": "controlled",
+        "sizes": "controlled",
+        "price": "controlled",
+        "availability": "controlled",
+        "attributes": "controlled"
+      }
+    },
+    {
+      "product_id": "SHOE-019",
+      "title": "ASICS Green Running Shoes 19",
+      "description": "ASICS Green Running Shoes 19. Fixed controlled evaluation product.",
+      "category": "shoes",
+      "subcategory": "running_shoes",
+      "brand": "ASICS",
+      "gender": "men",
+      "color": "green",
+      "sizes": [
+        "7",
+        "8",
+        "9",
+        "10"
+      ],
+      "price": "2499",
+      "currency": "INR",
+      "availability": "in_stock",
+      "rating": 4.9,
+      "attributes": {
+        "material": "mesh"
+      },
+      "source_metadata": {
+        "source": "controlled_demo",
+        "scenario_group": "shoes"
+      },
+      "field_provenance": {
+        "title": "controlled",
+        "category": "controlled",
+        "subcategory": "controlled",
+        "brand": "controlled",
+        "gender": "controlled",
+        "color": "controlled",
+        "sizes": "controlled",
+        "price": "controlled",
+        "availability": "controlled",
+        "attributes": "controlled"
+      }
+    },
+    {
+      "product_id": "SHOE-020",
+      "title": "Skechers Navy Sneakers 20",
+      "description": "Skechers Navy Sneakers 20. Fixed controlled evaluation product.",
+      "category": "shoes",
+      "subcategory": "sneakers",
+      "brand": "Skechers",
+      "gender": "women",
+      "color": "navy",
+      "sizes": [
+        "5",
+        "6",
+        "7",
+        "8"
+      ],
+      "price": "2699",
+      "currency": "INR",
+      "availability": "in_stock",
+      "rating": 4.0,
+      "attributes": {
+        "material": "mixed"
+      },
+      "source_metadata": {
+        "source": "controlled_demo",
+        "scenario_group": "shoes"
+      },
+      "field_provenance": {
+        "title": "controlled",
+        "category": "controlled",
+        "subcategory": "controlled",
+        "brand": "controlled",
+        "gender": "controlled",
+        "color": "controlled",
+        "sizes": "controlled",
+        "price": "controlled",
+        "availability": "controlled",
+        "attributes": "controlled"
+      }
+    },
+    {
+      "product_id": "SHOE-021",
+      "title": "Bata Tan Formal Shoes 21",
+      "description": "Bata Tan Formal Shoes 21. Fixed controlled evaluation product.",
+      "category": "shoes",
+      "subcategory": "formal_shoes",
+      "brand": "Bata",
+      "gender": "unisex",
+      "color": "tan",
+      "sizes": [
+        "7",
+        "8",
+        "9",
+        "10"
+      ],
+      "price": "2799",
+      "currency": "INR",
+      "availability": "in_stock",
+      "rating": 4.1,
+      "attributes": {
+        "material": "mixed"
+      },
+      "source_metadata": {
+        "source": "controlled_demo",
+        "scenario_group": "shoes"
+      },
+      "field_provenance": {
+        "title": "controlled",
+        "category": "controlled",
+        "subcategory": "controlled",
+        "brand": "controlled",
+        "gender": "controlled",
+        "color": "controlled",
+        "sizes": "controlled",
+        "price": "controlled",
+        "availability": "controlled",
+        "attributes": "controlled"
+      }
+    },
+    {
+      "product_id": "SHOE-022",
+      "title": "Nike Purple Sandals 22",
+      "description": "Nike Purple Sandals 22. Fixed controlled evaluation product.",
+      "category": "shoes",
+      "subcategory": "sandals",
+      "brand": "Nike",
+      "gender": "men",
+      "color": "purple",
+      "sizes": [
+        "7",
+        "8",
+        "9",
+        "10"
+      ],
+      "price": "2899",
+      "currency": "INR",
+      "availability": "in_stock",
+      "rating": 4.2,
+      "attributes": {
+        "material": "mixed"
+      },
+      "source_metadata": {
+        "source": "controlled_demo",
+        "scenario_group": "shoes"
+      },
+      "field_provenance": {
+        "title": "controlled",
+        "category": "controlled",
+        "subcategory": "controlled",
+        "brand": "controlled",
+        "gender": "controlled",
+        "color": "controlled",
+        "sizes": "controlled",
+        "price": "controlled",
+        "availability": "controlled",
+        "attributes": "controlled"
+      }
+    },
+    {
+      "product_id": "SHOE-023",
+      "title": "Adidas Black Boots 23",
+      "description": "Adidas Black Boots 23. Fixed controlled evaluation product.",
+      "category": "shoes",
+      "subcategory": "boots",
+      "brand": "Adidas",
+      "gender": "women",
+      "color": "black",
+      "sizes": [
+        "5",
+        "6",
+        "7",
+        "8"
+      ],
+      "price": "2999",
+      "currency": "INR",
+      "availability": "in_stock",
+      "rating": 4.3,
+      "attributes": {
+        "material": "mixed"
+      },
+      "source_metadata": {
+        "source": "controlled_demo",
+        "scenario_group": "shoes"
+      },
+      "field_provenance": {
+        "title": "controlled",
+        "category": "controlled",
+        "subcategory": "controlled",
+        "brand": "controlled",
+        "gender": "controlled",
+        "color": "controlled",
+        "sizes": "controlled",
+        "price": "controlled",
+        "availability": "controlled",
+        "attributes": "controlled"
+      }
+    },
+    {
+      "product_id": "SHOE-024",
+      "title": "Puma Blue Walking Shoes 24",
+      "description": "Puma Blue Walking Shoes 24. Fixed controlled evaluation product.",
+      "category": "shoes",
+      "subcategory": "walking_shoes",
+      "brand": "Puma",
+      "gender": "unisex",
+      "color": "blue",
+      "sizes": [
+        "7",
+        "8",
+        "9",
+        "10"
+      ],
+      "price": "3000",
+      "currency": "INR",
+      "availability": "in_stock",
+      "rating": 4.4,
+      "attributes": {
+        "material": "mesh"
+      },
+      "source_metadata": {
+        "source": "controlled_demo",
+        "scenario_group": "shoes"
+      },
+      "field_provenance": {
+        "title": "controlled",
+        "category": "controlled",
+        "subcategory": "controlled",
+        "brand": "controlled",
+        "gender": "controlled",
+        "color": "controlled",
+        "sizes": "controlled",
+        "price": "controlled",
+        "availability": "controlled",
+        "attributes": "controlled"
+      }
+    },
+    {
+      "product_id": "SHOE-025",
+      "title": "Reebok White Running Shoes 25",
+      "description": "Reebok White Running Shoes 25. Fixed controlled evaluation product.",
+      "category": "shoes",
+      "subcategory": "running_shoes",
+      "brand": "Reebok",
+      "gender": "men",
+      "color": "white",
+      "sizes": [
+        "7",
+        "8",
+        "9",
+        "10"
+      ],
+      "price": "3499",
+      "currency": "INR",
+      "availability": "in_stock",
+      "rating": 4.5,
+      "attributes": {
+        "material": "mesh"
+      },
+      "source_metadata": {
+        "source": "controlled_demo",
+        "scenario_group": "shoes"
+      },
+      "field_provenance": {
+        "title": "controlled",
+        "category": "controlled",
+        "subcategory": "controlled",
+        "brand": "controlled",
+        "gender": "controlled",
+        "color": "controlled",
+        "sizes": "controlled",
+        "price": "controlled",
+        "availability": "controlled",
+        "attributes": "controlled"
+      }
+    },
+    {
+      "product_id": "SHOE-026",
+      "title": "ASICS Red Sneakers 26",
+      "description": "ASICS Red Sneakers 26. Fixed controlled evaluation product.",
+      "category": "shoes",
+      "subcategory": "sneakers",
+      "brand": "ASICS",
+      "gender": "women",
+      "color": "red",
+      "sizes": [
+        "5",
+        "6",
+        "7",
+        "8"
+      ],
+      "price": "3999",
+      "currency": "INR",
+      "availability": "in_stock",
+      "rating": 4.6,
+      "attributes": {
+        "material": "mixed"
+      },
+      "source_metadata": {
+        "source": "controlled_demo",
+        "scenario_group": "shoes"
+      },
+      "field_provenance": {
+        "title": "controlled",
+        "category": "controlled",
+        "subcategory": "controlled",
+        "brand": "controlled",
+        "gender": "controlled",
+        "color": "controlled",
+        "sizes": "controlled",
+        "price": "controlled",
+        "availability": "controlled",
+        "attributes": "controlled"
+      }
+    },
+    {
+      "product_id": "SHOE-027",
+      "title": "Skechers Grey Formal Shoes 27",
+      "description": "Skechers Grey Formal Shoes 27. Fixed controlled evaluation product.",
+      "category": "shoes",
+      "subcategory": "formal_shoes",
+      "brand": "Skechers",
+      "gender": "unisex",
+      "color": "grey",
+      "sizes": [
+        "7",
+        "8",
+        "9",
+        "10"
+      ],
+      "price": "4999",
+      "currency": "INR",
+      "availability": "in_stock",
+      "rating": 4.7,
+      "attributes": {
+        "material": "mixed"
+      },
+      "source_metadata": {
+        "source": "controlled_demo",
+        "scenario_group": "shoes"
+      },
+      "field_provenance": {
+        "title": "controlled",
+        "category": "controlled",
+        "subcategory": "controlled",
+        "brand": "controlled",
+        "gender": "controlled",
+        "color": "controlled",
+        "sizes": "controlled",
+        "price": "controlled",
+        "availability": "controlled",
+        "attributes": "controlled"
+      }
+    },
+    {
+      "product_id": "SHOE-028",
+      "title": "Bata Brown Sandals 28",
+      "description": "Bata Brown Sandals 28. Fixed controlled evaluation product.",
+      "category": "shoes",
+      "subcategory": "sandals",
+      "brand": "Bata",
+      "gender": "men",
+      "color": "brown",
+      "sizes": [
+        "7",
+        "8",
+        "9",
+        "10"
+      ],
+      "price": "5999",
+      "currency": "INR",
+      "availability": "in_stock",
+      "rating": 4.8,
+      "attributes": {
+        "material": "mixed"
+      },
+      "source_metadata": {
+        "source": "controlled_demo",
+        "scenario_group": "shoes"
+      },
+      "field_provenance": {
+        "title": "controlled",
+        "category": "controlled",
+        "subcategory": "controlled",
+        "brand": "controlled",
+        "gender": "controlled",
+        "color": "controlled",
+        "sizes": "controlled",
+        "price": "controlled",
+        "availability": "controlled",
+        "attributes": "controlled"
+      }
+    },
+    {
+      "product_id": "SHOE-029",
+      "title": "Nike Pink Boots 29",
+      "description": "Nike Pink Boots 29. Fixed controlled evaluation product.",
+      "category": "shoes",
+      "subcategory": "boots",
+      "brand": "Nike",
+      "gender": "women",
+      "color": "pink",
+      "sizes": [
+        "5",
+        "6",
+        "7",
+        "8"
+      ],
+      "price": "999",
+      "currency": "INR",
+      "availability": "in_stock",
+      "rating": 4.9,
+      "attributes": {
+        "material": "mixed"
+      },
+      "source_metadata": {
+        "source": "controlled_demo",
+        "scenario_group": "shoes"
+      },
+      "field_provenance": {
+        "title": "controlled",
+        "category": "controlled",
+        "subcategory": "controlled",
+        "brand": "controlled",
+        "gender": "controlled",
+        "color": "controlled",
+        "sizes": "controlled",
+        "price": "controlled",
+        "availability": "controlled",
+        "attributes": "controlled"
+      }
+    },
+    {
+      "product_id": "SHOE-030",
+      "title": "Adidas Green Walking Shoes 30",
+      "description": "Adidas Green Walking Shoes 30. Fixed controlled evaluation product.",
+      "category": "shoes",
+      "subcategory": "walking_shoes",
+      "brand": "Adidas",
+      "gender": "unisex",
+      "color": "green",
+      "sizes": [
+        "7",
+        "8",
+        "9",
+        "10"
+      ],
+      "price": "1499",
+      "currency": "INR",
+      "availability": "in_stock",
+      "rating": 4.0,
+      "attributes": {
+        "material": "mesh"
+      },
+      "source_metadata": {
+        "source": "controlled_demo",
+        "scenario_group": "shoes"
+      },
+      "field_provenance": {
+        "title": "controlled",
+        "category": "controlled",
+        "subcategory": "controlled",
+        "brand": "controlled",
+        "gender": "controlled",
+        "color": "controlled",
+        "sizes": "controlled",
+        "price": "controlled",
+        "availability": "controlled",
+        "attributes": "controlled"
+      }
+    },
+    {
+      "product_id": "SHOE-031",
+      "title": "Puma Navy Running Shoes 31",
+      "description": "Puma Navy Running Shoes 31. Fixed controlled evaluation product.",
+      "category": "shoes",
+      "subcategory": "running_shoes",
+      "brand": "Puma",
+      "gender": "men",
+      "color": "navy",
+      "sizes": [
+        "7",
+        "8",
+        "9",
+        "10"
+      ],
+      "price": "1999",
+      "currency": "INR",
+      "availability": "in_stock",
+      "rating": 4.1,
+      "attributes": {
+        "material": "mesh"
+      },
+      "source_metadata": {
+        "source": "controlled_demo",
+        "scenario_group": "shoes"
+      },
+      "field_provenance": {
+        "title": "controlled",
+        "category": "controlled",
+        "subcategory": "controlled",
+        "brand": "controlled",
+        "gender": "controlled",
+        "color": "controlled",
+        "sizes": "controlled",
+        "price": "controlled",
+        "availability": "controlled",
+        "attributes": "controlled"
+      }
+    },
+    {
+      "product_id": "SHOE-032",
+      "title": "Reebok Tan Sneakers 32",
+      "description": "Reebok Tan Sneakers 32. Fixed controlled evaluation product.",
+      "category": "shoes",
+      "subcategory": "sneakers",
+      "brand": "Reebok",
+      "gender": "women",
+      "color": "tan",
+      "sizes": [
+        "5",
+        "6",
+        "7",
+        "8"
+      ],
+      "price": "2199",
+      "currency": "INR",
+      "availability": "in_stock",
+      "rating": 4.2,
+      "attributes": {
+        "material": "mixed"
+      },
+      "source_metadata": {
+        "source": "controlled_demo",
+        "scenario_group": "shoes"
+      },
+      "field_provenance": {
+        "title": "controlled",
+        "category": "controlled",
+        "subcategory": "controlled",
+        "brand": "controlled",
+        "gender": "controlled",
+        "color": "controlled",
+        "sizes": "controlled",
+        "price": "controlled",
+        "availability": "controlled",
+        "attributes": "controlled"
+      }
+    },
+    {
+      "product_id": "SHOE-033",
+      "title": "ASICS Purple Formal Shoes 33",
+      "description": "ASICS Purple Formal Shoes 33. Fixed controlled evaluation product.",
+      "category": "shoes",
+      "subcategory": "formal_shoes",
+      "brand": "ASICS",
+      "gender": "unisex",
+      "color": "purple",
+      "sizes": [
+        "7",
+        "8",
+        "9",
+        "10"
+      ],
+      "price": "2499",
+      "currency": "INR",
+      "availability": "in_stock",
+      "rating": 4.3,
+      "attributes": {
+        "material": "mixed"
+      },
+      "source_metadata": {
+        "source": "controlled_demo",
+        "scenario_group": "shoes"
+      },
+      "field_provenance": {
+        "title": "controlled",
+        "category": "controlled",
+        "subcategory": "controlled",
+        "brand": "controlled",
+        "gender": "controlled",
+        "color": "controlled",
+        "sizes": "controlled",
+        "price": "controlled",
+        "availability": "controlled",
+        "attributes": "controlled"
+      }
+    },
+    {
+      "product_id": "SHOE-034",
+      "title": "Skechers Black Sandals 34",
+      "description": "Skechers Black Sandals 34. Fixed controlled evaluation product.",
+      "category": "shoes",
+      "subcategory": "sandals",
+      "brand": "Skechers",
+      "gender": "men",
+      "color": "black",
+      "sizes": [
+        "7",
+        "8",
+        "9",
+        "10"
+      ],
+      "price": "2699",
+      "currency": "INR",
+      "availability": "out_of_stock",
+      "rating": 4.4,
+      "attributes": {
+        "material": "mixed"
+      },
+      "source_metadata": {
+        "source": "controlled_demo",
+        "scenario_group": "shoes"
+      },
+      "field_provenance": {
+        "title": "controlled",
+        "category": "controlled",
+        "subcategory": "controlled",
+        "brand": "controlled",
+        "gender": "controlled",
+        "color": "controlled",
+        "sizes": "controlled",
+        "price": "controlled",
+        "availability": "controlled",
+        "attributes": "controlled"
+      }
+    },
+    {
+      "product_id": "SHOE-035",
+      "title": "Bata Blue Boots 35",
+      "description": "Bata Blue Boots 35. Fixed controlled evaluation product.",
+      "category": "shoes",
+      "subcategory": "boots",
+      "brand": "Bata",
+      "gender": "women",
+      "color": "blue",
+      "sizes": [
+        "5",
+        "6",
+        "7",
+        "8"
+      ],
+      "price": "2799",
+      "currency": "INR",
+      "availability": "in_stock",
+      "rating": 4.5,
+      "attributes": {
+        "material": "mixed"
+      },
+      "source_metadata": {
+        "source": "controlled_demo",
+        "scenario_group": "shoes"
+      },
+      "field_provenance": {
+        "title": "controlled",
+        "category": "controlled",
+        "subcategory": "controlled",
+        "brand": "controlled",
+        "gender": "controlled",
+        "color": "controlled",
+        "sizes": "controlled",
+        "price": "controlled",
+        "availability": "controlled",
+        "attributes": "controlled"
+      }
+    },
+    {
+      "product_id": "CLOTH-001",
+      "title": "Levis White T Shirts 01",
+      "description": "Levis White T Shirts 01. Fixed controlled evaluation product.",
+      "category": "clothing",
+      "subcategory": "t_shirts",
+      "brand": "Levis",
+      "gender": "men",
+      "color": "white",
+      "sizes": [
+        "S",
+        "M",
+        "L",
+        "XL"
+      ],
+      "price": "2199",
+      "currency": "INR",
+      "availability": "in_stock",
+      "rating": 4.1,
+      "attributes": {
+        "material": "cotton",
+        "fit": "regular"
+      },
+      "source_metadata": {
+        "source": "controlled_demo",
+        "scenario_group": "clothing"
+      },
+      "field_provenance": {
+        "title": "controlled",
+        "category": "controlled",
+        "subcategory": "controlled",
+        "brand": "controlled",
+        "gender": "controlled",
+        "color": "controlled",
+        "sizes": "controlled",
+        "price": "controlled",
+        "availability": "controlled",
+        "attributes": "controlled"
+      }
+    },
+    {
+      "product_id": "CLOTH-002",
+      "title": "Puma Red Shirts 02",
+      "description": "Puma Red Shirts 02. Fixed controlled evaluation product.",
+      "category": "clothing",
+      "subcategory": "shirts",
+      "brand": "Puma",
+      "gender": "women",
+      "color": "red",
+      "sizes": [
+        "S",
+        "M",
+        "L",
+        "XL"
+      ],
+      "price": "2499",
+      "currency": "INR",
+      "availability": "in_stock",
+      "rating": 4.2,
+      "attributes": {
+        "material": "cotton",
+        "fit": "regular"
+      },
+      "source_metadata": {
+        "source": "controlled_demo",
+        "scenario_group": "clothing"
+      },
+      "field_provenance": {
+        "title": "controlled",
+        "category": "controlled",
+        "subcategory": "controlled",
+        "brand": "controlled",
+        "gender": "controlled",
+        "color": "controlled",
+        "sizes": "controlled",
+        "price": "controlled",
+        "availability": "controlled",
+        "attributes": "controlled"
+      }
+    },
+    {
+      "product_id": "CLOTH-003",
+      "title": "Adidas Grey Jeans 03",
+      "description": "Adidas Grey Jeans 03. Fixed controlled evaluation product.",
+      "category": "clothing",
+      "subcategory": "jeans",
+      "brand": "Adidas",
+      "gender": "unisex",
+      "color": "grey",
+      "sizes": [
+        "S",
+        "M",
+        "L",
+        "XL"
+      ],
+      "price": "2699",
+      "currency": "INR",
+      "availability": "in_stock",
+      "rating": 4.3,
+      "attributes": {
+        "material": "cotton",
+        "fit": "regular"
+      },
+      "source_metadata": {
+        "source": "controlled_demo",
+        "scenario_group": "clothing"
+      },
+      "field_provenance": {
+        "title": "controlled",
+        "category": "controlled",
+        "subcategory": "controlled",
+        "brand": "controlled",
+        "gender": "controlled",
+        "color": "controlled",
+        "sizes": "controlled",
+        "price": "controlled",
+        "availability": "controlled",
+        "attributes": "controlled"
+      }
+    },
+    {
+      "product_id": "CLOTH-004",
+      "title": "Arrow Brown Jackets 04",
+      "description": "Arrow Brown Jackets 04. Fixed controlled evaluation product.",
+      "category": "clothing",
+      "subcategory": "jackets",
+      "brand": "Arrow",
+      "gender": "men",
+      "color": "brown",
+      "sizes": [
+        "S",
+        "M",
+        "L",
+        "XL"
+      ],
+      "price": "2799",
+      "currency": "INR",
+      "availability": "in_stock",
+      "rating": 4.4,
+      "attributes": {
+        "material": "cotton",
+        "fit": "regular"
+      },
+      "source_metadata": {
+        "source": "controlled_demo",
+        "scenario_group": "clothing"
+      },
+      "field_provenance": {
+        "title": "controlled",
+        "category": "controlled",
+        "subcategory": "controlled",
+        "brand": "controlled",
+        "gender": "controlled",
+        "color": "controlled",
+        "sizes": "controlled",
+        "price": "controlled",
+        "availability": "controlled",
+        "attributes": "controlled"
+      }
+    },
+    {
+      "product_id": "CLOTH-005",
+      "title": "Van Heusen Pink Dresses 05",
+      "description": "Van Heusen Pink Dresses 05. Fixed controlled evaluation product.",
+      "category": "clothing",
+      "subcategory": "dresses",
+      "brand": "Van Heusen",
+      "gender": "women",
+      "color": "pink",
+      "sizes": [
+        "S",
+        "M",
+        "L",
+        "XL"
+      ],
+      "price": "2899",
+      "currency": "INR",
+      "availability": "in_stock",
+      "rating": 4.5,
+      "attributes": {
+        "material": "cotton",
+        "fit": "regular"
+      },
+      "source_metadata": {
+        "source": "controlled_demo",
+        "scenario_group": "clothing"
+      },
+      "field_provenance": {
+        "title": "controlled",
+        "category": "controlled",
+        "subcategory": "controlled",
+        "brand": "controlled",
+        "gender": "controlled",
+        "color": "controlled",
+        "sizes": "controlled",
+        "price": "controlled",
+        "availability": "controlled",
+        "attributes": "controlled"
+      }
+    },
+    {
+      "product_id": "CLOTH-006",
+      "title": "Nike Green Hoodies 06",
+      "description": "Nike Green Hoodies 06. Fixed controlled evaluation product.",
+      "category": "clothing",
+      "subcategory": "hoodies",
+      "brand": "Nike",
+      "gender": "unisex",
+      "color": "green",
+      "sizes": [
+        "S",
+        "M",
+        "L",
+        "XL"
+      ],
+      "price": "2999",
+      "currency": "INR",
+      "availability": "in_stock",
+      "rating": 4.6,
+      "attributes": {
+        "material": "cotton",
+        "fit": "regular"
+      },
+      "source_metadata": {
+        "source": "controlled_demo",
+        "scenario_group": "clothing"
+      },
+      "field_provenance": {
+        "title": "controlled",
+        "category": "controlled",
+        "subcategory": "controlled",
+        "brand": "controlled",
+        "gender": "controlled",
+        "color": "controlled",
+        "sizes": "controlled",
+        "price": "controlled",
+        "availability": "controlled",
+        "attributes": "controlled"
+      }
+    },
+    {
+      "product_id": "CLOTH-007",
+      "title": "Levis Navy Trousers 07",
+      "description": "Levis Navy Trousers 07. Fixed controlled evaluation product.",
+      "category": "clothing",
+      "subcategory": "trousers",
+      "brand": "Levis",
+      "gender": "men",
+      "color": "navy",
+      "sizes": [
+        "S",
+        "M",
+        "L",
+        "XL"
+      ],
+      "price": "3000",
+      "currency": "INR",
+      "availability": "in_stock",
+      "rating": 4.7,
+      "attributes": {
+        "material": "cotton",
+        "fit": "regular"
+      },
+      "source_metadata": {
+        "source": "controlled_demo",
+        "scenario_group": "clothing"
+      },
+      "field_provenance": {
+        "title": "controlled",
+        "category": "controlled",
+        "subcategory": "controlled",
+        "brand": "controlled",
+        "gender": "controlled",
+        "color": "controlled",
+        "sizes": "controlled",
+        "price": "controlled",
+        "availability": "controlled",
+        "attributes": "controlled"
+      }
+    },
+    {
+      "product_id": "CLOTH-008",
+      "title": "Puma Tan Shorts 08",
+      "description": "Puma Tan Shorts 08. Fixed controlled evaluation product.",
+      "category": "clothing",
+      "subcategory": "shorts",
+      "brand": "Puma",
+      "gender": "women",
+      "color": "tan",
+      "sizes": [
+        "S",
+        "M",
+        "L",
+        "XL"
+      ],
+      "price": "3499",
+      "currency": "INR",
+      "availability": "in_stock",
+      "rating": 4.8,
+      "attributes": {
+        "material": "cotton",
+        "fit": "regular"
+      },
+      "source_metadata": {
+        "source": "controlled_demo",
+        "scenario_group": "clothing"
+      },
+      "field_provenance": {
+        "title": "controlled",
+        "category": "controlled",
+        "subcategory": "controlled",
+        "brand": "controlled",
+        "gender": "controlled",
+        "color": "controlled",
+        "sizes": "controlled",
+        "price": "controlled",
+        "availability": "controlled",
+        "attributes": "controlled"
+      }
+    },
+    {
+      "product_id": "CLOTH-009",
+      "title": "Adidas Purple Activewear 09",
+      "description": "Adidas Purple Activewear 09. Fixed controlled evaluation product.",
+      "category": "clothing",
+      "subcategory": "activewear",
+      "brand": "Adidas",
+      "gender": "unisex",
+      "color": "purple",
+      "sizes": [
+        "S",
+        "M",
+        "L",
+        "XL"
+      ],
+      "price": "3999",
+      "currency": "INR",
+      "availability": "in_stock",
+      "rating": 4.9,
+      "attributes": {
+        "material": "cotton",
+        "fit": "regular"
+      },
+      "source_metadata": {
+        "source": "controlled_demo",
+        "scenario_group": "clothing"
+      },
+      "field_provenance": {
+        "title": "controlled",
+        "category": "controlled",
+        "subcategory": "controlled",
+        "brand": "controlled",
+        "gender": "controlled",
+        "color": "controlled",
+        "sizes": "controlled",
+        "price": "controlled",
+        "availability": "controlled",
+        "attributes": "controlled"
+      }
+    },
+    {
+      "product_id": "CLOTH-010",
+      "title": "Arrow Black T Shirts 10",
+      "description": "Arrow Black T Shirts 10. Fixed controlled evaluation product.",
+      "category": "clothing",
+      "subcategory": "t_shirts",
+      "brand": "Arrow",
+      "gender": "men",
+      "color": "black",
+      "sizes": [
+        "S",
+        "M",
+        "L",
+        "XL"
+      ],
+      "price": "4999",
+      "currency": "INR",
+      "availability": "in_stock",
+      "rating": 4.0,
+      "attributes": {
+        "material": "cotton",
+        "fit": "regular"
+      },
+      "source_metadata": {
+        "source": "controlled_demo",
+        "scenario_group": "clothing"
+      },
+      "field_provenance": {
+        "title": "controlled",
+        "category": "controlled",
+        "subcategory": "controlled",
+        "brand": "controlled",
+        "gender": "controlled",
+        "color": "controlled",
+        "sizes": "controlled",
+        "price": "controlled",
+        "availability": "controlled",
+        "attributes": "controlled"
+      }
+    },
+    {
+      "product_id": "CLOTH-011",
+      "title": "Van Heusen Blue Shirts 11",
+      "description": "Van Heusen Blue Shirts 11. Fixed controlled evaluation product.",
+      "category": "clothing",
+      "subcategory": "shirts",
+      "brand": "Van Heusen",
+      "gender": "women",
+      "color": "blue",
+      "sizes": [
+        "S",
+        "M",
+        "L",
+        "XL"
+      ],
+      "price": "5999",
+      "currency": "INR",
+      "availability": "in_stock",
+      "rating": 4.1,
+      "attributes": {
+        "material": "cotton",
+        "fit": "regular"
+      },
+      "source_metadata": {
+        "source": "controlled_demo",
+        "scenario_group": "clothing"
+      },
+      "field_provenance": {
+        "title": "controlled",
+        "category": "controlled",
+        "subcategory": "controlled",
+        "brand": "controlled",
+        "gender": "controlled",
+        "color": "controlled",
+        "sizes": "controlled",
+        "price": "controlled",
+        "availability": "controlled",
+        "attributes": "controlled"
+      }
+    },
+    {
+      "product_id": "CLOTH-012",
+      "title": "Nike White Jeans 12",
+      "description": "Nike White Jeans 12. Fixed controlled evaluation product.",
+      "category": "clothing",
+      "subcategory": "jeans",
+      "brand": "Nike",
+      "gender": "unisex",
+      "color": "white",
+      "sizes": [
+        "S",
+        "M",
+        "L",
+        "XL"
+      ],
+      "price": "999",
+      "currency": "INR",
+      "availability": "in_stock",
+      "rating": 4.2,
+      "attributes": {
+        "material": "cotton",
+        "fit": "regular"
+      },
+      "source_metadata": {
+        "source": "controlled_demo",
+        "scenario_group": "clothing"
+      },
+      "field_provenance": {
+        "title": "controlled",
+        "category": "controlled",
+        "subcategory": "controlled",
+        "brand": "controlled",
+        "gender": "controlled",
+        "color": "controlled",
+        "sizes": "controlled",
+        "price": "controlled",
+        "availability": "controlled",
+        "attributes": "controlled"
+      }
+    },
+    {
+      "product_id": "CLOTH-013",
+      "title": "Levis Red Jackets 13",
+      "description": "Levis Red Jackets 13. Fixed controlled evaluation product.",
+      "category": "clothing",
+      "subcategory": "jackets",
+      "brand": "Levis",
+      "gender": "men",
+      "color": "red",
+      "sizes": [
+        "S",
+        "M",
+        "L",
+        "XL"
+      ],
+      "price": "1499",
+      "currency": "INR",
+      "availability": "in_stock",
+      "rating": 4.3,
+      "attributes": {
+        "material": "cotton",
+        "fit": "regular"
+      },
+      "source_metadata": {
+        "source": "controlled_demo",
+        "scenario_group": "clothing"
+      },
+      "field_provenance": {
+        "title": "controlled",
+        "category": "controlled",
+        "subcategory": "controlled",
+        "brand": "controlled",
+        "gender": "controlled",
+        "color": "controlled",
+        "sizes": "controlled",
+        "price": "controlled",
+        "availability": "controlled",
+        "attributes": "controlled"
+      }
+    },
+    {
+      "product_id": "CLOTH-014",
+      "title": "Puma Grey Dresses 14",
+      "description": "Puma Grey Dresses 14. Fixed controlled evaluation product.",
+      "category": "clothing",
+      "subcategory": "dresses",
+      "brand": "Puma",
+      "gender": "women",
+      "color": "grey",
+      "sizes": [
+        "S",
+        "M",
+        "L",
+        "XL"
+      ],
+      "price": "1999",
+      "currency": "INR",
+      "availability": "in_stock",
+      "rating": 4.4,
+      "attributes": {
+        "material": "cotton",
+        "fit": "regular"
+      },
+      "source_metadata": {
+        "source": "controlled_demo",
+        "scenario_group": "clothing"
+      },
+      "field_provenance": {
+        "title": "controlled",
+        "category": "controlled",
+        "subcategory": "controlled",
+        "brand": "controlled",
+        "gender": "controlled",
+        "color": "controlled",
+        "sizes": "controlled",
+        "price": "controlled",
+        "availability": "controlled",
+        "attributes": "controlled"
+      }
+    },
+    {
+      "product_id": "CLOTH-015",
+      "title": "Adidas Brown Hoodies 15",
+      "description": "Adidas Brown Hoodies 15. Fixed controlled evaluation product.",
+      "category": "clothing",
+      "subcategory": "hoodies",
+      "brand": "Adidas",
+      "gender": "unisex",
+      "color": "brown",
+      "sizes": [
+        "S",
+        "M",
+        "L",
+        "XL"
+      ],
+      "price": "2199",
+      "currency": "INR",
+      "availability": "in_stock",
+      "rating": 4.5,
+      "attributes": {
+        "material": "cotton",
+        "fit": "regular"
+      },
+      "source_metadata": {
+        "source": "controlled_demo",
+        "scenario_group": "clothing"
+      },
+      "field_provenance": {
+        "title": "controlled",
+        "category": "controlled",
+        "subcategory": "controlled",
+        "brand": "controlled",
+        "gender": "controlled",
+        "color": "controlled",
+        "sizes": "controlled",
+        "price": "controlled",
+        "availability": "controlled",
+        "attributes": "controlled"
+      }
+    },
+    {
+      "product_id": "CLOTH-016",
+      "title": "Arrow Pink Trousers 16",
+      "description": "Arrow Pink Trousers 16. Fixed controlled evaluation product.",
+      "category": "clothing",
+      "subcategory": "trousers",
+      "brand": "Arrow",
+      "gender": "men",
+      "color": "pink",
+      "sizes": [
+        "S",
+        "M",
+        "L",
+        "XL"
+      ],
+      "price": "2499",
+      "currency": "INR",
+      "availability": "in_stock",
+      "rating": 4.6,
+      "attributes": {
+        "material": "cotton",
+        "fit": "regular"
+      },
+      "source_metadata": {
+        "source": "controlled_demo",
+        "scenario_group": "clothing"
+      },
+      "field_provenance": {
+        "title": "controlled",
+        "category": "controlled",
+        "subcategory": "controlled",
+        "brand": "controlled",
+        "gender": "controlled",
+        "color": "controlled",
+        "sizes": "controlled",
+        "price": "controlled",
+        "availability": "controlled",
+        "attributes": "controlled"
+      }
+    },
+    {
+      "product_id": "CLOTH-017",
+      "title": "Van Heusen Green Shorts 17",
+      "description": "Van Heusen Green Shorts 17. Fixed controlled evaluation product.",
+      "category": "clothing",
+      "subcategory": "shorts",
+      "brand": "Van Heusen",
+      "gender": "women",
+      "color": "green",
+      "sizes": [
+        "S",
+        "M",
+        "L",
+        "XL"
+      ],
+      "price": "2699",
+      "currency": "INR",
+      "availability": "out_of_stock",
+      "rating": 4.7,
+      "attributes": {
+        "material": "cotton",
+        "fit": "regular"
+      },
+      "source_metadata": {
+        "source": "controlled_demo",
+        "scenario_group": "clothing"
+      },
+      "field_provenance": {
+        "title": "controlled",
+        "category": "controlled",
+        "subcategory": "controlled",
+        "brand": "controlled",
+        "gender": "controlled",
+        "color": "controlled",
+        "sizes": "controlled",
+        "price": "controlled",
+        "availability": "controlled",
+        "attributes": "controlled"
+      }
+    },
+    {
+      "product_id": "CLOTH-018",
+      "title": "Nike Navy Activewear 18",
+      "description": "Nike Navy Activewear 18. Fixed controlled evaluation product.",
+      "category": "clothing",
+      "subcategory": "activewear",
+      "brand": "Nike",
+      "gender": "unisex",
+      "color": "navy",
+      "sizes": [
+        "S",
+        "M",
+        "L",
+        "XL"
+      ],
+      "price": "2799",
+      "currency": "INR",
+      "availability": "in_stock",
+      "rating": 4.8,
+      "attributes": {
+        "material": "cotton",
+        "fit": "regular"
+      },
+      "source_metadata": {
+        "source": "controlled_demo",
+        "scenario_group": "clothing"
+      },
+      "field_provenance": {
+        "title": "controlled",
+        "category": "controlled",
+        "subcategory": "controlled",
+        "brand": "controlled",
+        "gender": "controlled",
+        "color": "controlled",
+        "sizes": "controlled",
+        "price": "controlled",
+        "availability": "controlled",
+        "attributes": "controlled"
+      }
+    },
+    {
+      "product_id": "CLOTH-019",
+      "title": "Levis Tan T Shirts 19",
+      "description": "Levis Tan T Shirts 19. Fixed controlled evaluation product.",
+      "category": "clothing",
+      "subcategory": "t_shirts",
+      "brand": "Levis",
+      "gender": "men",
+      "color": "tan",
+      "sizes": [
+        "S",
+        "M",
+        "L",
+        "XL"
+      ],
+      "price": "2899",
+      "currency": "INR",
+      "availability": "in_stock",
+      "rating": 4.9,
+      "attributes": {
+        "material": "cotton",
+        "fit": "regular"
+      },
+      "source_metadata": {
+        "source": "controlled_demo",
+        "scenario_group": "clothing"
+      },
+      "field_provenance": {
+        "title": "controlled",
+        "category": "controlled",
+        "subcategory": "controlled",
+        "brand": "controlled",
+        "gender": "controlled",
+        "color": "controlled",
+        "sizes": "controlled",
+        "price": "controlled",
+        "availability": "controlled",
+        "attributes": "controlled"
+      }
+    },
+    {
+      "product_id": "CLOTH-020",
+      "title": "Puma Purple Shirts 20",
+      "description": "Puma Purple Shirts 20. Fixed controlled evaluation product.",
+      "category": "clothing",
+      "subcategory": "shirts",
+      "brand": "Puma",
+      "gender": "women",
+      "color": "purple",
+      "sizes": [
+        "S",
+        "M",
+        "L",
+        "XL"
+      ],
+      "price": "2999",
+      "currency": "INR",
+      "availability": "in_stock",
+      "rating": 4.0,
+      "attributes": {
+        "material": "cotton",
+        "fit": "regular"
+      },
+      "source_metadata": {
+        "source": "controlled_demo",
+        "scenario_group": "clothing"
+      },
+      "field_provenance": {
+        "title": "controlled",
+        "category": "controlled",
+        "subcategory": "controlled",
+        "brand": "controlled",
+        "gender": "controlled",
+        "color": "controlled",
+        "sizes": "controlled",
+        "price": "controlled",
+        "availability": "controlled",
+        "attributes": "controlled"
+      }
+    },
+    {
+      "product_id": "CLOTH-021",
+      "title": "Adidas Black Jeans 21",
+      "description": "Adidas Black Jeans 21. Fixed controlled evaluation product.",
+      "category": "clothing",
+      "subcategory": "jeans",
+      "brand": "Adidas",
+      "gender": "unisex",
+      "color": "black",
+      "sizes": [
+        "S",
+        "M",
+        "L",
+        "XL"
+      ],
+      "price": "3000",
+      "currency": "INR",
+      "availability": "in_stock",
+      "rating": 4.1,
+      "attributes": {
+        "material": "cotton",
+        "fit": "regular"
+      },
+      "source_metadata": {
+        "source": "controlled_demo",
+        "scenario_group": "clothing"
+      },
+      "field_provenance": {
+        "title": "controlled",
+        "category": "controlled",
+        "subcategory": "controlled",
+        "brand": "controlled",
+        "gender": "controlled",
+        "color": "controlled",
+        "sizes": "controlled",
+        "price": "controlled",
+        "availability": "controlled",
+        "attributes": "controlled"
+      }
+    },
+    {
+      "product_id": "CLOTH-022",
+      "title": "Arrow Blue Jackets 22",
+      "description": "Arrow Blue Jackets 22. Fixed controlled evaluation product.",
+      "category": "clothing",
+      "subcategory": "jackets",
+      "brand": "Arrow",
+      "gender": "men",
+      "color": "blue",
+      "sizes": [
+        "S",
+        "M",
+        "L",
+        "XL"
+      ],
+      "price": "3499",
+      "currency": "INR",
+      "availability": "in_stock",
+      "rating": 4.2,
+      "attributes": {
+        "material": "cotton",
+        "fit": "regular"
+      },
+      "source_metadata": {
+        "source": "controlled_demo",
+        "scenario_group": "clothing"
+      },
+      "field_provenance": {
+        "title": "controlled",
+        "category": "controlled",
+        "subcategory": "controlled",
+        "brand": "controlled",
+        "gender": "controlled",
+        "color": "controlled",
+        "sizes": "controlled",
+        "price": "controlled",
+        "availability": "controlled",
+        "attributes": "controlled"
+      }
+    },
+    {
+      "product_id": "CLOTH-023",
+      "title": "Van Heusen White Dresses 23",
+      "description": "Van Heusen White Dresses 23. Fixed controlled evaluation product.",
+      "category": "clothing",
+      "subcategory": "dresses",
+      "brand": "Van Heusen",
+      "gender": "women",
+      "color": "white",
+      "sizes": [
+        "S",
+        "M",
+        "L",
+        "XL"
+      ],
+      "price": "3999",
+      "currency": "INR",
+      "availability": "in_stock",
+      "rating": 4.3,
+      "attributes": {
+        "material": "cotton",
+        "fit": "regular"
+      },
+      "source_metadata": {
+        "source": "controlled_demo",
+        "scenario_group": "clothing"
+      },
+      "field_provenance": {
+        "title": "controlled",
+        "category": "controlled",
+        "subcategory": "controlled",
+        "brand": "controlled",
+        "gender": "controlled",
+        "color": "controlled",
+        "sizes": "controlled",
+        "price": "controlled",
+        "availability": "controlled",
+        "attributes": "controlled"
+      }
+    },
+    {
+      "product_id": "CLOTH-024",
+      "title": "Nike Red Hoodies 24",
+      "description": "Nike Red Hoodies 24. Fixed controlled evaluation product.",
+      "category": "clothing",
+      "subcategory": "hoodies",
+      "brand": "Nike",
+      "gender": "unisex",
+      "color": "red",
+      "sizes": [
+        "S",
+        "M",
+        "L",
+        "XL"
+      ],
+      "price": "4999",
+      "currency": "INR",
+      "availability": "in_stock",
+      "rating": 4.4,
+      "attributes": {
+        "material": "cotton",
+        "fit": "regular"
+      },
+      "source_metadata": {
+        "source": "controlled_demo",
+        "scenario_group": "clothing"
+      },
+      "field_provenance": {
+        "title": "controlled",
+        "category": "controlled",
+        "subcategory": "controlled",
+        "brand": "controlled",
+        "gender": "controlled",
+        "color": "controlled",
+        "sizes": "controlled",
+        "price": "controlled",
+        "availability": "controlled",
+        "attributes": "controlled"
+      }
+    },
+    {
+      "product_id": "CLOTH-025",
+      "title": "Levis Grey Trousers 25",
+      "description": "Levis Grey Trousers 25. Fixed controlled evaluation product.",
+      "category": "clothing",
+      "subcategory": "trousers",
+      "brand": "Levis",
+      "gender": "men",
+      "color": "grey",
+      "sizes": [
+        "S",
+        "M",
+        "L",
+        "XL"
+      ],
+      "price": "5999",
+      "currency": "INR",
+      "availability": "in_stock",
+      "rating": 4.5,
+      "attributes": {
+        "material": "cotton",
+        "fit": "regular"
+      },
+      "source_metadata": {
+        "source": "controlled_demo",
+        "scenario_group": "clothing"
+      },
+      "field_provenance": {
+        "title": "controlled",
+        "category": "controlled",
+        "subcategory": "controlled",
+        "brand": "controlled",
+        "gender": "controlled",
+        "color": "controlled",
+        "sizes": "controlled",
+        "price": "controlled",
+        "availability": "controlled",
+        "attributes": "controlled"
+      }
+    },
+    {
+      "product_id": "ELEC-001",
+      "title": "Sony Red Headphones 01",
+      "description": "Sony Red Headphones 01. Fixed controlled evaluation product.",
+      "category": "electronics",
+      "subcategory": "headphones",
+      "brand": "Sony",
+      "gender": null,
+      "color": "red",
+      "sizes": [],
+      "price": "699",
+      "currency": "INR",
+      "availability": "in_stock",
+      "rating": 4.1,
+      "attributes": {
+        "warranty_months": 12,
+        "wireless": true
+      },
+      "source_metadata": {
+        "source": "controlled_demo",
+        "scenario_group": "electronics"
+      },
+      "field_provenance": {
+        "title": "controlled",
+        "category": "controlled",
+        "subcategory": "controlled",
+        "brand": "controlled",
+        "gender": "controlled",
+        "color": "controlled",
+        "sizes": "controlled",
+        "price": "controlled",
+        "availability": "controlled",
+        "attributes": "controlled"
+      }
+    },
+    {
+      "product_id": "ELEC-002",
+      "title": "JBL Grey Earbuds 02",
+      "description": "JBL Grey Earbuds 02. Fixed controlled evaluation product.",
+      "category": "electronics",
+      "subcategory": "earbuds",
+      "brand": "JBL",
+      "gender": null,
+      "color": "grey",
+      "sizes": [],
+      "price": "999",
+      "currency": "INR",
+      "availability": "in_stock",
+      "rating": 4.2,
+      "attributes": {
+        "warranty_months": 12,
+        "wireless": true
+      },
+      "source_metadata": {
+        "source": "controlled_demo",
+        "scenario_group": "electronics"
+      },
+      "field_provenance": {
+        "title": "controlled",
+        "category": "controlled",
+        "subcategory": "controlled",
+        "brand": "controlled",
+        "gender": "controlled",
+        "color": "controlled",
+        "sizes": "controlled",
+        "price": "controlled",
+        "availability": "controlled",
+        "attributes": "controlled"
+      }
+    },
+    {
+      "product_id": "ELEC-003",
+      "title": "Samsung Brown Smartphones 03",
+      "description": "Samsung Brown Smartphones 03. Fixed controlled evaluation product.",
+      "category": "electronics",
+      "subcategory": "smartphones",
+      "brand": "Samsung",
+      "gender": null,
+      "color": "brown",
+      "sizes": [],
+      "price": "1299",
+      "currency": "INR",
+      "availability": "in_stock",
+      "rating": 4.3,
+      "attributes": {
+        "warranty_months": 12,
+        "wireless": false
+      },
+      "source_metadata": {
+        "source": "controlled_demo",
+        "scenario_group": "electronics"
+      },
+      "field_provenance": {
+        "title": "controlled",
+        "category": "controlled",
+        "subcategory": "controlled",
+        "brand": "controlled",
+        "gender": "controlled",
+        "color": "controlled",
+        "sizes": "controlled",
+        "price": "controlled",
+        "availability": "controlled",
+        "attributes": "controlled"
+      }
+    },
+    {
+      "product_id": "ELEC-004",
+      "title": "OnePlus Pink Laptops 04",
+      "description": "OnePlus Pink Laptops 04. Fixed controlled evaluation product.",
+      "category": "electronics",
+      "subcategory": "laptops",
+      "brand": "OnePlus",
+      "gender": null,
+      "color": "pink",
+      "sizes": [],
+      "price": "1499",
+      "currency": "INR",
+      "availability": "in_stock",
+      "rating": 4.4,
+      "attributes": {
+        "warranty_months": 12,
+        "wireless": false
+      },
+      "source_metadata": {
+        "source": "controlled_demo",
+        "scenario_group": "electronics"
+      },
+      "field_provenance": {
+        "title": "controlled",
+        "category": "controlled",
+        "subcategory": "controlled",
+        "brand": "controlled",
+        "gender": "controlled",
+        "color": "controlled",
+        "sizes": "controlled",
+        "price": "controlled",
+        "availability": "controlled",
+        "attributes": "controlled"
+      }
+    },
+    {
+      "product_id": "ELEC-005",
+      "title": "Lenovo Green Keyboards 05",
+      "description": "Lenovo Green Keyboards 05. Fixed controlled evaluation product.",
+      "category": "electronics",
+      "subcategory": "keyboards",
+      "brand": "Lenovo",
+      "gender": null,
+      "color": "green",
+      "sizes": [],
+      "price": "1999",
+      "currency": "INR",
+      "availability": "in_stock",
+      "rating": 4.5,
+      "attributes": {
+        "warranty_months": 12,
+        "wireless": false
+      },
+      "source_metadata": {
+        "source": "controlled_demo",
+        "scenario_group": "electronics"
+      },
+      "field_provenance": {
+        "title": "controlled",
+        "category": "controlled",
+        "subcategory": "controlled",
+        "brand": "controlled",
+        "gender": "controlled",
+        "color": "controlled",
+        "sizes": "controlled",
+        "price": "controlled",
+        "availability": "controlled",
+        "attributes": "controlled"
+      }
+    },
+    {
+      "product_id": "ELEC-006",
+      "title": "HP Navy Mice 06",
+      "description": "HP Navy Mice 06. Fixed controlled evaluation product.",
+      "category": "electronics",
+      "subcategory": "mice",
+      "brand": "HP",
+      "gender": null,
+      "color": "navy",
+      "sizes": [],
+      "price": "2499",
+      "currency": "INR",
+      "availability": "in_stock",
+      "rating": 4.6,
+      "attributes": {
+        "warranty_months": 12,
+        "wireless": true
+      },
+      "source_metadata": {
+        "source": "controlled_demo",
+        "scenario_group": "electronics"
+      },
+      "field_provenance": {
+        "title": "controlled",
+        "category": "controlled",
+        "subcategory": "controlled",
+        "brand": "controlled",
+        "gender": "controlled",
+        "color": "controlled",
+        "sizes": "controlled",
+        "price": "controlled",
+        "availability": "controlled",
+        "attributes": "controlled"
+      }
+    },
+    {
+      "product_id": "ELEC-007",
+      "title": "Logitech Tan Speakers 07",
+      "description": "Logitech Tan Speakers 07. Fixed controlled evaluation product.",
+      "category": "electronics",
+      "subcategory": "speakers",
+      "brand": "Logitech",
+      "gender": null,
+      "color": "tan",
+      "sizes": [],
+      "price": "2999",
+      "currency": "INR",
+      "availability": "in_stock",
+      "rating": 4.7,
+      "attributes": {
+        "warranty_months": 12,
+        "wireless": true
+      },
+      "source_metadata": {
+        "source": "controlled_demo",
+        "scenario_group": "electronics"
+      },
+      "field_provenance": {
+        "title": "controlled",
+        "category": "controlled",
+        "subcategory": "controlled",
+        "brand": "controlled",
+        "gender": "controlled",
+        "color": "controlled",
+        "sizes": "controlled",
+        "price": "controlled",
+        "availability": "controlled",
+        "attributes": "controlled"
+      }
+    },
+    {
+      "product_id": "ELEC-008",
+      "title": "boAt Purple Power Banks 08",
+      "description": "boAt Purple Power Banks 08. Fixed controlled evaluation product.",
+      "category": "electronics",
+      "subcategory": "power_banks",
+      "brand": "boAt",
+      "gender": null,
+      "color": "purple",
+      "sizes": [],
+      "price": "4999",
+      "currency": "INR",
+      "availability": "in_stock",
+      "rating": 4.8,
+      "attributes": {
+        "warranty_months": 12,
+        "wireless": false
+      },
+      "source_metadata": {
+        "source": "controlled_demo",
+        "scenario_group": "electronics"
+      },
+      "field_provenance": {
+        "title": "controlled",
+        "category": "controlled",
+        "subcategory": "controlled",
+        "brand": "controlled",
+        "gender": "controlled",
+        "color": "controlled",
+        "sizes": "controlled",
+        "price": "controlled",
+        "availability": "controlled",
+        "attributes": "controlled"
+      }
+    },
+    {
+      "product_id": "ELEC-009",
+      "title": "LG Black Monitors 09",
+      "description": "LG Black Monitors 09. Fixed controlled evaluation product.",
+      "category": "electronics",
+      "subcategory": "monitors",
+      "brand": "LG",
+      "gender": null,
+      "color": "black",
+      "sizes": [],
+      "price": "12999",
+      "currency": "INR",
+      "availability": "in_stock",
+      "rating": 4.9,
+      "attributes": {
+        "warranty_months": 12,
+        "wireless": false
+      },
+      "source_metadata": {
+        "source": "controlled_demo",
+        "scenario_group": "electronics"
+      },
+      "field_provenance": {
+        "title": "controlled",
+        "category": "controlled",
+        "subcategory": "controlled",
+        "brand": "controlled",
+        "gender": "controlled",
+        "color": "controlled",
+        "sizes": "controlled",
+        "price": "controlled",
+        "availability": "controlled",
+        "attributes": "controlled"
+      }
+    },
+    {
+      "product_id": "ELEC-010",
+      "title": "Sony Blue Headphones 10",
+      "description": "Sony Blue Headphones 10. Fixed controlled evaluation product.",
+      "category": "electronics",
+      "subcategory": "headphones",
+      "brand": "Sony",
+      "gender": null,
+      "color": "blue",
+      "sizes": [],
+      "price": "17999",
+      "currency": "INR",
+      "availability": "in_stock",
+      "rating": 4.0,
+      "attributes": {
+        "warranty_months": 12,
+        "wireless": true
+      },
+      "source_metadata": {
+        "source": "controlled_demo",
+        "scenario_group": "electronics"
+      },
+      "field_provenance": {
+        "title": "controlled",
+        "category": "controlled",
+        "subcategory": "controlled",
+        "brand": "controlled",
+        "gender": "controlled",
+        "color": "controlled",
+        "sizes": "controlled",
+        "price": "controlled",
+        "availability": "controlled",
+        "attributes": "controlled"
+      }
+    },
+    {
+      "product_id": "ELEC-011",
+      "title": "JBL White Earbuds 11",
+      "description": "JBL White Earbuds 11. Fixed controlled evaluation product.",
+      "category": "electronics",
+      "subcategory": "earbuds",
+      "brand": "JBL",
+      "gender": null,
+      "color": "white",
+      "sizes": [],
+      "price": "24999",
+      "currency": "INR",
+      "availability": "in_stock",
+      "rating": 4.1,
+      "attributes": {
+        "warranty_months": 12,
+        "wireless": true
+      },
+      "source_metadata": {
+        "source": "controlled_demo",
+        "scenario_group": "electronics"
+      },
+      "field_provenance": {
+        "title": "controlled",
+        "category": "controlled",
+        "subcategory": "controlled",
+        "brand": "controlled",
+        "gender": "controlled",
+        "color": "controlled",
+        "sizes": "controlled",
+        "price": "controlled",
+        "availability": "controlled",
+        "attributes": "controlled"
+      }
+    },
+    {
+      "product_id": "ELEC-012",
+      "title": "Samsung Red Smartphones 12",
+      "description": "Samsung Red Smartphones 12. Fixed controlled evaluation product.",
+      "category": "electronics",
+      "subcategory": "smartphones",
+      "brand": "Samsung",
+      "gender": null,
+      "color": "red",
+      "sizes": [],
+      "price": "29999",
+      "currency": "INR",
+      "availability": "in_stock",
+      "rating": 4.2,
+      "attributes": {
+        "warranty_months": 12,
+        "wireless": false
+      },
+      "source_metadata": {
+        "source": "controlled_demo",
+        "scenario_group": "electronics"
+      },
+      "field_provenance": {
+        "title": "controlled",
+        "category": "controlled",
+        "subcategory": "controlled",
+        "brand": "controlled",
+        "gender": "controlled",
+        "color": "controlled",
+        "sizes": "controlled",
+        "price": "controlled",
+        "availability": "controlled",
+        "attributes": "controlled"
+      }
+    },
+    {
+      "product_id": "ELEC-013",
+      "title": "OnePlus Grey Laptops 13",
+      "description": "OnePlus Grey Laptops 13. Fixed controlled evaluation product.",
+      "category": "electronics",
+      "subcategory": "laptops",
+      "brand": "OnePlus",
+      "gender": null,
+      "color": "grey",
+      "sizes": [],
+      "price": "54999",
+      "currency": "INR",
+      "availability": "in_stock",
+      "rating": 4.3,
+      "attributes": {
+        "warranty_months": 12,
+        "wireless": false
+      },
+      "source_metadata": {
+        "source": "controlled_demo",
+        "scenario_group": "electronics"
+      },
+      "field_provenance": {
+        "title": "controlled",
+        "category": "controlled",
+        "subcategory": "controlled",
+        "brand": "controlled",
+        "gender": "controlled",
+        "color": "controlled",
+        "sizes": "controlled",
+        "price": "controlled",
+        "availability": "controlled",
+        "attributes": "controlled"
+      }
+    },
+    {
+      "product_id": "ELEC-014",
+      "title": "Lenovo Brown Keyboards 14",
+      "description": "Lenovo Brown Keyboards 14. Fixed controlled evaluation product.",
+      "category": "electronics",
+      "subcategory": "keyboards",
+      "brand": "Lenovo",
+      "gender": null,
+      "color": "brown",
+      "sizes": [],
+      "price": "59999",
+      "currency": "INR",
+      "availability": "in_stock",
+      "rating": 4.4,
+      "attributes": {
+        "warranty_months": 12,
+        "wireless": false
+      },
+      "source_metadata": {
+        "source": "controlled_demo",
+        "scenario_group": "electronics"
+      },
+      "field_provenance": {
+        "title": "controlled",
+        "category": "controlled",
+        "subcategory": "controlled",
+        "brand": "controlled",
+        "gender": "controlled",
+        "color": "controlled",
+        "sizes": "controlled",
+        "price": "controlled",
+        "availability": "controlled",
+        "attributes": "controlled"
+      }
+    },
+    {
+      "product_id": "ELEC-015",
+      "title": "HP Pink Mice 15",
+      "description": "HP Pink Mice 15. Fixed controlled evaluation product.",
+      "category": "electronics",
+      "subcategory": "mice",
+      "brand": "HP",
+      "gender": null,
+      "color": "pink",
+      "sizes": [],
+      "price": "699",
+      "currency": "INR",
+      "availability": "in_stock",
+      "rating": 4.5,
+      "attributes": {
+        "warranty_months": 12,
+        "wireless": true
+      },
+      "source_metadata": {
+        "source": "controlled_demo",
+        "scenario_group": "electronics"
+      },
+      "field_provenance": {
+        "title": "controlled",
+        "category": "controlled",
+        "subcategory": "controlled",
+        "brand": "controlled",
+        "gender": "controlled",
+        "color": "controlled",
+        "sizes": "controlled",
+        "price": "controlled",
+        "availability": "controlled",
+        "attributes": "controlled"
+      }
+    },
+    {
+      "product_id": "ELEC-016",
+      "title": "Logitech Green Speakers 16",
+      "description": "Logitech Green Speakers 16. Fixed controlled evaluation product.",
+      "category": "electronics",
+      "subcategory": "speakers",
+      "brand": "Logitech",
+      "gender": null,
+      "color": "green",
+      "sizes": [],
+      "price": "999",
+      "currency": "INR",
+      "availability": "in_stock",
+      "rating": 4.6,
+      "attributes": {
+        "warranty_months": 12,
+        "wireless": true
+      },
+      "source_metadata": {
+        "source": "controlled_demo",
+        "scenario_group": "electronics"
+      },
+      "field_provenance": {
+        "title": "controlled",
+        "category": "controlled",
+        "subcategory": "controlled",
+        "brand": "controlled",
+        "gender": "controlled",
+        "color": "controlled",
+        "sizes": "controlled",
+        "price": "controlled",
+        "availability": "controlled",
+        "attributes": "controlled"
+      }
+    },
+    {
+      "product_id": "ELEC-017",
+      "title": "boAt Navy Power Banks 17",
+      "description": "boAt Navy Power Banks 17. Fixed controlled evaluation product.",
+      "category": "electronics",
+      "subcategory": "power_banks",
+      "brand": "boAt",
+      "gender": null,
+      "color": "navy",
+      "sizes": [],
+      "price": "1299",
+      "currency": "INR",
+      "availability": "out_of_stock",
+      "rating": 4.7,
+      "attributes": {
+        "warranty_months": 12,
+        "wireless": false
+      },
+      "source_metadata": {
+        "source": "controlled_demo",
+        "scenario_group": "electronics"
+      },
+      "field_provenance": {
+        "title": "controlled",
+        "category": "controlled",
+        "subcategory": "controlled",
+        "brand": "controlled",
+        "gender": "controlled",
+        "color": "controlled",
+        "sizes": "controlled",
+        "price": "controlled",
+        "availability": "controlled",
+        "attributes": "controlled"
+      }
+    },
+    {
+      "product_id": "ELEC-018",
+      "title": "LG Tan Monitors 18",
+      "description": "LG Tan Monitors 18. Fixed controlled evaluation product.",
+      "category": "electronics",
+      "subcategory": "monitors",
+      "brand": "LG",
+      "gender": null,
+      "color": "tan",
+      "sizes": [],
+      "price": "1499",
+      "currency": "INR",
+      "availability": "in_stock",
+      "rating": 4.8,
+      "attributes": {
+        "warranty_months": 12,
+        "wireless": false
+      },
+      "source_metadata": {
+        "source": "controlled_demo",
+        "scenario_group": "electronics"
+      },
+      "field_provenance": {
+        "title": "controlled",
+        "category": "controlled",
+        "subcategory": "controlled",
+        "brand": "controlled",
+        "gender": "controlled",
+        "color": "controlled",
+        "sizes": "controlled",
+        "price": "controlled",
+        "availability": "controlled",
+        "attributes": "controlled"
+      }
+    },
+    {
+      "product_id": "ELEC-019",
+      "title": "Sony Purple Headphones 19",
+      "description": "Sony Purple Headphones 19. Fixed controlled evaluation product.",
+      "category": "electronics",
+      "subcategory": "headphones",
+      "brand": "Sony",
+      "gender": null,
+      "color": "purple",
+      "sizes": [],
+      "price": "1999",
+      "currency": "INR",
+      "availability": "in_stock",
+      "rating": 4.9,
+      "attributes": {
+        "warranty_months": 12,
+        "wireless": true
+      },
+      "source_metadata": {
+        "source": "controlled_demo",
+        "scenario_group": "electronics"
+      },
+      "field_provenance": {
+        "title": "controlled",
+        "category": "controlled",
+        "subcategory": "controlled",
+        "brand": "controlled",
+        "gender": "controlled",
+        "color": "controlled",
+        "sizes": "controlled",
+        "price": "controlled",
+        "availability": "controlled",
+        "attributes": "controlled"
+      }
+    },
+    {
+      "product_id": "ELEC-020",
+      "title": "JBL Black Earbuds 20",
+      "description": "JBL Black Earbuds 20. Fixed controlled evaluation product.",
+      "category": "electronics",
+      "subcategory": "earbuds",
+      "brand": "JBL",
+      "gender": null,
+      "color": "black",
+      "sizes": [],
+      "price": "2499",
+      "currency": "INR",
+      "availability": "in_stock",
+      "rating": 4.0,
+      "attributes": {
+        "warranty_months": 12,
+        "wireless": true
+      },
+      "source_metadata": {
+        "source": "controlled_demo",
+        "scenario_group": "electronics"
+      },
+      "field_provenance": {
+        "title": "controlled",
+        "category": "controlled",
+        "subcategory": "controlled",
+        "brand": "controlled",
+        "gender": "controlled",
+        "color": "controlled",
+        "sizes": "controlled",
+        "price": "controlled",
+        "availability": "controlled",
+        "attributes": "controlled"
+      }
+    },
+    {
+      "product_id": "BAG-001",
+      "title": "Wildcraft Grey Backpacks 01",
+      "description": "Wildcraft Grey Backpacks 01. Fixed controlled evaluation product.",
+      "category": "bags",
+      "subcategory": "backpacks",
+      "brand": "Wildcraft",
+      "gender": "unisex",
+      "color": "grey",
+      "sizes": [],
+      "price": "2499",
+      "currency": "INR",
+      "availability": "in_stock",
+      "rating": 4.1,
+      "attributes": {
+        "capacity_liters": 23,
+        "water_resistant": false
+      },
+      "source_metadata": {
+        "source": "controlled_demo",
+        "scenario_group": "bags"
+      },
+      "field_provenance": {
+        "title": "controlled",
+        "category": "controlled",
+        "subcategory": "controlled",
+        "brand": "controlled",
+        "gender": "controlled",
+        "color": "controlled",
+        "sizes": "controlled",
+        "price": "controlled",
+        "availability": "controlled",
+        "attributes": "controlled"
+      }
+    },
+    {
+      "product_id": "BAG-002",
+      "title": "Skybags Brown Handbags 02",
+      "description": "Skybags Brown Handbags 02. Fixed controlled evaluation product.",
+      "category": "bags",
+      "subcategory": "handbags",
+      "brand": "Skybags",
+      "gender": "unisex",
+      "color": "brown",
+      "sizes": [],
+      "price": "2699",
+      "currency": "INR",
+      "availability": "in_stock",
+      "rating": 4.2,
+      "attributes": {
+        "capacity_liters": 26,
+        "water_resistant": true
+      },
+      "source_metadata": {
+        "source": "controlled_demo",
+        "scenario_group": "bags"
+      },
+      "field_provenance": {
+        "title": "controlled",
+        "category": "controlled",
+        "subcategory": "controlled",
+        "brand": "controlled",
+        "gender": "controlled",
+        "color": "controlled",
+        "sizes": "controlled",
+        "price": "controlled",
+        "availability": "controlled",
+        "attributes": "controlled"
+      }
+    },
+    {
+      "product_id": "BAG-003",
+      "title": "American Tourister Pink Laptop Bags 03",
+      "description": "American Tourister Pink Laptop Bags 03. Fixed controlled evaluation product.",
+      "category": "bags",
+      "subcategory": "laptop_bags",
+      "brand": "American Tourister",
+      "gender": "unisex",
+      "color": "pink",
+      "sizes": [],
+      "price": "2799",
+      "currency": "INR",
+      "availability": "in_stock",
+      "rating": 4.3,
+      "attributes": {
+        "capacity_liters": 29,
+        "water_resistant": false
+      },
+      "source_metadata": {
+        "source": "controlled_demo",
+        "scenario_group": "bags"
+      },
+      "field_provenance": {
+        "title": "controlled",
+        "category": "controlled",
+        "subcategory": "controlled",
+        "brand": "controlled",
+        "gender": "controlled",
+        "color": "controlled",
+        "sizes": "controlled",
+        "price": "controlled",
+        "availability": "controlled",
+        "attributes": "controlled"
+      }
+    },
+    {
+      "product_id": "BAG-004",
+      "title": "Lavie Green Duffel Bags 04",
+      "description": "Lavie Green Duffel Bags 04. Fixed controlled evaluation product.",
+      "category": "bags",
+      "subcategory": "duffel_bags",
+      "brand": "Lavie",
+      "gender": "unisex",
+      "color": "green",
+      "sizes": [],
+      "price": "2899",
+      "currency": "INR",
+      "availability": "in_stock",
+      "rating": 4.4,
+      "attributes": {
+        "capacity_liters": 32,
+        "water_resistant": true
+      },
+      "source_metadata": {
+        "source": "controlled_demo",
+        "scenario_group": "bags"
+      },
+      "field_provenance": {
+        "title": "controlled",
+        "category": "controlled",
+        "subcategory": "controlled",
+        "brand": "controlled",
+        "gender": "controlled",
+        "color": "controlled",
+        "sizes": "controlled",
+        "price": "controlled",
+        "availability": "controlled",
+        "attributes": "controlled"
+      }
+    },
+    {
+      "product_id": "BAG-005",
+      "title": "Safari Navy Travel Bags 05",
+      "description": "Safari Navy Travel Bags 05. Fixed controlled evaluation product.",
+      "category": "bags",
+      "subcategory": "travel_bags",
+      "brand": "Safari",
+      "gender": "unisex",
+      "color": "navy",
+      "sizes": [],
+      "price": "2999",
+      "currency": "INR",
+      "availability": "in_stock",
+      "rating": 4.5,
+      "attributes": {
+        "capacity_liters": 35,
+        "water_resistant": false
+      },
+      "source_metadata": {
+        "source": "controlled_demo",
+        "scenario_group": "bags"
+      },
+      "field_provenance": {
+        "title": "controlled",
+        "category": "controlled",
+        "subcategory": "controlled",
+        "brand": "controlled",
+        "gender": "controlled",
+        "color": "controlled",
+        "sizes": "controlled",
+        "price": "controlled",
+        "availability": "controlled",
+        "attributes": "controlled"
+      }
+    },
+    {
+      "product_id": "BAG-006",
+      "title": "Wildcraft Tan Backpacks 06",
+      "description": "Wildcraft Tan Backpacks 06. Fixed controlled evaluation product.",
+      "category": "bags",
+      "subcategory": "backpacks",
+      "brand": "Wildcraft",
+      "gender": "unisex",
+      "color": "tan",
+      "sizes": [],
+      "price": "3000",
+      "currency": "INR",
+      "availability": "in_stock",
+      "rating": 4.6,
+      "attributes": {
+        "capacity_liters": 38,
+        "water_resistant": true
+      },
+      "source_metadata": {
+        "source": "controlled_demo",
+        "scenario_group": "bags"
+      },
+      "field_provenance": {
+        "title": "controlled",
+        "category": "controlled",
+        "subcategory": "controlled",
+        "brand": "controlled",
+        "gender": "controlled",
+        "color": "controlled",
+        "sizes": "controlled",
+        "price": "controlled",
+        "availability": "controlled",
+        "attributes": "controlled"
+      }
+    },
+    {
+      "product_id": "BAG-007",
+      "title": "Skybags Purple Handbags 07",
+      "description": "Skybags Purple Handbags 07. Fixed controlled evaluation product.",
+      "category": "bags",
+      "subcategory": "handbags",
+      "brand": "Skybags",
+      "gender": "unisex",
+      "color": "purple",
+      "sizes": [],
+      "price": "3499",
+      "currency": "INR",
+      "availability": "in_stock",
+      "rating": 4.7,
+      "attributes": {
+        "capacity_liters": 41,
+        "water_resistant": false
+      },
+      "source_metadata": {
+        "source": "controlled_demo",
+        "scenario_group": "bags"
+      },
+      "field_provenance": {
+        "title": "controlled",
+        "category": "controlled",
+        "subcategory": "controlled",
+        "brand": "controlled",
+        "gender": "controlled",
+        "color": "controlled",
+        "sizes": "controlled",
+        "price": "controlled",
+        "availability": "controlled",
+        "attributes": "controlled"
+      }
+    },
+    {
+      "product_id": "BAG-008",
+      "title": "American Tourister Black Laptop Bags 08",
+      "description": "American Tourister Black Laptop Bags 08. Fixed controlled evaluation product.",
+      "category": "bags",
+      "subcategory": "laptop_bags",
+      "brand": "American Tourister",
+      "gender": "unisex",
+      "color": "black",
+      "sizes": [],
+      "price": "3999",
+      "currency": "INR",
+      "availability": "in_stock",
+      "rating": 4.8,
+      "attributes": {
+        "capacity_liters": 44,
+        "water_resistant": true
+      },
+      "source_metadata": {
+        "source": "controlled_demo",
+        "scenario_group": "bags"
+      },
+      "field_provenance": {
+        "title": "controlled",
+        "category": "controlled",
+        "subcategory": "controlled",
+        "brand": "controlled",
+        "gender": "controlled",
+        "color": "controlled",
+        "sizes": "controlled",
+        "price": "controlled",
+        "availability": "controlled",
+        "attributes": "controlled"
+      }
+    },
+    {
+      "product_id": "BAG-009",
+      "title": "Lavie Blue Duffel Bags 09",
+      "description": "Lavie Blue Duffel Bags 09. Fixed controlled evaluation product.",
+      "category": "bags",
+      "subcategory": "duffel_bags",
+      "brand": "Lavie",
+      "gender": "unisex",
+      "color": "blue",
+      "sizes": [],
+      "price": "4999",
+      "currency": "INR",
+      "availability": "in_stock",
+      "rating": 4.9,
+      "attributes": {
+        "capacity_liters": 47,
+        "water_resistant": false
+      },
+      "source_metadata": {
+        "source": "controlled_demo",
+        "scenario_group": "bags"
+      },
+      "field_provenance": {
+        "title": "controlled",
+        "category": "controlled",
+        "subcategory": "controlled",
+        "brand": "controlled",
+        "gender": "controlled",
+        "color": "controlled",
+        "sizes": "controlled",
+        "price": "controlled",
+        "availability": "controlled",
+        "attributes": "controlled"
+      }
+    },
+    {
+      "product_id": "BAG-010",
+      "title": "Safari White Travel Bags 10",
+      "description": "Safari White Travel Bags 10. Fixed controlled evaluation product.",
+      "category": "bags",
+      "subcategory": "travel_bags",
+      "brand": "Safari",
+      "gender": "unisex",
+      "color": "white",
+      "sizes": [],
+      "price": "5999",
+      "currency": "INR",
+      "availability": "in_stock",
+      "rating": 4.0,
+      "attributes": {
+        "capacity_liters": 50,
+        "water_resistant": true
+      },
+      "source_metadata": {
+        "source": "controlled_demo",
+        "scenario_group": "bags"
+      },
+      "field_provenance": {
+        "title": "controlled",
+        "category": "controlled",
+        "subcategory": "controlled",
+        "brand": "controlled",
+        "gender": "controlled",
+        "color": "controlled",
+        "sizes": "controlled",
+        "price": "controlled",
+        "availability": "controlled",
+        "attributes": "controlled"
+      }
+    },
+    {
+      "product_id": "WATCH-001",
+      "title": "Titan Brown Analog 01",
+      "description": "Titan Brown Analog 01. Fixed controlled evaluation product.",
+      "category": "watches",
+      "subcategory": "analog",
+      "brand": "Titan",
+      "gender": "unisex",
+      "color": "brown",
+      "sizes": [],
+      "price": "2799",
+      "currency": "INR",
+      "availability": "in_stock",
+      "rating": 4.1,
+      "attributes": {
+        "strap_material": "leather",
+        "water_resistant": true
+      },
+      "source_metadata": {
+        "source": "controlled_demo",
+        "scenario_group": "watches"
+      },
+      "field_provenance": {
+        "title": "controlled",
+        "category": "controlled",
+        "subcategory": "controlled",
+        "brand": "controlled",
+        "gender": "controlled",
+        "color": "controlled",
+        "sizes": "controlled",
+        "price": "controlled",
+        "availability": "controlled",
+        "attributes": "controlled"
+      }
+    },
+    {
+      "product_id": "WATCH-002",
+      "title": "Fastrack Pink Digital 02",
+      "description": "Fastrack Pink Digital 02. Fixed controlled evaluation product.",
+      "category": "watches",
+      "subcategory": "digital",
+      "brand": "Fastrack",
+      "gender": "unisex",
+      "color": "pink",
+      "sizes": [],
+      "price": "2899",
+      "currency": "INR",
+      "availability": "in_stock",
+      "rating": 4.2,
+      "attributes": {
+        "strap_material": "steel",
+        "water_resistant": true
+      },
+      "source_metadata": {
+        "source": "controlled_demo",
+        "scenario_group": "watches"
+      },
+      "field_provenance": {
+        "title": "controlled",
+        "category": "controlled",
+        "subcategory": "controlled",
+        "brand": "controlled",
+        "gender": "controlled",
+        "color": "controlled",
+        "sizes": "controlled",
+        "price": "controlled",
+        "availability": "controlled",
+        "attributes": "controlled"
+      }
+    },
+    {
+      "product_id": "WATCH-003",
+      "title": "Casio Green Smartwatch 03",
+      "description": "Casio Green Smartwatch 03. Fixed controlled evaluation product.",
+      "category": "watches",
+      "subcategory": "smartwatch",
+      "brand": "Casio",
+      "gender": "unisex",
+      "color": "green",
+      "sizes": [],
+      "price": "2999",
+      "currency": "INR",
+      "availability": "in_stock",
+      "rating": 4.3,
+      "attributes": {
+        "strap_material": "silicone",
+        "water_resistant": true
+      },
+      "source_metadata": {
+        "source": "controlled_demo",
+        "scenario_group": "watches"
+      },
+      "field_provenance": {
+        "title": "controlled",
+        "category": "controlled",
+        "subcategory": "controlled",
+        "brand": "controlled",
+        "gender": "controlled",
+        "color": "controlled",
+        "sizes": "controlled",
+        "price": "controlled",
+        "availability": "controlled",
+        "attributes": "controlled"
+      }
+    },
+    {
+      "product_id": "WATCH-004",
+      "title": "Noise Navy Fitness Band 04",
+      "description": "Noise Navy Fitness Band 04. Fixed controlled evaluation product.",
+      "category": "watches",
+      "subcategory": "fitness_band",
+      "brand": "Noise",
+      "gender": "unisex",
+      "color": "navy",
+      "sizes": [],
+      "price": "3000",
+      "currency": "INR",
+      "availability": "in_stock",
+      "rating": 4.4,
+      "attributes": {
+        "strap_material": "resin",
+        "water_resistant": true
+      },
+      "source_metadata": {
+        "source": "controlled_demo",
+        "scenario_group": "watches"
+      },
+      "field_provenance": {
+        "title": "controlled",
+        "category": "controlled",
+        "subcategory": "controlled",
+        "brand": "controlled",
+        "gender": "controlled",
+        "color": "controlled",
+        "sizes": "controlled",
+        "price": "controlled",
+        "availability": "controlled",
+        "attributes": "controlled"
+      }
+    },
+    {
+      "product_id": "WATCH-005",
+      "title": "boAt Tan Analog 05",
+      "description": "boAt Tan Analog 05. Fixed controlled evaluation product.",
+      "category": "watches",
+      "subcategory": "analog",
+      "brand": "boAt",
+      "gender": "unisex",
+      "color": "tan",
+      "sizes": [],
+      "price": "3499",
+      "currency": "INR",
+      "availability": "in_stock",
+      "rating": 4.5,
+      "attributes": {
+        "strap_material": "leather",
+        "water_resistant": true
+      },
+      "source_metadata": {
+        "source": "controlled_demo",
+        "scenario_group": "watches"
+      },
+      "field_provenance": {
+        "title": "controlled",
+        "category": "controlled",
+        "subcategory": "controlled",
+        "brand": "controlled",
+        "gender": "controlled",
+        "color": "controlled",
+        "sizes": "controlled",
+        "price": "controlled",
+        "availability": "controlled",
+        "attributes": "controlled"
+      }
+    },
+    {
+      "product_id": "WATCH-006",
+      "title": "Samsung Purple Digital 06",
+      "description": "Samsung Purple Digital 06. Fixed controlled evaluation product.",
+      "category": "watches",
+      "subcategory": "digital",
+      "brand": "Samsung",
+      "gender": "unisex",
+      "color": "purple",
+      "sizes": [],
+      "price": "3999",
+      "currency": "INR",
+      "availability": "in_stock",
+      "rating": 4.6,
+      "attributes": {
+        "strap_material": "steel",
+        "water_resistant": true
+      },
+      "source_metadata": {
+        "source": "controlled_demo",
+        "scenario_group": "watches"
+      },
+      "field_provenance": {
+        "title": "controlled",
+        "category": "controlled",
+        "subcategory": "controlled",
+        "brand": "controlled",
+        "gender": "controlled",
+        "color": "controlled",
+        "sizes": "controlled",
+        "price": "controlled",
+        "availability": "controlled",
+        "attributes": "controlled"
+      }
+    },
+    {
+      "product_id": "WATCH-007",
+      "title": "Mi Black Smartwatch 07",
+      "description": "Mi Black Smartwatch 07. Fixed controlled evaluation product.",
+      "category": "watches",
+      "subcategory": "smartwatch",
+      "brand": "Mi",
+      "gender": "unisex",
+      "color": "black",
+      "sizes": [],
+      "price": "4999",
+      "currency": "INR",
+      "availability": "in_stock",
+      "rating": 4.7,
+      "attributes": {
+        "strap_material": "silicone",
+        "water_resistant": true
+      },
+      "source_metadata": {
+        "source": "controlled_demo",
+        "scenario_group": "watches"
+      },
+      "field_provenance": {
+        "title": "controlled",
+        "category": "controlled",
+        "subcategory": "controlled",
+        "brand": "controlled",
+        "gender": "controlled",
+        "color": "controlled",
+        "sizes": "controlled",
+        "price": "controlled",
+        "availability": "controlled",
+        "attributes": "controlled"
+      }
+    },
+    {
+      "product_id": "WATCH-008",
+      "title": "Fitbit Blue Fitness Band 08",
+      "description": "Fitbit Blue Fitness Band 08. Fixed controlled evaluation product.",
+      "category": "watches",
+      "subcategory": "fitness_band",
+      "brand": "Fitbit",
+      "gender": "unisex",
+      "color": "blue",
+      "sizes": [],
+      "price": "5999",
+      "currency": "INR",
+      "availability": "in_stock",
+      "rating": 4.8,
+      "attributes": {
+        "strap_material": "resin",
+        "water_resistant": true
+      },
+      "source_metadata": {
+        "source": "controlled_demo",
+        "scenario_group": "watches"
+      },
+      "field_provenance": {
+        "title": "controlled",
+        "category": "controlled",
+        "subcategory": "controlled",
+        "brand": "controlled",
+        "gender": "controlled",
+        "color": "controlled",
+        "sizes": "controlled",
+        "price": "controlled",
+        "availability": "controlled",
+        "attributes": "controlled"
+      }
+    },
+    {
+      "product_id": "WATCH-009",
+      "title": "Titan White Analog 09",
+      "description": "Titan White Analog 09. Fixed controlled evaluation product.",
+      "category": "watches",
+      "subcategory": "analog",
+      "brand": "Titan",
+      "gender": "unisex",
+      "color": "white",
+      "sizes": [],
+      "price": "999",
+      "currency": "INR",
+      "availability": "in_stock",
+      "rating": 4.9,
+      "attributes": {
+        "strap_material": "leather",
+        "water_resistant": true
+      },
+      "source_metadata": {
+        "source": "controlled_demo",
+        "scenario_group": "watches"
+      },
+      "field_provenance": {
+        "title": "controlled",
+        "category": "controlled",
+        "subcategory": "controlled",
+        "brand": "controlled",
+        "gender": "controlled",
+        "color": "controlled",
+        "sizes": "controlled",
+        "price": "controlled",
+        "availability": "controlled",
+        "attributes": "controlled"
+      }
+    },
+    {
+      "product_id": "WATCH-010",
+      "title": "Fastrack Red Digital 10",
+      "description": "Fastrack Red Digital 10. Fixed controlled evaluation product.",
+      "category": "watches",
+      "subcategory": "digital",
+      "brand": "Fastrack",
+      "gender": "unisex",
+      "color": "red",
+      "sizes": [],
+      "price": "1499",
+      "currency": "INR",
+      "availability": "in_stock",
+      "rating": 4.0,
+      "attributes": {
+        "strap_material": "steel",
+        "water_resistant": true
+      },
+      "source_metadata": {
+        "source": "controlled_demo",
+        "scenario_group": "watches"
+      },
+      "field_provenance": {
+        "title": "controlled",
+        "category": "controlled",
+        "subcategory": "controlled",
+        "brand": "controlled",
+        "gender": "controlled",
+        "color": "controlled",
+        "sizes": "controlled",
+        "price": "controlled",
+        "availability": "controlled",
+        "attributes": "controlled"
+      }
+    }
+  ]
+}
