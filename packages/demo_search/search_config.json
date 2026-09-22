@@ -1,0 +1,12 @@
+{
+  "system_version": "demo-v1",
+  "candidate_limit": 100,
+  "field_weights": {
+    "title": 5.0,
+    "subcategory": 3.0,
+    "category": 2.0,
+    "brand": 2.0,
+    "description": 1.0,
+    "color": 1.0
+  }
+}
