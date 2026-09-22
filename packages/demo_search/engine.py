@@ -38,7 +38,16 @@ def load_search_config(path: str | Path = CONFIG_PATH) -> DemoSearchConfig:
 def _tokens(value: str | None) -> set[str]:
     if not value:
         return set()
-    return set(TOKEN_RE.findall(value.lower().replace("_", " ")))
+    raw_tokens = set(TOKEN_RE.findall(value.lower().replace("_", " ")))
+    normalized = set(raw_tokens)
+    for token in raw_tokens:
+        if len(token) > 4 and token.endswith("ies"):
+            normalized.add(f"{token[:-3]}y")
+        elif len(token) > 4 and token.endswith(("ses", "xes", "zes", "ches", "shes")):
+            normalized.add(token[:-2])
+        elif len(token) > 3 and token.endswith("s") and not token.endswith("ss"):
+            normalized.add(token[:-1])
+    return normalized
 
 
 def _product_fields(product: Product) -> dict[str, str | None]:
