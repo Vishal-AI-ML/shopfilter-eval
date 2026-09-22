@@ -49,3 +49,29 @@ Each processed directory contains:
 - `quality-report.json`: counts, selection method, synthetic fields, and output checksums.
 
 A future review workflow may publish a 200-case golden dataset, but this pipeline never auto-approves cases.
+
+## Create the 200-case review packet
+
+After the 10,000-product artifact is verified, select a balanced deterministic review set:
+
+```powershell
+uv run shopfilter esci review-create `
+  data/processed/esci-en-v1-p10000/products-10000 `
+  --case-count 200 `
+  --version esci-golden-v1
+```
+
+This writes an immutable JSON draft and a human-readable Markdown review packet under `data/goldens/`. Selection targets 100 train and 100 test cases, prioritizes label diversity and uses a fixed seed. Every case remains `IN_REVIEW`; this command cannot publish or approve data.
+
+## Automated source validation
+
+When manual review is intentionally deferred, publish the selected cases as `SOURCE_VALIDATED` rather than `HUMAN_APPROVED`:
+
+```powershell
+uv run shopfilter esci source-validate `
+  data/processed/esci-en-v1-p10000/products-10000 `
+  --draft data/goldens/esci-golden-v1-draft.json `
+  --output data/goldens/esci-golden-v1-source-validated.json
+```
+
+The validator requires an exact match to the verified source draft, valid catalog references, pinned source commit, artifact sizes and SHA-256 checksums, 200 unique cases, and a balanced 100/100 train/test split. The published evidence explicitly records `human_reviewed: false`. It never upgrades automated validation to human approval.

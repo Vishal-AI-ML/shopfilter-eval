@@ -17,6 +17,11 @@ from packages.esci_pipeline.prepare import (
     prepare_esci_subset,
     verify_processed_artifacts,
 )
+from packages.esci_pipeline.review import (
+    EsciReviewError,
+    create_review_packet,
+    publish_source_validated_dataset,
+)
 from packages.evaluation_engine.catalog import CatalogLoadError, load_catalog
 from packages.evaluation_engine.datasets import GoldenDatasetError, load_golden_dataset
 from packages.evaluation_engine.models import Catalog
@@ -242,6 +247,86 @@ def esci_prepare(
         f"Products: {report.actual_product_count} | Queries: {report.query_count} | "
         f"Judgments: {report.judgment_count} | Status: IN_REVIEW"
     )
+
+
+@esci_app.command("review-create")
+def esci_review_create(
+    artifact_directory: Annotated[
+        Path,
+        typer.Argument(help="Verified processed ESCI artifact directory"),
+    ],
+    case_count: Annotated[
+        int,
+        typer.Option(min=2, help="Number of human-review candidates"),
+    ] = 200,
+    version: Annotated[
+        str,
+        typer.Option(help="Immutable review-dataset version"),
+    ] = "esci-golden-v1",
+    seed: Annotated[int, typer.Option(help="Deterministic review selection seed")] = 29,
+    output_dir: Annotated[
+        Path,
+        typer.Option(help="Review packet output directory"),
+    ] = Path("data/goldens"),
+) -> None:
+    """Select balanced cases and create an unapproved human-review packet."""
+    try:
+        draft_path, review_path, dataset = create_review_packet(
+            artifact_directory,
+            output_dir,
+            case_count=case_count,
+            seed=seed,
+            version=version,
+        )
+    except (EsciReviewError, FileExistsError, ValueError) as exc:
+        console.print(f"[bold red]ESCI REVIEW ERROR:[/] {exc}")
+        raise typer.Exit(code=3) from exc
+    train_count = sum(case.split == "train" for case in dataset.cases)
+    test_count = len(dataset.cases) - train_count
+    console.print(f"[bold green]Review draft:[/] {draft_path}")
+    console.print(f"[bold green]Review document:[/] {review_path}")
+    console.print(
+        f"Cases: {len(dataset.cases)} | Train: {train_count} | Test: {test_count} | "
+        "Status: IN_REVIEW"
+    )
+
+
+@esci_app.command("source-validate")
+def esci_source_validate(
+    artifact_directory: Annotated[
+        Path,
+        typer.Argument(help="Verified processed ESCI artifact directory"),
+    ],
+    draft_path: Annotated[
+        Path,
+        typer.Option("--draft", help="Selected review draft"),
+    ] = Path("data/goldens/esci-golden-v1-draft.json"),
+    output_path: Annotated[
+        Path,
+        typer.Option("--output", help="Immutable SOURCE_VALIDATED output"),
+    ] = Path("data/goldens/esci-golden-v1-source-validated.json"),
+    expected_cases: Annotated[
+        int,
+        typer.Option(min=2, help="Required balanced case count"),
+    ] = 200,
+) -> None:
+    """Publish ESCI source judgments after automated integrity validation."""
+    try:
+        dataset = publish_source_validated_dataset(
+            draft_path,
+            artifact_directory,
+            output_path,
+            expected_case_count=expected_cases,
+        )
+    except (EsciReviewError, FileExistsError, ValueError) as exc:
+        console.print(f"[bold red]ESCI SOURCE VALIDATION ERROR:[/] {exc}")
+        raise typer.Exit(code=3) from exc
+    console.print(f"[bold green]Published:[/] {output_path}")
+    console.print(
+        f"Cases: {len(dataset.cases)} | Status: {dataset.status} | "
+        f"Human reviewed: {dataset.validation_evidence['human_reviewed']}"
+    )
+    console.print(f"Content hash: {dataset.content_hash}")
 
 
 @esci_app.command("verify")
