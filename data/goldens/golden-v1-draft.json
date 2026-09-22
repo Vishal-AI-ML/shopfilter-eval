@@ -1,0 +1,663 @@
+{
+  "dataset_id": "golden-v1-prototype",
+  "version": "v1-draft",
+  "catalog_id": "controlled-demo",
+  "catalog_version": "v1",
+  "status": "IN_REVIEW",
+  "cases": [
+    {
+      "case_id": "F-001",
+      "case_type": "filter",
+      "query": "nike men's black running shoes below \u20b93000 size 9",
+      "expected_query_text": "running shoes",
+      "expected_constraints": {
+        "category": "shoes",
+        "subcategory": "running_shoes",
+        "brand": "Nike",
+        "gender": "men",
+        "color": "black",
+        "min_price": null,
+        "max_price": "3000",
+        "size": "9",
+        "availability": null
+      },
+      "expected_sorting_intent": null,
+      "expected_products": [
+        {
+          "product_id": "SHOE-001",
+          "relevance": "E",
+          "expected_rank": 1
+        }
+      ],
+      "difficulty": "normal",
+      "source": "controlled_manual_v1",
+      "review_status": "IN_REVIEW",
+      "notes": null
+    },
+    {
+      "case_id": "F-002",
+      "case_type": "filter",
+      "query": "adidas women's blue sneakers under INR 2000 size 7",
+      "expected_query_text": "sneakers",
+      "expected_constraints": {
+        "category": "shoes",
+        "subcategory": "sneakers",
+        "brand": "Adidas",
+        "gender": "women",
+        "color": "blue",
+        "min_price": null,
+        "max_price": "2000",
+        "size": "7",
+        "availability": null
+      },
+      "expected_sorting_intent": null,
+      "expected_products": [
+        {
+          "product_id": "SHOE-002",
+          "relevance": "E",
+          "expected_rank": 1
+        }
+      ],
+      "difficulty": "normal",
+      "source": "controlled_manual_v1",
+      "review_status": "IN_REVIEW",
+      "notes": null
+    },
+    {
+      "case_id": "F-003",
+      "case_type": "filter",
+      "query": "puma men's navy running shoes under 2500 size 9",
+      "expected_query_text": "running shoes",
+      "expected_constraints": {
+        "category": "shoes",
+        "subcategory": "running_shoes",
+        "brand": "Puma",
+        "gender": "men",
+        "color": "navy",
+        "min_price": null,
+        "max_price": "2500",
+        "size": "9",
+        "availability": null
+      },
+      "expected_sorting_intent": null,
+      "expected_products": [
+        {
+          "product_id": "SHOE-031",
+          "relevance": "E",
+          "expected_rank": 1
+        }
+      ],
+      "difficulty": "normal",
+      "source": "controlled_manual_v1",
+      "review_status": "IN_REVIEW",
+      "notes": null
+    },
+    {
+      "case_id": "F-004",
+      "case_type": "filter",
+      "query": "nike women's pink boots under 1500 size 6",
+      "expected_query_text": "boots",
+      "expected_constraints": {
+        "category": "shoes",
+        "subcategory": "boots",
+        "brand": "Nike",
+        "gender": "women",
+        "color": "pink",
+        "min_price": null,
+        "max_price": "1500",
+        "size": "6",
+        "availability": null
+      },
+      "expected_sorting_intent": null,
+      "expected_products": [
+        {
+          "product_id": "SHOE-029",
+          "relevance": "E",
+          "expected_rank": 1
+        }
+      ],
+      "difficulty": "normal",
+      "source": "controlled_manual_v1",
+      "review_status": "IN_REVIEW",
+      "notes": null
+    },
+    {
+      "case_id": "F-005",
+      "case_type": "filter",
+      "query": "reebok unisex pink walking shoes under 2500 size 9",
+      "expected_query_text": "walking shoes",
+      "expected_constraints": {
+        "category": "shoes",
+        "subcategory": "walking_shoes",
+        "brand": "Reebok",
+        "gender": "unisex",
+        "color": "pink",
+        "min_price": null,
+        "max_price": "2500",
+        "size": "9",
+        "availability": null
+      },
+      "expected_sorting_intent": null,
+      "expected_products": [
+        {
+          "product_id": "SHOE-018",
+          "relevance": "E",
+          "expected_rank": 1
+        }
+      ],
+      "difficulty": "normal",
+      "source": "controlled_manual_v1",
+      "review_status": "IN_REVIEW",
+      "notes": null
+    },
+    {
+      "case_id": "F-006",
+      "case_type": "filter",
+      "query": "nike unisex green hoodies max 3000 size M available",
+      "expected_query_text": "hoodies",
+      "expected_constraints": {
+        "category": "clothing",
+        "subcategory": "hoodies",
+        "brand": "Nike",
+        "gender": "unisex",
+        "color": "green",
+        "min_price": null,
+        "max_price": "3000",
+        "size": "M",
+        "availability": "in_stock"
+      },
+      "expected_sorting_intent": null,
+      "expected_products": [
+        {
+          "product_id": "CLOTH-006",
+          "relevance": "E",
+          "expected_rank": 1
+        }
+      ],
+      "difficulty": "normal",
+      "source": "controlled_manual_v1",
+      "review_status": "IN_REVIEW",
+      "notes": null
+    },
+    {
+      "case_id": "F-007",
+      "case_type": "filter",
+      "query": "samsung brown smartphone under 2000 available",
+      "expected_query_text": "smartphone",
+      "expected_constraints": {
+        "category": "electronics",
+        "subcategory": "smartphones",
+        "brand": "Samsung",
+        "gender": null,
+        "color": "brown",
+        "min_price": null,
+        "max_price": "2000",
+        "size": null,
+        "availability": "in_stock"
+      },
+      "expected_sorting_intent": null,
+      "expected_products": [
+        {
+          "product_id": "ELEC-003",
+          "relevance": "E",
+          "expected_rank": 1
+        }
+      ],
+      "difficulty": "normal",
+      "source": "controlled_manual_v1",
+      "review_status": "IN_REVIEW",
+      "notes": null
+    },
+    {
+      "case_id": "F-008",
+      "case_type": "filter",
+      "query": "wildcraft grey backpack below 3000",
+      "expected_query_text": "backpack",
+      "expected_constraints": {
+        "category": "bags",
+        "subcategory": "backpacks",
+        "brand": "Wildcraft",
+        "gender": null,
+        "color": "grey",
+        "min_price": null,
+        "max_price": "3000",
+        "size": null,
+        "availability": null
+      },
+      "expected_sorting_intent": null,
+      "expected_products": [
+        {
+          "product_id": "BAG-001",
+          "relevance": "E",
+          "expected_rank": 1
+        }
+      ],
+      "difficulty": "normal",
+      "source": "controlled_manual_v1",
+      "review_status": "IN_REVIEW",
+      "notes": null
+    },
+    {
+      "case_id": "RET-001",
+      "case_type": "retrieval",
+      "query": "running shoes",
+      "expected_query_text": "running shoes",
+      "expected_constraints": {
+        "category": "shoes",
+        "subcategory": "running_shoes",
+        "brand": null,
+        "gender": null,
+        "color": null,
+        "min_price": null,
+        "max_price": null,
+        "size": null,
+        "availability": null
+      },
+      "expected_sorting_intent": null,
+      "expected_products": [
+        {
+          "product_id": "SHOE-001",
+          "relevance": "E",
+          "expected_rank": null
+        },
+        {
+          "product_id": "SHOE-007",
+          "relevance": "E",
+          "expected_rank": null
+        },
+        {
+          "product_id": "SHOE-013",
+          "relevance": "E",
+          "expected_rank": null
+        },
+        {
+          "product_id": "SHOE-019",
+          "relevance": "E",
+          "expected_rank": null
+        },
+        {
+          "product_id": "SHOE-025",
+          "relevance": "E",
+          "expected_rank": null
+        },
+        {
+          "product_id": "SHOE-031",
+          "relevance": "E",
+          "expected_rank": null
+        }
+      ],
+      "difficulty": "broad",
+      "source": "controlled_manual_v1",
+      "review_status": "IN_REVIEW",
+      "notes": null
+    },
+    {
+      "case_id": "RET-002",
+      "case_type": "retrieval",
+      "query": "wireless earbuds",
+      "expected_query_text": "wireless earbuds",
+      "expected_constraints": {
+        "category": "electronics",
+        "subcategory": "earbuds",
+        "brand": null,
+        "gender": null,
+        "color": null,
+        "min_price": null,
+        "max_price": null,
+        "size": null,
+        "availability": null
+      },
+      "expected_sorting_intent": null,
+      "expected_products": [
+        {
+          "product_id": "ELEC-002",
+          "relevance": "E",
+          "expected_rank": null
+        },
+        {
+          "product_id": "ELEC-011",
+          "relevance": "E",
+          "expected_rank": null
+        },
+        {
+          "product_id": "ELEC-020",
+          "relevance": "E",
+          "expected_rank": null
+        }
+      ],
+      "difficulty": "normal",
+      "source": "controlled_manual_v1",
+      "review_status": "IN_REVIEW",
+      "notes": null
+    },
+    {
+      "case_id": "RET-003",
+      "case_type": "retrieval",
+      "query": "backpacks",
+      "expected_query_text": "backpacks",
+      "expected_constraints": {
+        "category": "bags",
+        "subcategory": "backpacks",
+        "brand": null,
+        "gender": null,
+        "color": null,
+        "min_price": null,
+        "max_price": null,
+        "size": null,
+        "availability": null
+      },
+      "expected_sorting_intent": null,
+      "expected_products": [
+        {
+          "product_id": "BAG-001",
+          "relevance": "E",
+          "expected_rank": null
+        },
+        {
+          "product_id": "BAG-006",
+          "relevance": "E",
+          "expected_rank": null
+        }
+      ],
+      "difficulty": "normal",
+      "source": "controlled_manual_v1",
+      "review_status": "IN_REVIEW",
+      "notes": null
+    },
+    {
+      "case_id": "RET-004",
+      "case_type": "retrieval",
+      "query": "women's dresses",
+      "expected_query_text": "dresses",
+      "expected_constraints": {
+        "category": "clothing",
+        "subcategory": "dresses",
+        "brand": null,
+        "gender": "women",
+        "color": null,
+        "min_price": null,
+        "max_price": null,
+        "size": null,
+        "availability": null
+      },
+      "expected_sorting_intent": null,
+      "expected_products": [
+        {
+          "product_id": "CLOTH-005",
+          "relevance": "E",
+          "expected_rank": null
+        },
+        {
+          "product_id": "CLOTH-014",
+          "relevance": "E",
+          "expected_rank": null
+        },
+        {
+          "product_id": "CLOTH-023",
+          "relevance": "E",
+          "expected_rank": null
+        }
+      ],
+      "difficulty": "normal",
+      "source": "controlled_manual_v1",
+      "review_status": "IN_REVIEW",
+      "notes": null
+    },
+    {
+      "case_id": "RANK-001",
+      "case_type": "ranking",
+      "query": "black running shoes",
+      "expected_query_text": "running shoes",
+      "expected_constraints": {
+        "category": "shoes",
+        "subcategory": "running_shoes",
+        "brand": null,
+        "gender": null,
+        "color": "black",
+        "min_price": null,
+        "max_price": null,
+        "size": null,
+        "availability": null
+      },
+      "expected_sorting_intent": null,
+      "expected_products": [
+        {
+          "product_id": "SHOE-001",
+          "relevance": "E",
+          "expected_rank": 1
+        }
+      ],
+      "difficulty": "ranking",
+      "source": "controlled_manual_v1",
+      "review_status": "IN_REVIEW",
+      "notes": null
+    },
+    {
+      "case_id": "RANK-002",
+      "case_type": "ranking",
+      "query": "nike shoes",
+      "expected_query_text": "shoes",
+      "expected_constraints": {
+        "category": "shoes",
+        "subcategory": null,
+        "brand": "Nike",
+        "gender": null,
+        "color": null,
+        "min_price": null,
+        "max_price": null,
+        "size": null,
+        "availability": null
+      },
+      "expected_sorting_intent": null,
+      "expected_products": [
+        {
+          "product_id": "SHOE-001",
+          "relevance": "E",
+          "expected_rank": 1
+        },
+        {
+          "product_id": "SHOE-015",
+          "relevance": "E",
+          "expected_rank": 2
+        },
+        {
+          "product_id": "SHOE-008",
+          "relevance": "E",
+          "expected_rank": 3
+        },
+        {
+          "product_id": "SHOE-022",
+          "relevance": "E",
+          "expected_rank": 4
+        },
+        {
+          "product_id": "SHOE-029",
+          "relevance": "E",
+          "expected_rank": 5
+        }
+      ],
+      "difficulty": "ranking",
+      "source": "controlled_manual_v1",
+      "review_status": "IN_REVIEW",
+      "notes": null
+    },
+    {
+      "case_id": "RANK-003",
+      "case_type": "ranking",
+      "query": "sony headphones",
+      "expected_query_text": "headphones",
+      "expected_constraints": {
+        "category": "electronics",
+        "subcategory": "headphones",
+        "brand": "Sony",
+        "gender": null,
+        "color": null,
+        "min_price": null,
+        "max_price": null,
+        "size": null,
+        "availability": null
+      },
+      "expected_sorting_intent": null,
+      "expected_products": [
+        {
+          "product_id": "ELEC-001",
+          "relevance": "E",
+          "expected_rank": 1
+        },
+        {
+          "product_id": "ELEC-010",
+          "relevance": "E",
+          "expected_rank": 2
+        },
+        {
+          "product_id": "ELEC-019",
+          "relevance": "E",
+          "expected_rank": 3
+        }
+      ],
+      "difficulty": "ranking",
+      "source": "controlled_manual_v1",
+      "review_status": "IN_REVIEW",
+      "notes": null
+    },
+    {
+      "case_id": "RANK-004",
+      "case_type": "ranking",
+      "query": "titan analog watch",
+      "expected_query_text": "analog watch",
+      "expected_constraints": {
+        "category": "watches",
+        "subcategory": null,
+        "brand": "Titan",
+        "gender": null,
+        "color": null,
+        "min_price": null,
+        "max_price": null,
+        "size": null,
+        "availability": null
+      },
+      "expected_sorting_intent": null,
+      "expected_products": [
+        {
+          "product_id": "WATCH-001",
+          "relevance": "E",
+          "expected_rank": 1
+        },
+        {
+          "product_id": "WATCH-009",
+          "relevance": "E",
+          "expected_rank": 2
+        }
+      ],
+      "difficulty": "ranking",
+      "source": "controlled_manual_v1",
+      "review_status": "IN_REVIEW",
+      "notes": null
+    },
+    {
+      "case_id": "QU-001",
+      "case_type": "query_understanding",
+      "query": "nike men's black running shoes below \u20b93000 size 9",
+      "expected_query_text": "running shoes",
+      "expected_constraints": {
+        "category": "shoes",
+        "subcategory": "running_shoes",
+        "brand": "Nike",
+        "gender": "men",
+        "color": "black",
+        "min_price": null,
+        "max_price": "3000",
+        "size": "9",
+        "availability": null
+      },
+      "expected_sorting_intent": null,
+      "expected_products": [
+        {
+          "product_id": "SHOE-001",
+          "relevance": "E",
+          "expected_rank": 1
+        }
+      ],
+      "difficulty": "parser",
+      "source": "controlled_manual_v1",
+      "review_status": "IN_REVIEW",
+      "notes": null
+    },
+    {
+      "case_id": "QU-002",
+      "case_type": "query_understanding",
+      "query": "cheapest available samsung smartphones under INR 20000",
+      "expected_query_text": "smartphones",
+      "expected_constraints": {
+        "category": "electronics",
+        "subcategory": "smartphones",
+        "brand": "Samsung",
+        "gender": null,
+        "color": null,
+        "min_price": null,
+        "max_price": "20000",
+        "size": null,
+        "availability": "in_stock"
+      },
+      "expected_sorting_intent": "price_asc",
+      "expected_products": [
+        {
+          "product_id": "ELEC-003",
+          "relevance": "E",
+          "expected_rank": 1
+        }
+      ],
+      "difficulty": "parser",
+      "source": "controlled_manual_v1",
+      "review_status": "IN_REVIEW",
+      "notes": null
+    },
+    {
+      "case_id": "CQ-001",
+      "case_type": "catalog_quality",
+      "query": "women's running shoes size 10",
+      "expected_query_text": "running shoes",
+      "expected_constraints": {
+        "category": "shoes",
+        "subcategory": "running_shoes",
+        "brand": null,
+        "gender": "women",
+        "color": null,
+        "min_price": null,
+        "max_price": null,
+        "size": "10",
+        "availability": null
+      },
+      "expected_sorting_intent": null,
+      "expected_products": [],
+      "difficulty": "edge",
+      "source": "controlled_manual_v1",
+      "review_status": "IN_REVIEW",
+      "notes": "No controlled-catalog product satisfies the requested gender and size combination."
+    },
+    {
+      "case_id": "CQ-002",
+      "case_type": "catalog_quality",
+      "query": "orange running shoes",
+      "expected_query_text": "orange running shoes",
+      "expected_constraints": {
+        "category": "shoes",
+        "subcategory": "running_shoes",
+        "brand": null,
+        "gender": null,
+        "color": null,
+        "min_price": null,
+        "max_price": null,
+        "size": null,
+        "availability": null
+      },
+      "expected_sorting_intent": null,
+      "expected_products": [],
+      "difficulty": "edge",
+      "source": "controlled_manual_v1",
+      "review_status": "IN_REVIEW",
+      "notes": "Orange is intentionally absent from the controlled color vocabulary and catalog."
+    }
+  ],
+  "content_hash": "9038646c859bc75950067d65af3bf7aedd675d917c8ef839c446826a73120e29"
+}
