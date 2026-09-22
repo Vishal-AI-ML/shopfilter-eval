@@ -36,8 +36,9 @@ from packages.evaluation_engine.models import (
     SearchRequest,
 )
 from packages.search_adapters.base import SearchAdapter
+from packages.tracing import NoOpTraceProvider, TraceProvider
 
-METRIC_DEFINITION_VERSION = "deterministic-v1+classifier-v1"
+METRIC_DEFINITION_VERSION = "deterministic-v1+classifier-v1+tracing-v2-otlp"
 RELEVANCE_GRADES = {"E": 3, "S": 2, "C": 1, "I": 0}
 
 
@@ -52,6 +53,8 @@ class CaseEvaluationResult(BaseModel):
     false_negatives: list[str]
     metrics: list[MetricResult]
     failures: list[Failure]
+    trace_id: str | None = None
+    trace_url: str | None = None
     passed: bool
 
 
@@ -68,6 +71,7 @@ class EvaluationRunArtifact(BaseModel):
     catalog_version: str
     search_system_version: str
     adapter_provider: str
+    trace_provider: str
     metric_definition_version: str
     top_k: int = Field(ge=1)
     seed: int
@@ -115,20 +119,86 @@ def _relevance_grades(case: GoldenCase) -> dict[str, int]:
 
 
 class EvaluationRunner:
-    def __init__(self, adapter: SearchAdapter, catalog: Catalog) -> None:
+    def __init__(
+        self,
+        adapter: SearchAdapter,
+        catalog: Catalog,
+        trace_provider: TraceProvider | None = None,
+    ) -> None:
         self.adapter = adapter
         self.catalog = catalog
+        self.trace_provider = trace_provider or NoOpTraceProvider()
 
     async def _evaluate_case(
         self,
         case: GoldenCase,
         *,
+        run_id: str,
         top_k: int,
         seed: int,
     ) -> CaseEvaluationResult:
+        trace = self.trace_provider.start_case(
+            run_id=run_id,
+            case_id=case.case_id,
+            query=case.query,
+            metadata={"case_type": case.case_type.value},
+        )
         response = await self.adapter.search(
             SearchRequest(query=case.query, top_k=top_k, seed=seed)
         )
+        trace.record_span(
+            "query-understanding",
+            input_data={"query": case.query},
+            output_data={
+                "interpreted_query": (
+                    response.interpreted_query.model_dump(mode="json")
+                    if response.interpreted_query is not None
+                    else None
+                )
+            },
+        )
+        trace.record_span(
+            "search-adapter",
+            input_data={"provider": self.adapter.provider_name},
+            output_data={
+                "provider": response.provider,
+                "system_version": response.system_version,
+                "latency_ms": response.latency_ms,
+            },
+        )
+        trace.record_span(
+            "retrieval",
+            output_data={
+                "candidate_ids": response.retrieved_candidates or [],
+            },
+        )
+        trace.record_span(
+            "filtering",
+            input_data={
+                "applied_filters": (
+                    response.applied_filters.model_dump(mode="json")
+                    if response.applied_filters is not None
+                    else None
+                )
+            },
+            output_data={
+                "filtered_candidate_ids": response.filtered_candidates or [],
+            },
+        )
+        trace.record_span(
+            "ranking",
+            output_data={
+                "products": [
+                    {
+                        "product_id": result.product.product_id,
+                        "rank": result.rank,
+                        "score": result.score,
+                    }
+                    for result in response.products
+                ]
+            },
+        )
+
         expected_ids = [expected.product_id for expected in case.expected_products]
         relevant_ids = set(expected_ids)
         actual_ids = [result.product.product_id for result in response.products]
@@ -159,7 +229,35 @@ class EvaluationRunner:
                 relevant_result_displacement(actual_ids, expected_ids),
             ]
         )
+        trace.record_span(
+            "deterministic-evaluation",
+            output_data={
+                "metrics": [
+                    {
+                        "name": metric.metric_name,
+                        "value": metric.value,
+                        "passed": metric.passed,
+                    }
+                    for metric in metrics
+                ],
+                "false_positives": false_positives,
+                "false_negatives": false_negatives,
+            },
+        )
         failures = classify_case_failure(case, response)
+        trace.record_span(
+            "failure-classification",
+            output_data={
+                "failure_types": [
+                    failure.failure_type.value for failure in failures
+                ]
+            },
+        )
+        passed = actual_ids == expected_ids and not failures
+        trace_reference = trace.finish(
+            output_data={"passed": passed},
+            metadata={"failure_count": len(failures)},
+        )
         return CaseEvaluationResult(
             case_id=case.case_id,
             query=case.query,
@@ -169,7 +267,9 @@ class EvaluationRunner:
             false_negatives=false_negatives,
             metrics=metrics,
             failures=failures,
-            passed=actual_ids == expected_ids and not failures,
+            trace_id=(trace_reference.trace_id if trace_reference is not None else None),
+            trace_url=(trace_reference.trace_url if trace_reference is not None else None),
+            passed=passed,
         )
 
     async def run(
@@ -189,13 +289,19 @@ class EvaluationRunner:
             "catalog_version": self.catalog.version,
             "search_system_version": search_system_version,
             "adapter_provider": self.adapter.provider_name,
+            "trace_provider": self.trace_provider.provider_name,
             "metric_definition_version": METRIC_DEFINITION_VERSION,
             "top_k": top_k,
             "seed": seed,
         }
         run_id = f"run-{_canonical_hash(run_config)[:16]}"
         case_results = [
-            await self._evaluate_case(case, top_k=top_k, seed=seed)
+            await self._evaluate_case(
+                case,
+                run_id=run_id,
+                top_k=top_k,
+                seed=seed,
+            )
             for case in dataset.cases
         ]
         metric_values = _metric_values(case_results)
@@ -234,6 +340,7 @@ class EvaluationRunner:
             catalog_version=self.catalog.version,
             search_system_version=search_system_version,
             adapter_provider=self.adapter.provider_name,
+            trace_provider=self.trace_provider.provider_name,
             metric_definition_version=METRIC_DEFINITION_VERSION,
             top_k=top_k,
             seed=seed,

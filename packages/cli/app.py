@@ -19,6 +19,11 @@ from packages.search_adapters.faults import (
     FaultInjectingSearchAdapter,
     load_failure_profiles,
 )
+from packages.tracing import (
+    NoOpTraceProvider,
+    TraceProvider,
+    langfuse_provider_from_env,
+)
 
 app = typer.Typer(no_args_is_help=True, help="ShopFilter Eval command-line interface")
 console = Console()
@@ -44,11 +49,20 @@ def _build_adapter(system_name: str, catalog: Catalog) -> SearchAdapter:
     return FaultInjectingSearchAdapter(base, catalog, profiles[system_name])
 
 
+def _build_trace_provider(provider_name: str) -> TraceProvider:
+    if provider_name == "noop":
+        return NoOpTraceProvider()
+    if provider_name == "langfuse":
+        return langfuse_provider_from_env()
+    raise ValueError(f"Unsupported trace provider: {provider_name}")
+
+
 async def _run_evaluation(
     *,
     root: Path,
     dataset_name: str,
     system_name: str,
+    trace_provider_name: str,
     top_k: int,
     seed: int,
     artifact_directory: Path,
@@ -58,7 +72,8 @@ async def _run_evaluation(
         root / "data" / "goldens" / f"{dataset_name}.json"
     )
     adapter = _build_adapter(system_name, catalog)
-    runner = EvaluationRunner(adapter, catalog)
+    trace_provider = _build_trace_provider(trace_provider_name)
+    runner = EvaluationRunner(adapter, catalog, trace_provider)
     artifact = await runner.run(
         dataset,
         search_system_version=system_name,
@@ -79,6 +94,7 @@ async def _run_evaluation(
 def evaluate(
     dataset: Annotated[str, typer.Option(help="Approved dataset name")] = "golden-v1",
     system: Annotated[str, typer.Option(help="Search-system version")] = "demo-v1",
+    trace: Annotated[str, typer.Option(help="Trace provider: noop or langfuse")] = "noop",
     top_k: Annotated[int, typer.Option(min=1, help="Evaluation cutoff")] = 10,
     seed: Annotated[int, typer.Option(help="Deterministic seed")] = 0,
     artifact_dir: Annotated[
@@ -94,6 +110,7 @@ def evaluate(
                 root=root,
                 dataset_name=dataset,
                 system_name=system,
+                trace_provider_name=trace,
                 top_k=top_k,
                 seed=seed,
                 artifact_directory=root / artifact_dir,
