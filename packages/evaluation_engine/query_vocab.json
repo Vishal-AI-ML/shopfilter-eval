@@ -1,0 +1,59 @@
+{
+  "categories": {
+    "shoes": ["shoe", "shoes", "footwear"],
+    "clothing": ["clothing", "clothes", "apparel"],
+    "electronics": ["electronic", "electronics", "gadgets"],
+    "bags": ["bag", "bags"],
+    "watches": ["watch", "watches"]
+  },
+  "subcategories": {
+    "running_shoes": {"category": "shoes", "aliases": ["running shoe", "running shoes", "runners"]},
+    "sneakers": {"category": "shoes", "aliases": ["sneaker", "sneakers", "trainers"]},
+    "formal_shoes": {"category": "shoes", "aliases": ["formal shoe", "formal shoes", "dress shoes"]},
+    "sandals": {"category": "shoes", "aliases": ["sandal", "sandals"]},
+    "boots": {"category": "shoes", "aliases": ["boot", "boots"]},
+    "walking_shoes": {"category": "shoes", "aliases": ["walking shoe", "walking shoes"]},
+    "t_shirts": {"category": "clothing", "aliases": ["t shirt", "t-shirt", "t shirts", "tees"]},
+    "shirts": {"category": "clothing", "aliases": ["shirt", "shirts"]},
+    "jeans": {"category": "clothing", "aliases": ["jean", "jeans", "denim"]},
+    "jackets": {"category": "clothing", "aliases": ["jacket", "jackets"]},
+    "dresses": {"category": "clothing", "aliases": ["dress", "dresses"]},
+    "hoodies": {"category": "clothing", "aliases": ["hoodie", "hoodies"]},
+    "headphones": {"category": "electronics", "aliases": ["headphone", "headphones", "headset"]},
+    "earbuds": {"category": "electronics", "aliases": ["earbud", "earbuds", "tws"]},
+    "smartphones": {"category": "electronics", "aliases": ["smartphone", "smartphones", "mobile phone", "phone"]},
+    "laptops": {"category": "electronics", "aliases": ["laptop", "laptops", "notebook computer"]},
+    "backpacks": {"category": "bags", "aliases": ["backpack", "backpacks", "rucksack"]},
+    "handbags": {"category": "bags", "aliases": ["handbag", "handbags", "purse"]},
+    "smartwatch": {"category": "watches", "aliases": ["smartwatch", "smart watch", "smart watches"]},
+    "fitness_band": {"category": "watches", "aliases": ["fitness band", "fitness tracker"]}
+  },
+  "brands": {
+    "Nike": ["nike"], "Adidas": ["adidas"], "Puma": ["puma"], "Reebok": ["reebok"],
+    "ASICS": ["asics"], "Skechers": ["skechers"], "Bata": ["bata"], "Levis": ["levis", "levi's"],
+    "Sony": ["sony"], "JBL": ["jbl"], "Samsung": ["samsung"], "OnePlus": ["oneplus", "one plus"],
+    "Lenovo": ["lenovo"], "HP": ["hp"], "Logitech": ["logitech"], "boAt": ["boat"],
+    "Wildcraft": ["wildcraft"], "Skybags": ["skybags"], "Titan": ["titan"], "Fastrack": ["fastrack"],
+    "Casio": ["casio"], "Noise": ["noise"], "Fitbit": ["fitbit"]
+  },
+  "genders": {
+    "men": ["men", "men's", "mens", "male"],
+    "women": ["women", "women's", "womens", "female", "ladies"],
+    "unisex": ["unisex"]
+  },
+  "colors": {
+    "black": ["black"], "blue": ["blue"], "white": ["white"], "red": ["red"],
+    "grey": ["grey", "gray"], "brown": ["brown"], "pink": ["pink"], "green": ["green"],
+    "navy": ["navy", "navy blue"], "tan": ["tan"], "purple": ["purple"], "silver": ["silver"],
+    "beige": ["beige"]
+  },
+  "availability": {
+    "in_stock": ["in stock", "available", "ready to ship"],
+    "out_of_stock": ["out of stock", "unavailable"]
+  },
+  "sorting": {
+    "price_asc": ["cheapest", "lowest price", "price low to high", "low to high"],
+    "price_desc": ["most expensive", "highest price", "price high to low", "high to low"],
+    "rating_desc": ["top rated", "highest rated", "best rated"]
+  }
+}
