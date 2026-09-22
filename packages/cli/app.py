@@ -9,6 +9,14 @@ from rich.console import Console
 from rich.table import Table
 
 from packages.demo_search.engine import DemoSearchEngine
+from packages.esci_pipeline.download import DownloadError, download_manifest
+from packages.esci_pipeline.manifest import ManifestError, load_source_manifest
+from packages.esci_pipeline.prepare import (
+    EsciPreparationError,
+    PreparationConfig,
+    prepare_esci_subset,
+    verify_processed_artifacts,
+)
 from packages.evaluation_engine.catalog import CatalogLoadError, load_catalog
 from packages.evaluation_engine.datasets import GoldenDatasetError, load_golden_dataset
 from packages.evaluation_engine.models import Catalog
@@ -26,8 +34,13 @@ from packages.tracing import (
 )
 
 app = typer.Typer(no_args_is_help=True, help="ShopFilter Eval command-line interface")
+esci_app = typer.Typer(no_args_is_help=True, help="Prepare verified Amazon ESCI data")
+app.add_typer(esci_app, name="esci")
 console = Console()
 DEFAULT_ARTIFACT_DIRECTORY = Path("artifacts/runs")
+DEFAULT_ESCI_MANIFEST = Path("data/manifests/esci-amazon-science-2024-10-07.json")
+DEFAULT_ESCI_RAW_ROOT = Path("data/raw")
+DEFAULT_ESCI_OUTPUT_ROOT = Path("data/processed")
 
 
 @app.callback()
@@ -145,6 +158,109 @@ def evaluate(
         console.print("[bold yellow]Verdict: REVIEW[/]")
         raise typer.Exit(code=2)
     console.print("[bold green]Verdict: PASS[/]")
+
+
+@esci_app.command("download")
+def esci_download(
+    manifest_path: Annotated[
+        Path,
+        typer.Option("--manifest", help="Pinned ESCI source manifest"),
+    ] = DEFAULT_ESCI_MANIFEST,
+    raw_dir: Annotated[
+        Path,
+        typer.Option(help="Immutable raw-data root"),
+    ] = DEFAULT_ESCI_RAW_ROOT,
+) -> None:
+    """Download and checksum-verify the pinned official ESCI Parquet files."""
+    root = Path.cwd()
+    try:
+        manifest = load_source_manifest(root / manifest_path)
+        console.print(
+            "Downloading approximately 1.2 GB of pinned ESCI data; existing valid files "
+            "will be reused."
+        )
+        paths = download_manifest(manifest, root / raw_dir)
+    except (DownloadError, ManifestError) as exc:
+        console.print(f"[bold red]ESCI DOWNLOAD ERROR:[/] {exc}")
+        raise typer.Exit(code=3) from exc
+    for path in paths:
+        console.print(f"[green]Verified:[/] {path}")
+
+
+@esci_app.command("prepare")
+def esci_prepare(
+    target_products: Annotated[
+        int,
+        typer.Option(min=1, help="Minimum unique-product selection target"),
+    ] = 1000,
+    version: Annotated[
+        str,
+        typer.Option(help="Immutable processed artifact version"),
+    ] = "esci-en-v1",
+    seed: Annotated[int, typer.Option(help="Deterministic selection seed")] = 13,
+    manifest_path: Annotated[
+        Path,
+        typer.Option("--manifest", help="Pinned ESCI source manifest"),
+    ] = DEFAULT_ESCI_MANIFEST,
+    raw_dir: Annotated[
+        Path,
+        typer.Option(help="Immutable raw-data root"),
+    ] = DEFAULT_ESCI_RAW_ROOT,
+    output_dir: Annotated[
+        Path,
+        typer.Option(help="Processed artifact root"),
+    ] = DEFAULT_ESCI_OUTPUT_ROOT,
+) -> None:
+    """Build a deterministic English ESCI catalog and unapproved golden draft."""
+    root = Path.cwd()
+    try:
+        manifest = load_source_manifest(root / manifest_path)
+        destination = prepare_esci_subset(
+            manifest,
+            root / raw_dir,
+            root / output_dir,
+            PreparationConfig(
+                version=version,
+                target_products=target_products,
+                seed=seed,
+                locale=manifest.locale,
+                version_flag=manifest.version_flag,
+            ),
+        )
+        report = verify_processed_artifacts(destination)
+    except (
+        DownloadError,
+        EsciPreparationError,
+        FileExistsError,
+        ManifestError,
+        ValueError,
+    ) as exc:
+        console.print(f"[bold red]ESCI PREPARATION ERROR:[/] {exc}")
+        raise typer.Exit(code=3) from exc
+    console.print(f"[bold green]Prepared:[/] {destination}")
+    console.print(
+        f"Products: {report.actual_product_count} | Queries: {report.query_count} | "
+        f"Judgments: {report.judgment_count} | Status: IN_REVIEW"
+    )
+
+
+@esci_app.command("verify")
+def esci_verify(
+    directory: Annotated[
+        Path,
+        typer.Argument(help="Processed ESCI artifact directory"),
+    ],
+) -> None:
+    """Verify processed ESCI artifacts against their quality-report checksums."""
+    try:
+        report = verify_processed_artifacts(directory)
+    except EsciPreparationError as exc:
+        console.print(f"[bold red]ESCI VERIFICATION ERROR:[/] {exc}")
+        raise typer.Exit(code=3) from exc
+    console.print(
+        f"[bold green]Verified:[/] {directory} | Products: "
+        f"{report.actual_product_count} | Queries: {report.query_count}"
+    )
 
 
 def main() -> None:
