@@ -13,6 +13,7 @@ from packages.evaluation_engine.datasets import (
     GoldenDataset,
     validate_golden_dataset,
 )
+from packages.evaluation_engine.failures import classify_case_failure
 from packages.evaluation_engine.metrics import (
     constraint_satisfaction,
     false_negative_rate,
@@ -29,13 +30,14 @@ from packages.evaluation_engine.metrics import (
 )
 from packages.evaluation_engine.models import (
     Catalog,
+    Failure,
     MetricResult,
     ParsedIntent,
     SearchRequest,
 )
 from packages.search_adapters.base import SearchAdapter
 
-METRIC_DEFINITION_VERSION = "deterministic-v1"
+METRIC_DEFINITION_VERSION = "deterministic-v1+classifier-v1"
 RELEVANCE_GRADES = {"E": 3, "S": 2, "C": 1, "I": 0}
 
 
@@ -49,6 +51,7 @@ class CaseEvaluationResult(BaseModel):
     false_positives: list[str]
     false_negatives: list[str]
     metrics: list[MetricResult]
+    failures: list[Failure]
     passed: bool
 
 
@@ -72,6 +75,7 @@ class EvaluationRunArtifact(BaseModel):
     passed_case_count: int
     failed_case_count: int
     aggregate_metrics: dict[str, float | None]
+    failure_counts: dict[str, int]
     cases: list[CaseEvaluationResult]
 
 
@@ -155,6 +159,7 @@ class EvaluationRunner:
                 relevant_result_displacement(actual_ids, expected_ids),
             ]
         )
+        failures = classify_case_failure(case, response)
         return CaseEvaluationResult(
             case_id=case.case_id,
             query=case.query,
@@ -163,7 +168,8 @@ class EvaluationRunner:
             false_positives=false_positives,
             false_negatives=false_negatives,
             metrics=metrics,
-            passed=actual_ids == expected_ids,
+            failures=failures,
+            passed=actual_ids == expected_ids and not failures,
         )
 
     async def run(
@@ -193,8 +199,7 @@ class EvaluationRunner:
             for case in dataset.cases
         ]
         metric_values = _metric_values(case_results)
-        reciprocal_ranks = metric_values.get("reciprocal_rank", [])
-        mrr = mean_reciprocal_rank(reciprocal_ranks)
+        mrr = mean_reciprocal_rank(metric_values.get("reciprocal_rank", []))
         aggregate_metrics = {
             f"precision_at_{top_k}": _mean(metric_values.get(f"precision_at_{top_k}", [])),
             f"recall_at_{top_k}": _mean(metric_values.get(f"recall_at_{top_k}", [])),
@@ -207,13 +212,16 @@ class EvaluationRunner:
                 metric_values.get("query_understanding_field_accuracy", [])
             ),
         }
+        failure_counts: dict[str, int] = defaultdict(int)
+        for case_result in case_results:
+            for failure in case_result.failures:
+                failure_counts[failure.failure_type.value] += 1
         passed_count = sum(case_result.passed for case_result in case_results)
         stable_results = {
             "run_config": run_config,
             "aggregate_metrics": aggregate_metrics,
-            "cases": [
-                case_result.model_dump(mode="json") for case_result in case_results
-            ],
+            "failure_counts": dict(failure_counts),
+            "cases": [case_result.model_dump(mode="json") for case_result in case_results],
         }
         fingerprint = _canonical_hash(stable_results)
         return EvaluationRunArtifact(
@@ -233,6 +241,7 @@ class EvaluationRunner:
             passed_case_count=passed_count,
             failed_case_count=len(case_results) - passed_count,
             aggregate_metrics=aggregate_metrics,
+            failure_counts=dict(sorted(failure_counts.items())),
             cases=case_results,
         )
 

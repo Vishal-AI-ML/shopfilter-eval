@@ -1,0 +1,38 @@
+{
+  "healthy-v1": {
+    "profile_id": "healthy-v1",
+    "mode": "healthy",
+    "system_version": "healthy-v1",
+    "latency_injection_ms": 0.0
+  },
+  "filter-broken-v1": {
+    "profile_id": "filter-broken-v1",
+    "mode": "filter_broken",
+    "system_version": "filter-broken-v1",
+    "latency_injection_ms": 0.0
+  },
+  "retrieval-broken-v1": {
+    "profile_id": "retrieval-broken-v1",
+    "mode": "retrieval_broken",
+    "system_version": "retrieval-broken-v1",
+    "latency_injection_ms": 0.0
+  },
+  "ranking-broken-v1": {
+    "profile_id": "ranking-broken-v1",
+    "mode": "ranking_broken",
+    "system_version": "ranking-broken-v1",
+    "latency_injection_ms": 0.0
+  },
+  "query-parser-regression-v1": {
+    "profile_id": "query-parser-regression-v1",
+    "mode": "query_parser_regression",
+    "system_version": "query-parser-regression-v1",
+    "latency_injection_ms": 0.0
+  },
+  "latency-regression-v1": {
+    "profile_id": "latency-regression-v1",
+    "mode": "latency_regression",
+    "system_version": "latency-regression-v1",
+    "latency_injection_ms": 1000.0
+  }
+}
