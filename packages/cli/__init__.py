@@ -1,0 +1,1 @@
+"""ShopFilter command-line package."""
