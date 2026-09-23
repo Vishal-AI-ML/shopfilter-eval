@@ -16,6 +16,9 @@ class ApiSettings(BaseSettings):
     worker_heartbeat_seconds: int = Field(
         default=10, ge=1, le=300, validation_alias="WORKER_HEARTBEAT_SECONDS"
     )
+    worker_stale_after_seconds: int = Field(
+        default=60, ge=10, le=3600, validation_alias="WORKER_STALE_AFTER_SECONDS"
+    )
     database_url: str = Field(
         default="postgresql+psycopg://shopfilter:shopfilter@localhost:5432/shopfilter",
         validation_alias="DATABASE_URL",

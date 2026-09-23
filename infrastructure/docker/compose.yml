@@ -75,6 +75,7 @@ services:
       DATABASE_URL: postgresql+psycopg://shopfilter:shopfilter@postgres:5432/shopfilter
       REDIS_URL: redis://redis:6379/0
       WORKER_HEARTBEAT_SECONDS: "10"
+      WORKER_STALE_AFTER_SECONDS: "30"
       MINIO_ENDPOINT: minio:9000
       MINIO_ACCESS_KEY: shopfilter
       MINIO_SECRET_KEY: shopfilter-dev-only

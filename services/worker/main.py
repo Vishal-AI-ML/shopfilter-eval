@@ -5,11 +5,11 @@ import os
 import socket
 import time
 import uuid
-from datetime import UTC, datetime
+from datetime import UTC, datetime, timedelta
 
 from redis import Redis
 from redis.exceptions import RedisError
-from sqlalchemy import select
+from sqlalchemy import or_, select
 
 from services.api.shopfilter_api.config import get_settings
 from services.api.shopfilter_api.database import Database
@@ -54,6 +54,49 @@ def _next_durable_job(database: Database) -> uuid.UUID | None:
         )
 
 
+def recover_stale_jobs(
+    database: Database, *, stale_after_seconds: int
+) -> list[uuid.UUID]:
+    cutoff = datetime.now(UTC) - timedelta(seconds=stale_after_seconds)
+    recovered: list[uuid.UUID] = []
+    with database.session() as session:
+        jobs = session.scalars(
+            select(EvaluationJobRecord)
+            .where(
+                EvaluationJobRecord.status == EvaluationJobStatus.RUNNING.value,
+                or_(
+                    EvaluationJobRecord.heartbeat_at.is_(None),
+                    EvaluationJobRecord.heartbeat_at < cutoff,
+                ),
+            )
+            .order_by(EvaluationJobRecord.created_at)
+            .with_for_update(skip_locked=True)
+        ).all()
+        now = datetime.now(UTC)
+        for job in jobs:
+            heartbeat = session.scalar(
+                select(WorkerHeartbeatRecord).where(
+                    WorkerHeartbeatRecord.current_job_id == job.id
+                )
+            )
+            if heartbeat is not None:
+                heartbeat.current_job_id = None
+            job.error_code = "WORKER_HEARTBEAT_STALE"
+            job.error_detail = "Worker heartbeat expired"
+            if job.cancel_requested:
+                job.status = EvaluationJobStatus.CANCELLED.value
+                job.finished_at = now
+            elif job.attempt_count < job.max_attempts:
+                job.status = EvaluationJobStatus.QUEUED.value
+                job.dispatched_at = None
+                recovered.append(job.id)
+            else:
+                job.status = EvaluationJobStatus.FAILED.value
+                job.finished_at = now
+        session.commit()
+    return recovered
+
+
 def _mark_redispatched(database: Database, job_id: uuid.UUID) -> None:
     with database.session() as session:
         job = session.get(EvaluationJobRecord, job_id)
@@ -95,18 +138,23 @@ def main() -> None:
     logger.info("Evaluation worker started", extra={"worker_id": worker_id})
     try:
         while True:
+            recovered = recover_stale_jobs(
+                database,
+                stale_after_seconds=settings.worker_stale_after_seconds,
+            )
             redis_connected = False
-            queued_job_id: uuid.UUID | None = None
+            queued_job_id: uuid.UUID | None = recovered[0] if recovered else None
             try:
                 redis_connected = bool(redis_client.ping())
-                message = redis_client.blpop(
-                    [QUEUE_KEY], timeout=settings.worker_heartbeat_seconds
-                )
-                if message is not None:
-                    raw_job_id = message[1]
-                    if isinstance(raw_job_id, bytes):
-                        raw_job_id = raw_job_id.decode("utf-8")
-                    queued_job_id = uuid.UUID(raw_job_id)
+                if queued_job_id is None:
+                    message = redis_client.blpop(
+                        [QUEUE_KEY], timeout=settings.worker_heartbeat_seconds
+                    )
+                    if message is not None:
+                        raw_job_id = message[1]
+                        if isinstance(raw_job_id, bytes):
+                            raw_job_id = raw_job_id.decode("utf-8")
+                        queued_job_id = uuid.UUID(raw_job_id)
             except (RedisError, ValueError):
                 logger.warning("Redis queue receive failed", extra={"worker_id": worker_id})
             _record_heartbeat(

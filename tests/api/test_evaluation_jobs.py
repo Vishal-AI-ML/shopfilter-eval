@@ -1,7 +1,9 @@
 from __future__ import annotations
 
 import uuid
+from datetime import UTC, datetime, timedelta
 
+import pytest
 from fastapi.testclient import TestClient
 from sqlalchemy.orm import Session
 
@@ -11,6 +13,7 @@ from services.api.shopfilter_api.models import (
     EvaluationJobRecord,
 )
 from services.worker.job_executor import _finish_failed
+from services.worker.main import recover_stale_jobs
 
 
 def _setup_inputs(client: TestClient) -> tuple[dict[str, str], dict[str, str]]:
@@ -189,3 +192,53 @@ def test_worker_failure_retries_then_becomes_terminal(
         assert job is not None
         assert job.status == "FAILED"
         assert job.finished_at is not None
+
+
+@pytest.mark.parametrize(
+    ("attempt_count", "max_attempts", "cancel_requested", "expected", "requeued"),
+    [
+        (1, 3, False, "QUEUED", True),
+        (3, 3, False, "FAILED", False),
+        (1, 3, True, "CANCELLED", False),
+    ],
+)
+def test_stale_running_job_recovery(
+    authenticated_client: TestClient,
+    attempt_count: int,
+    max_attempts: int,
+    cancel_requested: bool,
+    expected: str,
+    requeued: bool,
+) -> None:
+    headers, identifiers = _setup_inputs(authenticated_client)
+    created = authenticated_client.post(
+        "/v1/evaluation-jobs",
+        headers=headers,
+        json={
+            **identifiers,
+            "idempotency_key": f"stale-{expected.casefold()}",
+            "max_attempts": max_attempts,
+        },
+    ).json()
+    job_id = uuid.UUID(created["id"])
+    with Session(authenticated_client.app.state.database.engine) as session:
+        job = session.get(EvaluationJobRecord, job_id)
+        assert job is not None
+        job.status = "RUNNING"
+        job.attempt_count = attempt_count
+        job.cancel_requested = cancel_requested
+        job.heartbeat_at = datetime.now(UTC) - timedelta(minutes=5)
+        session.commit()
+
+    recovered = recover_stale_jobs(
+        authenticated_client.app.state.database, stale_after_seconds=30
+    )
+    assert (job_id in recovered) is requeued
+    with Session(authenticated_client.app.state.database.engine) as session:
+        job = session.get(EvaluationJobRecord, job_id)
+        assert job is not None
+        assert job.status == expected
+        assert job.error_code == "WORKER_HEARTBEAT_STALE"
+        assert job.error_detail == "Worker heartbeat expired"
+        if expected in {"FAILED", "CANCELLED"}:
+            assert job.finished_at is not None

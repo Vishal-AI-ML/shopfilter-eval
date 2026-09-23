@@ -196,7 +196,7 @@ def _record_progress(
         if job is None or job.status != EvaluationJobStatus.RUNNING.value:
             return
         now = datetime.now(UTC)
-        job.completed_case_count = completed
+        job.completed_case_count = max(job.completed_case_count, completed)
         job.total_case_count = total
         job.heartbeat_at = now
         heartbeat = session.get(WorkerHeartbeatRecord, worker_id)

@@ -74,3 +74,16 @@ Cancellation is checked between cases. Retryable execution failures return the d
 generic and secret-safe. Completion writes an immutable JSON artifact, verifies it in MinIO,
 persists canonical run/case/metric evidence, links the job to the run, and transitions to
 `COMPLETED` or `COMPLETED_WITH_ERRORS`.
+
+## Crash recovery
+
+Every running job carries a database heartbeat. A worker scans for stale `RUNNING` rows before
+waiting on Redis. If the heartbeat expired, it clears the dead worker assignment and atomically:
+
+- cancels a job whose cancellation was already requested;
+- returns it to `QUEUED` when retry budget remains; or
+- marks it `FAILED` when attempts are exhausted.
+
+Recovery does not depend on the original Redis message. A retried evaluation restarts from the
+first case, while persisted progress remains monotonic until the new attempt catches up. This is
+at-least-once execution with idempotent immutable result persistence, not unsafe mid-case resume.
