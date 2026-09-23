@@ -141,3 +141,39 @@ Current permission matrix:
 Organization creation requires authentication and atomically grants the creator OWNER membership.
 Health, readiness, OpenAPI and login remain public. Import CLIs are operator tools outside the HTTP
 permission boundary and continue to require explicit organization/project identifiers.
+
+## Membership governance and human dataset review
+
+Phase 15 completes the HTTP authorization boundary with organization membership governance.
+Owners and Admins can list members and add existing active users by normalized email. Admins can
+manage Admin, Engineer, Reviewer and Viewer memberships but cannot create, change, demote or
+remove an Owner. Only Owners can transfer ownership, and row locking plus a last-Owner check
+prevents every removal or downgrade that would leave an organization without an Owner.
+Engineer, Reviewer and Viewer roles cannot use membership-management endpoints.
+
+Membership endpoints require the authenticated session and `X-Organization-ID`:
+
+- `GET /v1/organization-members`
+- `POST /v1/organization-members`
+- `PATCH /v1/organization-members/{membership_id}`
+- `DELETE /v1/organization-members/{membership_id}`
+
+Human dataset decisions are append-only `DatasetReview` records rather than mutations to the
+published dataset version. This preserves immutable dataset bytes and keeps automated
+`SOURCE_VALIDATED` provenance distinct from human approval. Owners, Admins and Reviewers can
+submit a review; Engineers and Viewers cannot. Any organization member can read review history.
+
+- `GET /v1/datasets/{dataset_id}/versions/{version_id}/reviews`
+- `POST /v1/datasets/{dataset_id}/versions/{version_id}/reviews`
+
+| Role | Read resources | Create technical resources | Manage ordinary members | Manage Owners | Submit dataset review |
+|---|---:|---:|---:|---:|---:|
+| OWNER | yes | yes | yes | yes, with last-Owner protection | yes |
+| ADMIN | yes | yes | yes | no | yes |
+| ENGINEER | yes | yes | no | no | no |
+| REVIEWER | yes | no | no | no | yes |
+| VIEWER | yes | no | no | no | no |
+
+API schemas expose only safe identity fields. Password hashes, session-token digests, raw session
+cookies, database credentials and object-store credentials are not response fields and are covered
+by automated non-disclosure assertions.

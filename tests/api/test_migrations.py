@@ -23,6 +23,7 @@ EXPECTED_TABLES = {
     "products",
     "datasets",
     "dataset_versions",
+    "dataset_reviews",
     "evaluation_cases",
     "search_systems",
     "search_system_versions",

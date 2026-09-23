@@ -58,6 +58,9 @@ class UserRecord(TimestampMixin, Base):
 
     memberships: Mapped[list[MembershipRecord]] = relationship(back_populates="user")
     sessions: Mapped[list[AuthSessionRecord]] = relationship(back_populates="user")
+    dataset_reviews: Mapped[list[DatasetReviewRecord]] = relationship(
+        back_populates="reviewer"
+    )
 
 
 class MembershipRecord(TimestampMixin, Base):
@@ -224,6 +227,9 @@ class DatasetVersionRecord(TimestampMixin, Base):
 
     dataset: Mapped[DatasetRecord] = relationship(back_populates="versions")
     cases: Mapped[list[EvaluationCaseRecord]] = relationship(back_populates="dataset_version")
+    reviews: Mapped[list[DatasetReviewRecord]] = relationship(
+        back_populates="dataset_version"
+    )
 
 
 class EvaluationCaseRecord(TimestampMixin, Base):
@@ -242,6 +248,31 @@ class EvaluationCaseRecord(TimestampMixin, Base):
     payload: Mapped[dict[str, Any]] = mapped_column(JSON, nullable=False)
 
     dataset_version: Mapped[DatasetVersionRecord] = relationship(back_populates="cases")
+
+
+class DatasetReviewRecord(TimestampMixin, Base):
+    __tablename__ = "dataset_reviews"
+    __table_args__ = (
+        CheckConstraint(
+            "decision IN ('APPROVED', 'REJECTED')", name="valid_decision"
+        ),
+    )
+
+    id: Mapped[uuid.UUID] = mapped_column(Uuid, primary_key=True, default=uuid.uuid4)
+    organization_id: Mapped[uuid.UUID] = mapped_column(
+        ForeignKey("organizations.id", ondelete="CASCADE"), nullable=False, index=True
+    )
+    dataset_version_id: Mapped[uuid.UUID] = mapped_column(
+        ForeignKey("dataset_versions.id", ondelete="CASCADE"), nullable=False, index=True
+    )
+    reviewer_user_id: Mapped[uuid.UUID] = mapped_column(
+        ForeignKey("users.id", ondelete="RESTRICT"), nullable=False, index=True
+    )
+    decision: Mapped[str] = mapped_column(String(30), nullable=False)
+    note: Mapped[str | None] = mapped_column(String(2000))
+
+    dataset_version: Mapped[DatasetVersionRecord] = relationship(back_populates="reviews")
+    reviewer: Mapped[UserRecord] = relationship(back_populates="dataset_reviews")
 
 
 class SearchSystemRecord(TimestampMixin, Base):

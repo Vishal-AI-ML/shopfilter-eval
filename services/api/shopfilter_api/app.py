@@ -12,8 +12,10 @@ from services.api.shopfilter_api.routers import (
     authentication,
     evaluations,
     health,
+    memberships,
     organizations,
     resources,
+    reviews,
 )
 
 
@@ -37,7 +39,9 @@ def create_app(settings: ApiSettings | None = None) -> FastAPI:
     app.include_router(health.router)
     app.include_router(authentication.router)
     app.include_router(organizations.router)
+    app.include_router(memberships.router)
     app.include_router(resources.router)
+    app.include_router(reviews.router)
     app.include_router(evaluations.router)
     return app
 

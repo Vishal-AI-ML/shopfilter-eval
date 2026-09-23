@@ -16,6 +16,7 @@ def test_initial_metadata_contains_expected_tables() -> None:
         "products",
         "datasets",
         "dataset_versions",
+        "dataset_reviews",
         "evaluation_cases",
         "search_systems",
         "search_system_versions",
