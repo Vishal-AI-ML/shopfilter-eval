@@ -3,6 +3,7 @@ from __future__ import annotations
 import hashlib
 import json
 from collections import defaultdict
+from collections.abc import Callable
 from pathlib import Path
 from typing import Any
 
@@ -40,6 +41,10 @@ from packages.tracing import NoOpTraceProvider, TraceProvider
 
 METRIC_DEFINITION_VERSION = "deterministic-v1+classifier-v1+tracing-v2-otlp"
 RELEVANCE_GRADES = {"E": 3, "S": 2, "C": 1, "I": 0}
+
+
+class EvaluationCancelled(RuntimeError):
+    """Raised when a durable worker cancellation is observed between cases."""
 
 
 class CaseEvaluationResult(BaseModel):
@@ -279,6 +284,8 @@ class EvaluationRunner:
         search_system_version: str,
         top_k: int = 10,
         seed: int = 0,
+        progress_callback: Callable[[int, int], None] | None = None,
+        cancellation_check: Callable[[], bool] | None = None,
     ) -> EvaluationRunArtifact:
         if top_k < 1:
             raise ValueError("top_k must be at least 1")
@@ -295,15 +302,21 @@ class EvaluationRunner:
             "seed": seed,
         }
         run_id = f"run-{_canonical_hash(run_config)[:16]}"
-        case_results = [
-            await self._evaluate_case(
-                case,
-                run_id=run_id,
-                top_k=top_k,
-                seed=seed,
+        case_results: list[CaseEvaluationResult] = []
+        total_cases = len(dataset.cases)
+        for completed, case in enumerate(dataset.cases, start=1):
+            if cancellation_check is not None and cancellation_check():
+                raise EvaluationCancelled("Evaluation cancellation requested")
+            case_results.append(
+                await self._evaluate_case(
+                    case,
+                    run_id=run_id,
+                    top_k=top_k,
+                    seed=seed,
+                )
             )
-            for case in dataset.cases
-        ]
+            if progress_callback is not None:
+                progress_callback(completed, total_cases)
         metric_values = _metric_values(case_results)
         mrr = mean_reciprocal_rank(metric_values.get("reciprocal_rank", []))
         aggregate_metrics = {

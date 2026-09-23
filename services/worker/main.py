@@ -4,14 +4,22 @@ import logging
 import os
 import socket
 import time
+import uuid
 from datetime import UTC, datetime
 
 from redis import Redis
 from redis.exceptions import RedisError
+from sqlalchemy import select
 
 from services.api.shopfilter_api.config import get_settings
 from services.api.shopfilter_api.database import Database
-from services.api.shopfilter_api.models import WorkerHeartbeatRecord
+from services.api.shopfilter_api.job_lifecycle import EvaluationJobStatus
+from services.api.shopfilter_api.job_queue import QUEUE_KEY
+from services.api.shopfilter_api.models import (
+    EvaluationJobRecord,
+    WorkerHeartbeatRecord,
+)
+from services.worker.job_executor import ExecutionOutcome, execute_job
 
 logger = logging.getLogger(__name__)
 
@@ -36,6 +44,41 @@ def _record_heartbeat(
         session.commit()
 
 
+def _next_durable_job(database: Database) -> uuid.UUID | None:
+    with database.session() as session:
+        return session.scalar(
+            select(EvaluationJobRecord.id)
+            .where(EvaluationJobRecord.status == EvaluationJobStatus.QUEUED.value)
+            .order_by(EvaluationJobRecord.created_at)
+            .limit(1)
+        )
+
+
+def _mark_redispatched(database: Database, job_id: uuid.UUID) -> None:
+    with database.session() as session:
+        job = session.get(EvaluationJobRecord, job_id)
+        if job is not None and job.status == EvaluationJobStatus.QUEUED.value:
+            job.dispatched_at = datetime.now(UTC)
+            session.commit()
+
+
+def _requeue(
+    redis_client: Redis,
+    database: Database,
+    job_id: uuid.UUID,
+    outcome: ExecutionOutcome,
+) -> None:
+    if not outcome.requeue:
+        return
+    time.sleep(outcome.retry_delay_seconds)
+    try:
+        redis_client.rpush(QUEUE_KEY, str(job_id))
+    except RedisError:
+        logger.warning("Redis retry dispatch deferred", extra={"job_id": str(job_id)})
+        return
+    _mark_redispatched(database, job_id)
+
+
 def main() -> None:
     logging.basicConfig(level=logging.INFO)
     settings = get_settings()
@@ -47,22 +90,35 @@ def main() -> None:
         settings.redis_url,
         decode_responses=True,
         socket_connect_timeout=5,
-        socket_timeout=5,
+        socket_timeout=settings.worker_heartbeat_seconds + 5,
     )
-    logger.info("Worker heartbeat service started", extra={"worker_id": worker_id})
+    logger.info("Evaluation worker started", extra={"worker_id": worker_id})
     try:
         while True:
             redis_connected = False
+            queued_job_id: uuid.UUID | None = None
             try:
                 redis_connected = bool(redis_client.ping())
-            except RedisError:
-                logger.warning("Redis heartbeat failed", extra={"worker_id": worker_id})
+                message = redis_client.blpop(
+                    [QUEUE_KEY], timeout=settings.worker_heartbeat_seconds
+                )
+                if message is not None:
+                    raw_job_id = message[1]
+                    if isinstance(raw_job_id, bytes):
+                        raw_job_id = raw_job_id.decode("utf-8")
+                    queued_job_id = uuid.UUID(raw_job_id)
+            except (RedisError, ValueError):
+                logger.warning("Redis queue receive failed", extra={"worker_id": worker_id})
             _record_heartbeat(
                 database, worker_id, redis_connected=redis_connected
             )
-            time.sleep(settings.worker_heartbeat_seconds)
+            job_id = queued_job_id or _next_durable_job(database)
+            if job_id is None:
+                continue
+            outcome = execute_job(database, settings, job_id, worker_id)
+            _requeue(redis_client, database, job_id, outcome)
     except KeyboardInterrupt:
-        logger.info("Worker heartbeat service stopped", extra={"worker_id": worker_id})
+        logger.info("Evaluation worker stopped", extra={"worker_id": worker_id})
     finally:
         redis_client.close()
         database.dispose()

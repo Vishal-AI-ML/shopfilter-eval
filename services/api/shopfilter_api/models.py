@@ -398,7 +398,7 @@ class EvaluationJobRecord(TimestampMixin, Base):
         ForeignKey("users.id", ondelete="RESTRICT"), nullable=False, index=True
     )
     evaluation_run_id: Mapped[uuid.UUID | None] = mapped_column(
-        ForeignKey("evaluation_runs.id", ondelete="SET NULL"), unique=True, index=True
+        ForeignKey("evaluation_runs.id", ondelete="SET NULL"), index=True
     )
     idempotency_key: Mapped[str] = mapped_column(String(200), nullable=False)
     status: Mapped[str] = mapped_column(String(30), nullable=False, default="QUEUED")

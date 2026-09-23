@@ -6,7 +6,11 @@ from fastapi.testclient import TestClient
 from sqlalchemy.orm import Session
 
 from services.api.shopfilter_api.job_queue import InMemoryJobQueue
-from services.api.shopfilter_api.models import DatasetVersionRecord
+from services.api.shopfilter_api.models import (
+    DatasetVersionRecord,
+    EvaluationJobRecord,
+)
+from services.worker.job_executor import _finish_failed
 
 
 def _setup_inputs(client: TestClient) -> tuple[dict[str, str], dict[str, str]]:
@@ -133,3 +137,55 @@ def test_job_inputs_and_reads_are_tenant_scoped(
     assert authenticated_client.get(
         "/v1/evaluation-jobs", headers=first_headers
     ).json() == []
+
+
+def test_worker_failure_retries_then_becomes_terminal(
+    authenticated_client: TestClient,
+) -> None:
+    headers, identifiers = _setup_inputs(authenticated_client)
+    created = authenticated_client.post(
+        "/v1/evaluation-jobs",
+        headers=headers,
+        json={
+            **identifiers,
+            "idempotency_key": "retry-job",
+            "max_attempts": 2,
+        },
+    ).json()
+    job_id = uuid.UUID(created["id"])
+    with Session(authenticated_client.app.state.database.engine) as session:
+        job = session.get(EvaluationJobRecord, job_id)
+        assert job is not None
+        job.status = "RUNNING"
+        job.attempt_count = 1
+        session.commit()
+
+    retry = _finish_failed(
+        authenticated_client.app.state.database,
+        job_id,
+        "worker-test",
+        "TemporaryFailure",
+    )
+    assert retry.requeue is True
+    assert retry.retry_delay_seconds == 2
+    with Session(authenticated_client.app.state.database.engine) as session:
+        job = session.get(EvaluationJobRecord, job_id)
+        assert job is not None
+        assert job.status == "QUEUED"
+        assert job.error_detail == "Worker execution failed"
+        job.status = "RUNNING"
+        job.attempt_count = 2
+        session.commit()
+
+    terminal = _finish_failed(
+        authenticated_client.app.state.database,
+        job_id,
+        "worker-test",
+        "PermanentFailure",
+    )
+    assert terminal.requeue is False
+    with Session(authenticated_client.app.state.database.engine) as session:
+        job = session.get(EvaluationJobRecord, job_id)
+        assert job is not None
+        assert job.status == "FAILED"
+        assert job.finished_at is not None

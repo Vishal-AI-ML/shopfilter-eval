@@ -56,3 +56,21 @@ Docker Compose now includes persistent Redis and a worker container. The first P
 runs a database-backed worker heartbeat and establishes the durable queue boundary. The next
 increment consumes jobs and executes the existing deterministic evaluation engine with progress,
 retry and cooperative cancellation.
+
+## Worker execution
+
+The worker blocks on the Redis UUID queue and falls back to polling durable `QUEUED` rows when a
+notification is missing. It atomically claims a row before execution, increments its attempt count,
+and updates case progress plus heartbeats in PostgreSQL. Duplicate or stale Redis messages are
+safe because only a `QUEUED` row can be claimed.
+
+Published human-approved datasets use the full deterministic evaluator. `SOURCE_VALIDATED` ESCI
+datasets use a relevance-only deterministic runner and retain explicit `human_reviewed: false`
+trace metadata; they are never relabelled as human-reviewed. Both paths reconstruct the exact
+catalog and dataset versions stored in PostgreSQL.
+
+Cancellation is checked between cases. Retryable execution failures return the durable row to
+`QUEUED` with bounded exponential backoff until `max_attempts`; the stored error detail remains
+generic and secret-safe. Completion writes an immutable JSON artifact, verifies it in MinIO,
+persists canonical run/case/metric evidence, links the job to the run, and transitions to
+`COMPLETED` or `COMPLETED_WITH_ERRORS`.
