@@ -1,0 +1,52 @@
+
+services:
+  postgres:
+    image: postgres:17-alpine
+    environment:
+      POSTGRES_DB: shopfilter
+      POSTGRES_USER: shopfilter
+      POSTGRES_PASSWORD: shopfilter
+    ports:
+      - "5432:5432"
+    volumes:
+      - shopfilter_postgres:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U shopfilter -d shopfilter"]
+      interval: 5s
+      timeout: 5s
+      retries: 10
+
+  minio:
+    image: quay.io/minio/minio@sha256:14cea493d9a34af32f524e538b8346cf79f3321eff8e708c1e2960462bd8936e
+    command: server /data --console-address ":9001"
+    environment:
+      MINIO_ROOT_USER: shopfilter
+      MINIO_ROOT_PASSWORD: shopfilter-dev-only
+    ports:
+      - "9000:9000"
+      - "9001:9001"
+    volumes:
+      - shopfilter_minio:/data
+
+  api:
+    build:
+      context: ../..
+      dockerfile: infrastructure/docker/Dockerfile.api
+    environment:
+      APP_ENV: development
+      DATABASE_URL: postgresql+psycopg://shopfilter:shopfilter@postgres:5432/shopfilter
+      MINIO_ENDPOINT: minio:9000
+      MINIO_ACCESS_KEY: shopfilter
+      MINIO_SECRET_KEY: shopfilter-dev-only
+      MINIO_SECURE: "false"
+    ports:
+      - "8000:8000"
+    depends_on:
+      postgres:
+        condition: service_healthy
+      minio:
+        condition: service_started
+
+volumes:
+  shopfilter_postgres:
+  shopfilter_minio:
