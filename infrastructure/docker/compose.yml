@@ -39,6 +39,7 @@ services:
       MINIO_ACCESS_KEY: shopfilter
       MINIO_SECRET_KEY: shopfilter-dev-only
       MINIO_SECURE: "false"
+      MINIO_BUCKET: shopfilter-artifacts
     ports:
       - "8000:8000"
     depends_on:

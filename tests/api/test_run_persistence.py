@@ -1,5 +1,6 @@
 from __future__ import annotations
 
+import hashlib
 import json
 from pathlib import Path
 
@@ -18,6 +19,7 @@ from packages.evaluation_engine.runner import (
     CaseEvaluationResult,
     EvaluationRunArtifact,
 )
+from services.api.shopfilter_api.artifact_storage import StoredArtifact
 from services.api.shopfilter_api.models import (
     CaseResultRecord,
     EvaluationRunRecord,
@@ -32,6 +34,29 @@ from services.api.shopfilter_api.run_persistence import (
     RunImportError,
     import_run_artifact,
 )
+
+
+class MemoryArtifactStorage:
+    def __init__(self) -> None:
+        self.objects: dict[str, bytes] = {}
+
+    def put_verified(
+        self,
+        source: Path,
+        *,
+        object_key: str,
+        expected_sha256: str,
+    ) -> StoredArtifact:
+        content = source.read_bytes()
+        actual_hash = hashlib.sha256(content).hexdigest()
+        assert actual_hash == expected_sha256
+        existing = self.objects.setdefault(object_key, content)
+        assert existing == content
+        return StoredArtifact(
+            uri=f"s3://test-artifacts/{object_key}",
+            sha256=actual_hash,
+            size_bytes=len(content),
+        )
 
 
 def _artifact() -> EvaluationRunArtifact:
@@ -103,19 +128,28 @@ def test_artifact_import_is_complete_idempotent_and_immutable(
 
     artifact_path = tmp_path / "run.json"
     artifact_path.write_text(_artifact().model_dump_json(indent=2), encoding="utf-8")
+    storage = MemoryArtifactStorage()
     with database.session() as session:
         first = import_run_artifact(
             session,
             organization_id=organization_id,
             project_id=project_id,
             artifact_path=artifact_path,
+            artifact_storage=storage,
         )
+    with database.session() as session:
+        persisted = session.get(EvaluationRunRecord, first.evaluation_run_id)
+        assert persisted is not None
+        persisted.artifact_uri = artifact_path.resolve().as_uri()
+        session.commit()
+
     with database.session() as session:
         second = import_run_artifact(
             session,
             organization_id=organization_id,
             project_id=project_id,
             artifact_path=artifact_path,
+            artifact_storage=storage,
         )
         assert first.created is True
         assert second.created is False
@@ -126,6 +160,11 @@ def test_artifact_import_is_complete_idempotent_and_immutable(
         assert session.scalar(select(func.count(FailureRecord.id))) == 1
         assert session.scalar(select(func.count(SearchSystemRecord.id))) == 1
         assert session.scalar(select(func.count(SearchSystemVersionRecord.id))) == 1
+        persisted = session.get(EvaluationRunRecord, first.evaluation_run_id)
+        assert persisted is not None
+        assert persisted.artifact_uri.startswith("s3://test-artifacts/")
+        assert second.artifact_uri == persisted.artifact_uri
+        assert len(storage.objects) == 1
 
     payload = json.loads(artifact_path.read_text(encoding="utf-8"))
     payload["aggregate_metrics"]["precision_at_10"] = 0.75
@@ -138,4 +177,5 @@ def test_artifact_import_is_complete_idempotent_and_immutable(
             organization_id=organization_id,
             project_id=project_id,
             artifact_path=artifact_path,
+            artifact_storage=storage,
         )

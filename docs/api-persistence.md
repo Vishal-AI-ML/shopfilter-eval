@@ -77,3 +77,21 @@ Tenant-scoped metadata endpoints:
 - `GET /v1/catalogs/{catalog_id}/versions/{version_id}`
 - `GET /v1/datasets/{dataset_id}/versions`
 - `GET /v1/datasets/{dataset_id}/versions/{version_id}`
+
+## MinIO-backed immutable run artifacts
+
+Evaluation JSON bytes are stored under a tenant/project-scoped, content-addressed object key.
+PostgreSQL remains the queryable system of record and stores the verified SHA-256 plus an
+`s3://` URI; large artifact payloads are not copied into relational columns. The importer reads
+the object back after upload and rejects any checksum mismatch. Re-importing an existing run
+verifies the object again, and legacy `file://` metadata is promoted to the verified MinIO URI.
+
+Configuration:
+
+```text
+MINIO_ENDPOINT=localhost:9000
+MINIO_ACCESS_KEY=shopfilter
+MINIO_SECRET_KEY=shopfilter-dev-only
+MINIO_SECURE=false
+MINIO_BUCKET=shopfilter-artifacts
+```

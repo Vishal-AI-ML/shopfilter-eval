@@ -20,6 +20,9 @@ class ApiSettings(BaseSettings):
     minio_access_key: str = Field(default="shopfilter", validation_alias="MINIO_ACCESS_KEY")
     minio_secret_key: str = Field(default="shopfilter-dev-only", validation_alias="MINIO_SECRET_KEY")
     minio_secure: bool = Field(default=False, validation_alias="MINIO_SECURE")
+    minio_bucket: str = Field(
+        default="shopfilter-artifacts", validation_alias="MINIO_BUCKET"
+    )
 
 
 @lru_cache

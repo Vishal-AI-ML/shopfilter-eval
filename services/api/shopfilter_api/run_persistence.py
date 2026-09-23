@@ -10,6 +10,10 @@ from sqlalchemy import func, select
 from sqlalchemy.orm import Session
 
 from packages.evaluation_engine.runner import EvaluationRunArtifact
+from services.api.shopfilter_api.artifact_storage import (
+    ArtifactStorage,
+    content_addressed_run_key,
+)
 from services.api.shopfilter_api.models import (
     CaseResultRecord,
     EvaluationRunRecord,
@@ -34,6 +38,7 @@ class RunImportSummary:
     case_count: int
     metric_count: int
     failure_count: int
+    artifact_uri: str
 
 
 def _file_hash(path: Path) -> str:
@@ -119,6 +124,7 @@ def import_run_artifact(
     organization_id: uuid.UUID,
     project_id: uuid.UUID,
     artifact_path: str | Path,
+    artifact_storage: ArtifactStorage,
 ) -> RunImportSummary:
     _require_scope(session, organization_id, project_id)
     artifact, artifact_hash = load_run_artifact(artifact_path)
@@ -134,6 +140,20 @@ def import_run_artifact(
             or existing.artifact_hash != artifact_hash
         ):
             raise RunImportError("Run ID already exists with different immutable content")
+        stored = artifact_storage.put_verified(
+            Path(artifact_path),
+            object_key=content_addressed_run_key(
+                organization_id=str(organization_id),
+                project_id=str(project_id),
+                sha256=artifact_hash,
+            ),
+            expected_sha256=artifact_hash,
+        )
+        if existing.artifact_uri != stored.uri:
+            if existing.artifact_uri and not existing.artifact_uri.startswith("file://"):
+                raise RunImportError("Run artifact URI does not match immutable object storage")
+            existing.artifact_uri = stored.uri
+            session.commit()
         metric_count = session.scalar(
             select(func.count(MetricResultRecord.id))
             .join(CaseResultRecord)
@@ -151,12 +171,21 @@ def import_run_artifact(
             case_count=existing.case_count,
             metric_count=metric_count,
             failure_count=failure_count,
+            artifact_uri=stored.uri,
         )
 
     system_version = _search_system_version(
         session, organization_id, project_id, artifact
     )
-    artifact_location = Path(artifact_path).resolve().as_uri()
+    stored = artifact_storage.put_verified(
+        Path(artifact_path),
+        object_key=content_addressed_run_key(
+            organization_id=str(organization_id),
+            project_id=str(project_id),
+            sha256=artifact_hash,
+        ),
+        expected_sha256=artifact_hash,
+    )
     run = EvaluationRunRecord(
         organization_id=organization_id,
         project_id=project_id,
@@ -164,7 +193,7 @@ def import_run_artifact(
         external_run_id=artifact.run_id,
         result_fingerprint=artifact.result_fingerprint,
         artifact_hash=artifact_hash,
-        artifact_uri=artifact_location,
+        artifact_uri=stored.uri,
         status="COMPLETED" if artifact.failed_case_count == 0 else "COMPLETED_WITH_ERRORS",
         dataset_id=artifact.dataset_id,
         dataset_version=artifact.dataset_version,
@@ -239,4 +268,5 @@ def import_run_artifact(
         case_count=run.case_count,
         metric_count=metric_count,
         failure_count=failure_count,
+        artifact_uri=stored.uri,
     )
