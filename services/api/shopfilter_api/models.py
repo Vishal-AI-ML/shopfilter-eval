@@ -361,6 +361,73 @@ class EvaluationRunRecord(TimestampMixin, Base):
     )
 
 
+class EvaluationJobRecord(TimestampMixin, Base):
+    __tablename__ = "evaluation_jobs"
+    __table_args__ = (
+        UniqueConstraint("organization_id", "idempotency_key"),
+        CheckConstraint(
+            "status IN ('QUEUED', 'RUNNING', 'COMPLETED', "
+            "'COMPLETED_WITH_ERRORS', 'FAILED', 'CANCELLED')",
+            name="valid_status",
+        ),
+        CheckConstraint("completed_case_count >= 0", name="completed_non_negative"),
+        CheckConstraint("total_case_count >= 0", name="total_non_negative"),
+        CheckConstraint(
+            "completed_case_count <= total_case_count", name="completed_within_total"
+        ),
+        CheckConstraint("attempt_count >= 0", name="attempt_non_negative"),
+        CheckConstraint("max_attempts >= 1", name="max_attempts_positive"),
+    )
+
+    id: Mapped[uuid.UUID] = mapped_column(Uuid, primary_key=True, default=uuid.uuid4)
+    organization_id: Mapped[uuid.UUID] = mapped_column(
+        ForeignKey("organizations.id", ondelete="CASCADE"), nullable=False, index=True
+    )
+    project_id: Mapped[uuid.UUID] = mapped_column(
+        ForeignKey("projects.id", ondelete="CASCADE"), nullable=False, index=True
+    )
+    dataset_version_id: Mapped[uuid.UUID] = mapped_column(
+        ForeignKey("dataset_versions.id", ondelete="RESTRICT"), nullable=False, index=True
+    )
+    search_system_version_id: Mapped[uuid.UUID] = mapped_column(
+        ForeignKey("search_system_versions.id", ondelete="RESTRICT"),
+        nullable=False,
+        index=True,
+    )
+    requested_by_user_id: Mapped[uuid.UUID] = mapped_column(
+        ForeignKey("users.id", ondelete="RESTRICT"), nullable=False, index=True
+    )
+    evaluation_run_id: Mapped[uuid.UUID | None] = mapped_column(
+        ForeignKey("evaluation_runs.id", ondelete="SET NULL"), unique=True, index=True
+    )
+    idempotency_key: Mapped[str] = mapped_column(String(200), nullable=False)
+    status: Mapped[str] = mapped_column(String(30), nullable=False, default="QUEUED")
+    completed_case_count: Mapped[int] = mapped_column(Integer, nullable=False, default=0)
+    total_case_count: Mapped[int] = mapped_column(Integer, nullable=False)
+    attempt_count: Mapped[int] = mapped_column(Integer, nullable=False, default=0)
+    max_attempts: Mapped[int] = mapped_column(Integer, nullable=False, default=3)
+    top_k: Mapped[int] = mapped_column(Integer, nullable=False, default=10)
+    seed: Mapped[int] = mapped_column(Integer, nullable=False, default=42)
+    cancel_requested: Mapped[bool] = mapped_column(Boolean, nullable=False, default=False)
+    dispatched_at: Mapped[datetime | None] = mapped_column(DateTime(timezone=True))
+    started_at: Mapped[datetime | None] = mapped_column(DateTime(timezone=True))
+    heartbeat_at: Mapped[datetime | None] = mapped_column(DateTime(timezone=True))
+    finished_at: Mapped[datetime | None] = mapped_column(DateTime(timezone=True))
+    error_code: Mapped[str | None] = mapped_column(String(100))
+    error_detail: Mapped[str | None] = mapped_column(String(1000))
+
+
+class WorkerHeartbeatRecord(TimestampMixin, Base):
+    __tablename__ = "worker_heartbeats"
+
+    worker_id: Mapped[str] = mapped_column(String(200), primary_key=True)
+    current_job_id: Mapped[uuid.UUID | None] = mapped_column(
+        ForeignKey("evaluation_jobs.id", ondelete="SET NULL"), index=True
+    )
+    last_seen_at: Mapped[datetime] = mapped_column(DateTime(timezone=True), nullable=False)
+    metadata_json: Mapped[dict[str, Any]] = mapped_column(JSON, nullable=False, default=dict)
+
+
 class CaseResultRecord(TimestampMixin, Base):
     __tablename__ = "case_results"
     __table_args__ = (UniqueConstraint("evaluation_run_id", "case_id"),)

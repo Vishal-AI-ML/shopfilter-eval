@@ -28,6 +28,20 @@ services:
     volumes:
       - shopfilter_minio:/data
 
+
+  redis:
+    image: redis@sha256:858f009f9709ce576febc734aa78b8f6d624b82571f9ddb6bda4377c833b3499
+    command: redis-server --appendonly yes
+    ports:
+      - "6379:6379"
+    volumes:
+      - shopfilter_redis:/data
+    healthcheck:
+      test: ["CMD", "redis-cli", "ping"]
+      interval: 5s
+      timeout: 5s
+      retries: 10
+
   api:
     build:
       context: ../..
@@ -35,6 +49,7 @@ services:
     environment:
       APP_ENV: development
       DATABASE_URL: postgresql+psycopg://shopfilter:shopfilter@postgres:5432/shopfilter
+      REDIS_URL: redis://redis:6379/0
       MINIO_ENDPOINT: minio:9000
       MINIO_ACCESS_KEY: shopfilter
       MINIO_SECRET_KEY: shopfilter-dev-only
@@ -47,7 +62,26 @@ services:
         condition: service_healthy
       minio:
         condition: service_started
+      redis:
+        condition: service_healthy
+
+
+  worker:
+    build:
+      context: ../..
+      dockerfile: infrastructure/docker/Dockerfile.worker
+    environment:
+      APP_ENV: development
+      DATABASE_URL: postgresql+psycopg://shopfilter:shopfilter@postgres:5432/shopfilter
+      REDIS_URL: redis://redis:6379/0
+      WORKER_HEARTBEAT_SECONDS: "10"
+    depends_on:
+      postgres:
+        condition: service_healthy
+      redis:
+        condition: service_healthy
 
 volumes:
   shopfilter_postgres:
   shopfilter_minio:
+  shopfilter_redis:

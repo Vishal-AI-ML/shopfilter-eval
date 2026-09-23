@@ -28,6 +28,8 @@ EXPECTED_TABLES = {
     "search_systems",
     "search_system_versions",
     "evaluation_runs",
+    "evaluation_jobs",
+    "worker_heartbeats",
     "case_results",
     "metric_results",
     "failures",

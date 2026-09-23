@@ -20,7 +20,9 @@ TEST_USER_PASSWORD = "test-owner-password-123"
 @pytest.fixture
 def api_client(tmp_path: Path) -> Iterator[TestClient]:
     database_path = tmp_path / "api.sqlite3"
-    settings = ApiSettings(DATABASE_URL=f"sqlite+pysqlite:///{database_path}")
+    settings = ApiSettings(
+        DATABASE_URL=f"sqlite+pysqlite:///{database_path}", REDIS_URL=None
+    )
     app = create_app(settings)
     Base.metadata.create_all(app.state.database.engine)
     with TestClient(app) as client:

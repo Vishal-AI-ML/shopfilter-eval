@@ -12,6 +12,10 @@ class ApiSettings(BaseSettings):
 
     app_env: str = Field(default="development", validation_alias="APP_ENV")
     log_level: str = Field(default="INFO", validation_alias="LOG_LEVEL")
+    redis_url: str | None = Field(default=None, validation_alias="REDIS_URL")
+    worker_heartbeat_seconds: int = Field(
+        default=10, ge=1, le=300, validation_alias="WORKER_HEARTBEAT_SECONDS"
+    )
     database_url: str = Field(
         default="postgresql+psycopg://shopfilter:shopfilter@localhost:5432/shopfilter",
         validation_alias="DATABASE_URL",

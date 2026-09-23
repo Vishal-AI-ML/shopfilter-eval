@@ -12,6 +12,7 @@ dependencies = [
     "pydantic-settings>=2.15.0",
     "psycopg[binary]>=3.2.10",
     "pyarrow>=18.0.0",
+    "redis>=6.4.0",
     "rich>=15.0.0",
     "sqlalchemy>=2.0.43",
     "typer>=0.27.2",
