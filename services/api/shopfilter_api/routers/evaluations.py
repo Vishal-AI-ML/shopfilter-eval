@@ -9,7 +9,11 @@ from sqlalchemy import func, select
 from sqlalchemy.exc import IntegrityError
 from sqlalchemy.orm import Session
 
-from services.api.shopfilter_api.dependencies import get_organization_id, get_session
+from services.api.shopfilter_api.dependencies import (
+    ResourceWriter,
+    get_organization_id,
+    get_session,
+)
 from services.api.shopfilter_api.models import (
     CaseResultRecord,
     EvaluationRunRecord,
@@ -59,7 +63,10 @@ def _commit(session: Session, record: object, detail: str) -> None:
     status_code=status.HTTP_201_CREATED,
 )
 def create_search_system(
-    body: SearchSystemCreate, organization_id: TenantId, session: DbSession
+    body: SearchSystemCreate,
+    organization_id: TenantId,
+    session: DbSession,
+    _writer: ResourceWriter,
 ) -> SearchSystemRecord:
     _require_project(session, organization_id, body.project_id)
     record = SearchSystemRecord(
@@ -96,6 +103,7 @@ def create_search_system_version(
     body: SearchSystemVersionCreate,
     organization_id: TenantId,
     session: DbSession,
+    _writer: ResourceWriter,
 ) -> SearchSystemVersionRecord:
     system = session.scalar(
         select(SearchSystemRecord).where(

@@ -9,8 +9,16 @@ from fastapi import Depends, Header, HTTPException, Request, status
 from sqlalchemy import func, select
 from sqlalchemy.orm import Session
 
-from services.api.shopfilter_api.auth import SESSION_COOKIE_NAME, session_token_hash
-from services.api.shopfilter_api.models import AuthSessionRecord, UserRecord
+from services.api.shopfilter_api.auth import (
+    SESSION_COOKIE_NAME,
+    MembershipRole,
+    session_token_hash,
+)
+from services.api.shopfilter_api.models import (
+    AuthSessionRecord,
+    MembershipRecord,
+    UserRecord,
+)
 
 
 def get_session(request: Request) -> Iterator[Session]:
@@ -70,7 +78,15 @@ def get_current_user(authenticated: CurrentSession) -> UserRecord:
 CurrentUser = Annotated[UserRecord, Depends(get_current_user)]
 
 
-def get_organization_id(
+@dataclass(frozen=True)
+class OrganizationAccess:
+    organization_id: uuid.UUID
+    user: UserRecord
+    membership: MembershipRecord
+    role: MembershipRole
+
+
+def _organization_header(
     x_organization_id: Annotated[str | None, Header()] = None,
 ) -> uuid.UUID:
     if x_organization_id is None:
@@ -85,3 +101,48 @@ def get_organization_id(
             status_code=status.HTTP_400_BAD_REQUEST,
             detail="X-Organization-ID must be a valid UUID",
         ) from exc
+
+
+def get_organization_access(
+    organization_id: Annotated[uuid.UUID, Depends(_organization_header)],
+    current_user: CurrentUser,
+    session: DbSession,
+) -> OrganizationAccess:
+    membership = session.scalar(
+        select(MembershipRecord).where(
+            MembershipRecord.organization_id == organization_id,
+            MembershipRecord.user_id == current_user.id,
+        )
+    )
+    if membership is None:
+        raise HTTPException(status_code=404, detail="Organization not found")
+    return OrganizationAccess(
+        organization_id=organization_id,
+        user=current_user,
+        membership=membership,
+        role=MembershipRole(membership.role),
+    )
+
+
+OrganizationContext = Annotated[OrganizationAccess, Depends(get_organization_access)]
+
+
+def get_organization_id(access: OrganizationContext) -> uuid.UUID:
+    return access.organization_id
+
+
+def require_resource_write(access: OrganizationContext) -> OrganizationAccess:
+    allowed = {
+        MembershipRole.OWNER,
+        MembershipRole.ADMIN,
+        MembershipRole.ENGINEER,
+    }
+    if access.role not in allowed:
+        raise HTTPException(
+            status_code=status.HTTP_403_FORBIDDEN,
+            detail="Insufficient role for this operation",
+        )
+    return access
+
+
+ResourceWriter = Annotated[OrganizationAccess, Depends(require_resource_write)]

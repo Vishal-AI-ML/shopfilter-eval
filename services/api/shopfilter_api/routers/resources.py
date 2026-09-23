@@ -9,7 +9,11 @@ from sqlalchemy import select
 from sqlalchemy.exc import IntegrityError
 from sqlalchemy.orm import Session
 
-from services.api.shopfilter_api.dependencies import get_organization_id, get_session
+from services.api.shopfilter_api.dependencies import (
+    ResourceWriter,
+    get_organization_id,
+    get_session,
+)
 from services.api.shopfilter_api.models import (
     CatalogRecord,
     CatalogVersionRecord,
@@ -68,7 +72,12 @@ def _require_project(
 
 
 @router.post("/projects", response_model=ProjectResponse, status_code=status.HTTP_201_CREATED)
-def create_project(body: ProjectCreate, organization_id: TenantId, session: DbSession) -> Project:
+def create_project(
+    body: ProjectCreate,
+    organization_id: TenantId,
+    session: DbSession,
+    _writer: ResourceWriter,
+) -> Project:
     _require_organization(session, organization_id)
     return _commit(
         session,
@@ -89,7 +98,12 @@ def list_projects(organization_id: TenantId, session: DbSession) -> list[Project
 
 
 @router.post("/catalogs", response_model=CatalogResponse, status_code=status.HTTP_201_CREATED)
-def create_catalog(body: CatalogCreate, organization_id: TenantId, session: DbSession) -> CatalogRecord:
+def create_catalog(
+    body: CatalogCreate,
+    organization_id: TenantId,
+    session: DbSession,
+    _writer: ResourceWriter,
+) -> CatalogRecord:
     _require_project(session, organization_id, body.project_id)
     return _commit(
         session,
@@ -110,7 +124,12 @@ def list_catalogs(organization_id: TenantId, session: DbSession) -> list[Catalog
 
 
 @router.post("/datasets", response_model=DatasetResponse, status_code=status.HTTP_201_CREATED)
-def create_dataset(body: DatasetCreate, organization_id: TenantId, session: DbSession) -> DatasetRecord:
+def create_dataset(
+    body: DatasetCreate,
+    organization_id: TenantId,
+    session: DbSession,
+    _writer: ResourceWriter,
+) -> DatasetRecord:
     _require_project(session, organization_id, body.project_id)
     return _commit(
         session,

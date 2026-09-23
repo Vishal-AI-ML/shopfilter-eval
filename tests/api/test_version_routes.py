@@ -8,20 +8,43 @@ from fastapi import FastAPI
 from fastapi.testclient import TestClient
 from sqlalchemy.orm import Session
 
-from services.api.shopfilter_api.models import Organization, Project
+from services.api.shopfilter_api.auth import MembershipRole
+from services.api.shopfilter_api.models import (
+    MembershipRecord,
+    Organization,
+    Project,
+    UserRecord,
+)
 from services.api.shopfilter_api.version_persistence import import_catalog_artifact
 
 
 def test_catalog_version_reads_are_tenant_scoped(
-    api_client: TestClient, tmp_path: Path
+    authenticated_client: TestClient, tmp_path: Path
 ) -> None:
-    app = cast(FastAPI, api_client.app)
+    app = cast(FastAPI, authenticated_client.app)
     engine = app.state.database.engine
     with Session(engine) as session:
         first = Organization(name="First", slug="first")
         second = Organization(name="Second", slug="second")
         session.add_all([first, second])
         session.flush()
+        current_user = session.query(UserRecord).filter_by(
+            email="api-owner@example.com"
+        ).one()
+        session.add_all(
+            [
+                MembershipRecord(
+                    organization_id=first.id,
+                    user_id=current_user.id,
+                    role=MembershipRole.OWNER.value,
+                ),
+                MembershipRecord(
+                    organization_id=second.id,
+                    user_id=current_user.id,
+                    role=MembershipRole.OWNER.value,
+                ),
+            ]
+        )
         project = Project(
             organization_id=first.id, name="Search", slug="search"
         )
@@ -57,7 +80,7 @@ def test_catalog_version_reads_are_tenant_scoped(
             artifact_path=path,
         )
 
-    own = api_client.get(
+    own = authenticated_client.get(
         f"/v1/catalogs/{summary.resource_id}/versions",
         headers={"X-Organization-ID": str(first_id)},
     )
@@ -65,7 +88,7 @@ def test_catalog_version_reads_are_tenant_scoped(
     assert own.json()[0]["artifact_hash"] == summary.artifact_hash
     assert own.json()[0]["item_count"] == 1
 
-    hidden = api_client.get(
+    hidden = authenticated_client.get(
         f"/v1/catalogs/{summary.resource_id}/versions",
         headers={"X-Organization-ID": str(second_id)},
     )

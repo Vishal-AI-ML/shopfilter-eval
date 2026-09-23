@@ -120,3 +120,24 @@ Authentication endpoints:
 The temporary `X-Organization-ID` boundary remains only during the authentication-foundation
 increment. The next Phase 15 increment validates the authenticated user's membership and role
 before any organization-scoped read or write.
+
+## Authenticated organization context and RBAC
+
+`X-Organization-ID` is now only a tenant selector, not an identity credential. Every scoped
+request first validates the opaque login session and then requires a membership linking that user
+to the selected organization. A forged or non-member organization ID returns 404 so tenant
+existence is not disclosed.
+
+Current permission matrix:
+
+| Role | Read scoped resources | Create project/catalog/dataset/search system |
+|---|---:|---:|
+| OWNER | yes | yes |
+| ADMIN | yes | yes |
+| ENGINEER | yes | yes |
+| REVIEWER | yes | no |
+| VIEWER | yes | no |
+
+Organization creation requires authentication and atomically grants the creator OWNER membership.
+Health, readiness, OpenAPI and login remain public. Import CLIs are operator tools outside the HTTP
+permission boundary and continue to require explicit organization/project identifiers.
