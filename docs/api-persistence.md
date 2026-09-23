@@ -52,3 +52,28 @@ uv run python -m services.api.shopfilter_api.import_run `
 ```
 
 The import is idempotent for identical bytes and fingerprints. Reusing a run ID with different immutable content is rejected. Search-system records are created from normalized adapter/provider metadata. Tenant-scoped read APIs expose search systems, versions, evaluation summaries and run details without exposing data from another organization.
+
+## Immutable catalog and dataset versions
+
+Published catalog and dataset JSON artifacts are validated before persistence. The importer
+stores both a canonical content hash and the SHA-256 of the exact source bytes. Re-importing
+identical bytes is idempotent; reusing an external ID/version with different immutable content
+is rejected. Dataset import requires the exact published catalog version and verifies every
+referenced product. `SOURCE_VALIDATED` evidence is retained as provenance and is not described
+as human review.
+
+```powershell
+uv run alembic upgrade head
+uv run python -m services.api.shopfilter_api.import_versions `
+  --organization-id e5150000-0000-4000-8000-000000000001 `
+  --project-id e5150000-0000-4000-8000-000000000002 `
+  --catalog data\processed\esci-en-v1-p10000\catalog.json `
+  --dataset data\goldens\esci-golden-v1-source-validated.json
+```
+
+Tenant-scoped metadata endpoints:
+
+- `GET /v1/catalogs/{catalog_id}/versions`
+- `GET /v1/catalogs/{catalog_id}/versions/{version_id}`
+- `GET /v1/datasets/{dataset_id}/versions`
+- `GET /v1/datasets/{dataset_id}/versions/{version_id}`

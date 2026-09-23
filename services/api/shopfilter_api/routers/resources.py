@@ -12,15 +12,19 @@ from sqlalchemy.orm import Session
 from services.api.shopfilter_api.dependencies import get_organization_id, get_session
 from services.api.shopfilter_api.models import (
     CatalogRecord,
+    CatalogVersionRecord,
     DatasetRecord,
+    DatasetVersionRecord,
     Organization,
     Project,
 )
 from services.api.shopfilter_api.schemas import (
     CatalogCreate,
     CatalogResponse,
+    CatalogVersionResponse,
     DatasetCreate,
     DatasetResponse,
+    DatasetVersionResponse,
     ProjectCreate,
     ProjectResponse,
 )
@@ -124,3 +128,99 @@ def list_datasets(organization_id: TenantId, session: DbSession) -> list[Dataset
             .order_by(DatasetRecord.name)
         ).all()
     )
+
+
+@router.get(
+    "/catalogs/{catalog_id}/versions", response_model=list[CatalogVersionResponse]
+)
+def list_catalog_versions(
+    catalog_id: uuid.UUID, organization_id: TenantId, session: DbSession
+) -> list[CatalogVersionRecord]:
+    catalog = session.scalar(
+        select(CatalogRecord).where(
+            CatalogRecord.id == catalog_id,
+            CatalogRecord.organization_id == organization_id,
+        )
+    )
+    if catalog is None:
+        raise HTTPException(status_code=404, detail="Catalog not found")
+    return list(
+        session.scalars(
+            select(CatalogVersionRecord)
+            .where(
+                CatalogVersionRecord.organization_id == organization_id,
+                CatalogVersionRecord.catalog_id == catalog.id,
+            )
+            .order_by(CatalogVersionRecord.created_at)
+        ).all()
+    )
+
+
+@router.get(
+    "/catalogs/{catalog_id}/versions/{version_id}",
+    response_model=CatalogVersionResponse,
+)
+def get_catalog_version(
+    catalog_id: uuid.UUID,
+    version_id: uuid.UUID,
+    organization_id: TenantId,
+    session: DbSession,
+) -> CatalogVersionRecord:
+    version = session.scalar(
+        select(CatalogVersionRecord).where(
+            CatalogVersionRecord.id == version_id,
+            CatalogVersionRecord.catalog_id == catalog_id,
+            CatalogVersionRecord.organization_id == organization_id,
+        )
+    )
+    if version is None:
+        raise HTTPException(status_code=404, detail="Catalog version not found")
+    return version
+
+
+@router.get(
+    "/datasets/{dataset_id}/versions", response_model=list[DatasetVersionResponse]
+)
+def list_dataset_versions(
+    dataset_id: uuid.UUID, organization_id: TenantId, session: DbSession
+) -> list[DatasetVersionRecord]:
+    dataset = session.scalar(
+        select(DatasetRecord).where(
+            DatasetRecord.id == dataset_id,
+            DatasetRecord.organization_id == organization_id,
+        )
+    )
+    if dataset is None:
+        raise HTTPException(status_code=404, detail="Dataset not found")
+    return list(
+        session.scalars(
+            select(DatasetVersionRecord)
+            .where(
+                DatasetVersionRecord.organization_id == organization_id,
+                DatasetVersionRecord.dataset_id == dataset.id,
+            )
+            .order_by(DatasetVersionRecord.created_at)
+        ).all()
+    )
+
+
+@router.get(
+    "/datasets/{dataset_id}/versions/{version_id}",
+    response_model=DatasetVersionResponse,
+)
+def get_dataset_version(
+    dataset_id: uuid.UUID,
+    version_id: uuid.UUID,
+    organization_id: TenantId,
+    session: DbSession,
+) -> DatasetVersionRecord:
+    version = session.scalar(
+        select(DatasetVersionRecord).where(
+            DatasetVersionRecord.id == version_id,
+            DatasetVersionRecord.dataset_id == dataset_id,
+            DatasetVersionRecord.organization_id == organization_id,
+        )
+    )
+    if version is None:
+        raise HTTPException(status_code=404, detail="Dataset version not found")
+    return version

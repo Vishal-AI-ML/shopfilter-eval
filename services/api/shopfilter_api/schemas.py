@@ -80,11 +80,44 @@ class ProjectResponse(EntityResponse):
 class CatalogResponse(EntityResponse):
     organization_id: uuid.UUID
     project_id: uuid.UUID
+    external_id: str | None
 
 
 class DatasetResponse(EntityResponse):
     organization_id: uuid.UUID
     project_id: uuid.UUID
+    external_id: str | None
+
+
+class CatalogVersionResponse(BaseModel):
+    model_config = ConfigDict(from_attributes=True)
+
+    id: uuid.UUID
+    organization_id: uuid.UUID
+    catalog_id: uuid.UUID
+    version: str
+    status: str
+    content_hash: str | None
+    artifact_hash: str | None
+    item_count: int
+    provenance: dict[str, object]
+    created_at: datetime
+
+
+class DatasetVersionResponse(BaseModel):
+    model_config = ConfigDict(from_attributes=True)
+
+    id: uuid.UUID
+    organization_id: uuid.UUID
+    dataset_id: uuid.UUID
+    catalog_version_id: uuid.UUID | None
+    version: str
+    status: str
+    content_hash: str | None
+    artifact_hash: str | None
+    item_count: int
+    provenance: dict[str, object]
+    created_at: datetime
 
 
 class SearchSystemCreate(EntityCreate):

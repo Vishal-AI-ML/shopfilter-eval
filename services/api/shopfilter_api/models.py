@@ -62,7 +62,12 @@ class Project(TimestampMixin, Base):
 
 class CatalogRecord(TimestampMixin, Base):
     __tablename__ = "catalogs"
-    __table_args__ = (UniqueConstraint("project_id", "name"),)
+    __table_args__ = (
+        UniqueConstraint("project_id", "name"),
+        UniqueConstraint(
+            "project_id", "external_id", name="uq_catalogs_project_external_id"
+        ),
+    )
 
     id: Mapped[uuid.UUID] = mapped_column(Uuid, primary_key=True, default=uuid.uuid4)
     organization_id: Mapped[uuid.UUID] = mapped_column(
@@ -72,6 +77,7 @@ class CatalogRecord(TimestampMixin, Base):
         ForeignKey("projects.id", ondelete="CASCADE"), nullable=False, index=True
     )
     name: Mapped[str] = mapped_column(String(200), nullable=False)
+    external_id: Mapped[str | None] = mapped_column(String(200), index=True)
 
     project: Mapped[Project] = relationship(back_populates="catalogs")
     versions: Mapped[list[CatalogVersionRecord]] = relationship(back_populates="catalog")
@@ -91,6 +97,9 @@ class CatalogVersionRecord(TimestampMixin, Base):
     version: Mapped[str] = mapped_column(String(100), nullable=False)
     status: Mapped[str] = mapped_column(String(30), nullable=False, default="DRAFT")
     content_hash: Mapped[str | None] = mapped_column(String(64))
+    artifact_hash: Mapped[str | None] = mapped_column(String(64))
+    item_count: Mapped[int] = mapped_column(Integer, nullable=False, default=0)
+    provenance: Mapped[dict[str, Any]] = mapped_column(JSON, nullable=False, default=dict)
 
     catalog: Mapped[CatalogRecord] = relationship(back_populates="versions")
     products: Mapped[list[ProductRecord]] = relationship(back_populates="catalog_version")
@@ -116,7 +125,12 @@ class ProductRecord(TimestampMixin, Base):
 
 class DatasetRecord(TimestampMixin, Base):
     __tablename__ = "datasets"
-    __table_args__ = (UniqueConstraint("project_id", "name"),)
+    __table_args__ = (
+        UniqueConstraint("project_id", "name"),
+        UniqueConstraint(
+            "project_id", "external_id", name="uq_datasets_project_external_id"
+        ),
+    )
 
     id: Mapped[uuid.UUID] = mapped_column(Uuid, primary_key=True, default=uuid.uuid4)
     organization_id: Mapped[uuid.UUID] = mapped_column(
@@ -126,6 +140,7 @@ class DatasetRecord(TimestampMixin, Base):
         ForeignKey("projects.id", ondelete="CASCADE"), nullable=False, index=True
     )
     name: Mapped[str] = mapped_column(String(200), nullable=False)
+    external_id: Mapped[str | None] = mapped_column(String(200), index=True)
 
     project: Mapped[Project] = relationship(back_populates="datasets")
     versions: Mapped[list[DatasetVersionRecord]] = relationship(back_populates="dataset")
@@ -148,6 +163,9 @@ class DatasetVersionRecord(TimestampMixin, Base):
     version: Mapped[str] = mapped_column(String(100), nullable=False)
     status: Mapped[str] = mapped_column(String(30), nullable=False, default="DRAFT")
     content_hash: Mapped[str | None] = mapped_column(String(64))
+    artifact_hash: Mapped[str | None] = mapped_column(String(64))
+    item_count: Mapped[int] = mapped_column(Integer, nullable=False, default=0)
+    provenance: Mapped[dict[str, Any]] = mapped_column(JSON, nullable=False, default=dict)
 
     dataset: Mapped[DatasetRecord] = relationship(back_populates="versions")
     cases: Mapped[list[EvaluationCaseRecord]] = relationship(back_populates="dataset_version")
