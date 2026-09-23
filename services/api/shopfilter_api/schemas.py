@@ -85,3 +85,63 @@ class CatalogResponse(EntityResponse):
 class DatasetResponse(EntityResponse):
     organization_id: uuid.UUID
     project_id: uuid.UUID
+
+
+class SearchSystemCreate(EntityCreate):
+    project_id: uuid.UUID
+    provider: str = Field(min_length=1, max_length=100)
+
+
+class SearchSystemVersionCreate(StrictSchema):
+    version: str = Field(min_length=1, max_length=200)
+    configuration: dict[str, object] = Field(default_factory=dict)
+
+
+class SearchSystemResponse(EntityResponse):
+    organization_id: uuid.UUID
+    project_id: uuid.UUID
+    provider: str
+
+
+class SearchSystemVersionResponse(BaseModel):
+    model_config = ConfigDict(from_attributes=True)
+
+    id: uuid.UUID
+    organization_id: uuid.UUID
+    search_system_id: uuid.UUID
+    version: str
+    configuration: dict[str, object]
+    created_at: datetime
+
+
+class EvaluationRunResponse(BaseModel):
+    model_config = ConfigDict(from_attributes=True)
+
+    id: uuid.UUID
+    organization_id: uuid.UUID
+    project_id: uuid.UUID
+    external_run_id: str
+    status: str
+    dataset_id: str
+    dataset_version: str
+    catalog_id: str
+    catalog_version: str
+    adapter_provider: str
+    case_count: int
+    passed_case_count: int
+    failed_case_count: int
+    aggregate_metrics: dict[str, object]
+    failure_counts: dict[str, object]
+    created_at: datetime
+
+
+class EvaluationRunDetailResponse(EvaluationRunResponse):
+    result_fingerprint: str
+    artifact_hash: str
+    artifact_uri: str | None
+    trace_provider: str
+    metric_definition_version: str
+    top_k: int
+    seed: int
+    metric_result_count: int
+    failure_count: int

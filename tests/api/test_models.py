@@ -15,6 +15,12 @@ def test_initial_metadata_contains_expected_tables() -> None:
         "datasets",
         "dataset_versions",
         "evaluation_cases",
+        "search_systems",
+        "search_system_versions",
+        "evaluation_runs",
+        "case_results",
+        "metric_results",
+        "failures",
     }
 
 

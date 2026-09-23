@@ -21,6 +21,12 @@ EXPECTED_TABLES = {
     "datasets",
     "dataset_versions",
     "evaluation_cases",
+    "search_systems",
+    "search_system_versions",
+    "evaluation_runs",
+    "case_results",
+    "metric_results",
+    "failures",
 }
 
 

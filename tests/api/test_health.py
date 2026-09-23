@@ -20,3 +20,5 @@ def test_openapi_exposes_core_resource_routes(api_client: TestClient) -> None:
     assert "/v1/projects" in schema["paths"]
     assert "/v1/catalogs" in schema["paths"]
     assert "/v1/datasets" in schema["paths"]
+    assert "/v1/search-systems" in schema["paths"]
+    assert "/v1/evaluation-runs" in schema["paths"]

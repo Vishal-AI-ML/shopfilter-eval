@@ -9,3 +9,5 @@ PostgreSQL, Redis, frontend, and AWS will be added only after the local evaluati
 Phase 13 adds a pinned, checksum-verified Amazon ESCI English-subset preparation pipeline. Raw data remains immutable and untracked; processed catalogs, draft judgments, provenance, and quality reports are versioned artifacts.
 
 Phase 14 introduces a tenant-aware FastAPI persistence boundary. PostgreSQL stores organizations, projects, catalog and dataset versions, products, and evaluation cases. Alembic owns schema evolution. Tenant-owned queries require an explicit organization identifier until Phase 15 replaces the temporary header boundary with authenticated membership and RBAC.
+
+Evaluation persistence stores normalized run, case, metric and failure records while retaining the immutable artifact hash and URI. The database is the queryable system of record; artifact bytes remain independently verifiable and will move from local file URIs to MinIO/S3 object URIs in the artifact-storage increment.

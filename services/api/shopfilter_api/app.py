@@ -8,7 +8,12 @@ from fastapi import FastAPI
 
 from services.api.shopfilter_api.config import ApiSettings, get_settings
 from services.api.shopfilter_api.database import Database
-from services.api.shopfilter_api.routers import health, organizations, resources
+from services.api.shopfilter_api.routers import (
+    evaluations,
+    health,
+    organizations,
+    resources,
+)
 
 
 def create_app(settings: ApiSettings | None = None) -> FastAPI:
@@ -30,6 +35,7 @@ def create_app(settings: ApiSettings | None = None) -> FastAPI:
     app.include_router(health.router)
     app.include_router(organizations.router)
     app.include_router(resources.router)
+    app.include_router(evaluations.router)
     return app
 
 
