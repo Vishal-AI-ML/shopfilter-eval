@@ -95,3 +95,28 @@ MINIO_SECRET_KEY=shopfilter-dev-only
 MINIO_SECURE=false
 MINIO_BUCKET=shopfilter-artifacts
 ```
+
+## Authentication foundation
+
+Phase 15 uses Argon2id password hashes and opaque, revocable server-side sessions. The raw
+session token is sent only as an HttpOnly SameSite cookie; PostgreSQL stores its SHA-256 digest.
+Login returns one generic credential error to avoid disclosing whether an email exists. There is
+no public registration endpoint. An initial owner is created from a password environment
+variable so the secret is not exposed in shell history or process arguments.
+
+```powershell
+uv run python -m services.api.shopfilter_api.bootstrap_owner `
+  --email owner@example.com `
+  --display-name "Demo Owner" `
+  --organization-slug shopfilter-demo
+```
+
+Authentication endpoints:
+
+- `POST /v1/auth/login`
+- `POST /v1/auth/logout`
+- `GET /v1/auth/me`
+
+The temporary `X-Organization-ID` boundary remains only during the authentication-foundation
+increment. The next Phase 15 increment validates the authenticated user's membership and role
+before any organization-scoped read or write.

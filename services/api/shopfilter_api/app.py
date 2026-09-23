@@ -9,6 +9,7 @@ from fastapi import FastAPI
 from services.api.shopfilter_api.config import ApiSettings, get_settings
 from services.api.shopfilter_api.database import Database
 from services.api.shopfilter_api.routers import (
+    authentication,
     evaluations,
     health,
     organizations,
@@ -32,7 +33,9 @@ def create_app(settings: ApiSettings | None = None) -> FastAPI:
         lifespan=lifespan,
     )
     app.state.database = database
+    app.state.settings = resolved
     app.include_router(health.router)
+    app.include_router(authentication.router)
     app.include_router(organizations.router)
     app.include_router(resources.router)
     app.include_router(evaluations.router)

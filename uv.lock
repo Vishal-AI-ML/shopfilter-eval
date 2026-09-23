@@ -1255,6 +1255,7 @@ version = "0.1.0"
 source = { editable = "." }
 dependencies = [
     { name = "alembic" },
+    { name = "argon2-cffi" },
     { name = "fastapi" },
     { name = "minio" },
     { name = "psycopg", extra = ["binary"] },
@@ -1280,6 +1281,7 @@ dev = [
 [package.metadata]
 requires-dist = [
     { name = "alembic", specifier = ">=1.16.5" },
+    { name = "argon2-cffi", specifier = ">=25.1.0" },
     { name = "fastapi", specifier = ">=0.117.1" },
     { name = "minio", specifier = ">=7.2.20" },
     { name = "psycopg", extras = ["binary"], specifier = ">=3.2.10" },

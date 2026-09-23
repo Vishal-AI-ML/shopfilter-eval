@@ -8,6 +8,7 @@ from typing import Any
 from sqlalchemy import (
     JSON,
     Boolean,
+    CheckConstraint,
     DateTime,
     Float,
     ForeignKey,
@@ -40,6 +41,60 @@ class Organization(TimestampMixin, Base):
     slug: Mapped[str] = mapped_column(String(100), nullable=False, unique=True, index=True)
 
     projects: Mapped[list[Project]] = relationship(back_populates="organization")
+    memberships: Mapped[list[MembershipRecord]] = relationship(
+        back_populates="organization"
+    )
+
+
+class UserRecord(TimestampMixin, Base):
+    __tablename__ = "users"
+    __table_args__ = (CheckConstraint("email = lower(email)", name="email_normalized"),)
+
+    id: Mapped[uuid.UUID] = mapped_column(Uuid, primary_key=True, default=uuid.uuid4)
+    email: Mapped[str] = mapped_column(String(320), nullable=False, unique=True, index=True)
+    display_name: Mapped[str] = mapped_column(String(200), nullable=False)
+    password_hash: Mapped[str] = mapped_column(Text, nullable=False)
+    is_active: Mapped[bool] = mapped_column(Boolean, nullable=False, default=True)
+
+    memberships: Mapped[list[MembershipRecord]] = relationship(back_populates="user")
+    sessions: Mapped[list[AuthSessionRecord]] = relationship(back_populates="user")
+
+
+class MembershipRecord(TimestampMixin, Base):
+    __tablename__ = "memberships"
+    __table_args__ = (
+        UniqueConstraint("organization_id", "user_id"),
+        CheckConstraint(
+            "role IN ('OWNER', 'ADMIN', 'ENGINEER', 'REVIEWER', 'VIEWER')",
+            name="valid_role",
+        ),
+    )
+
+    id: Mapped[uuid.UUID] = mapped_column(Uuid, primary_key=True, default=uuid.uuid4)
+    organization_id: Mapped[uuid.UUID] = mapped_column(
+        ForeignKey("organizations.id", ondelete="CASCADE"), nullable=False, index=True
+    )
+    user_id: Mapped[uuid.UUID] = mapped_column(
+        ForeignKey("users.id", ondelete="CASCADE"), nullable=False, index=True
+    )
+    role: Mapped[str] = mapped_column(String(30), nullable=False)
+
+    organization: Mapped[Organization] = relationship(back_populates="memberships")
+    user: Mapped[UserRecord] = relationship(back_populates="memberships")
+
+
+class AuthSessionRecord(TimestampMixin, Base):
+    __tablename__ = "auth_sessions"
+
+    id: Mapped[uuid.UUID] = mapped_column(Uuid, primary_key=True, default=uuid.uuid4)
+    user_id: Mapped[uuid.UUID] = mapped_column(
+        ForeignKey("users.id", ondelete="CASCADE"), nullable=False, index=True
+    )
+    token_hash: Mapped[str] = mapped_column(String(64), nullable=False, unique=True, index=True)
+    expires_at: Mapped[datetime] = mapped_column(DateTime(timezone=True), nullable=False, index=True)
+    revoked_at: Mapped[datetime | None] = mapped_column(DateTime(timezone=True))
+
+    user: Mapped[UserRecord] = relationship(back_populates="sessions")
 
 
 class Project(TimestampMixin, Base):

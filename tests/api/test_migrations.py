@@ -14,6 +14,9 @@ from services.api.shopfilter_api.seed import seed_demo
 EXPECTED_TABLES = {
     "alembic_version",
     "organizations",
+    "users",
+    "memberships",
+    "auth_sessions",
     "projects",
     "catalogs",
     "catalog_versions",

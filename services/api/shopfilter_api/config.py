@@ -23,6 +23,12 @@ class ApiSettings(BaseSettings):
     minio_bucket: str = Field(
         default="shopfilter-artifacts", validation_alias="MINIO_BUCKET"
     )
+    session_duration_hours: int = Field(
+        default=12, ge=1, le=720, validation_alias="SESSION_DURATION_HOURS"
+    )
+    session_cookie_secure: bool = Field(
+        default=False, validation_alias="SESSION_COOKIE_SECURE"
+    )
 
 
 @lru_cache
