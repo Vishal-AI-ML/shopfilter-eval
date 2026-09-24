@@ -10,6 +10,7 @@ def test_initial_metadata_contains_expected_tables() -> None:
         "users",
         "memberships",
         "auth_sessions",
+    "password_reset_tokens",
         "projects",
         "catalogs",
         "catalog_versions",
@@ -30,7 +31,13 @@ def test_initial_metadata_contains_expected_tables() -> None:
 
 
 def test_every_tenant_owned_table_has_organization_id() -> None:
-    globally_scoped = {"organizations", "users", "auth_sessions", "worker_heartbeats"}
+    globally_scoped = {
+        "organizations",
+        "users",
+        "auth_sessions",
+        "password_reset_tokens",
+        "worker_heartbeats",
+    }
     for table_name in set(Base.metadata.tables) - globally_scoped:
         columns = {
             column.name

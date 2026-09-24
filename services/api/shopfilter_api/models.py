@@ -1,4 +1,3 @@
-
 from __future__ import annotations
 
 import uuid
@@ -58,6 +57,9 @@ class UserRecord(TimestampMixin, Base):
 
     memberships: Mapped[list[MembershipRecord]] = relationship(back_populates="user")
     sessions: Mapped[list[AuthSessionRecord]] = relationship(back_populates="user")
+    password_reset_tokens: Mapped[list[PasswordResetTokenRecord]] = relationship(
+        back_populates="user"
+    )
     dataset_reviews: Mapped[list[DatasetReviewRecord]] = relationship(
         back_populates="reviewer"
     )
@@ -98,6 +100,24 @@ class AuthSessionRecord(TimestampMixin, Base):
     revoked_at: Mapped[datetime | None] = mapped_column(DateTime(timezone=True))
 
     user: Mapped[UserRecord] = relationship(back_populates="sessions")
+
+
+class PasswordResetTokenRecord(TimestampMixin, Base):
+    __tablename__ = "password_reset_tokens"
+
+    id: Mapped[uuid.UUID] = mapped_column(Uuid, primary_key=True, default=uuid.uuid4)
+    user_id: Mapped[uuid.UUID] = mapped_column(
+        ForeignKey("users.id", ondelete="CASCADE"), nullable=False, index=True
+    )
+    token_hash: Mapped[str] = mapped_column(
+        String(64), nullable=False, unique=True, index=True
+    )
+    expires_at: Mapped[datetime] = mapped_column(
+        DateTime(timezone=True), nullable=False, index=True
+    )
+    used_at: Mapped[datetime | None] = mapped_column(DateTime(timezone=True))
+
+    user: Mapped[UserRecord] = relationship(back_populates="password_reset_tokens")
 
 
 class Project(TimestampMixin, Base):

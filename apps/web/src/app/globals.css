@@ -165,3 +165,10 @@ button:disabled { cursor: wait; opacity: 0.66; }
   .form-grid { grid-template-columns: 1fr; }
   .full-field { grid-column: auto; }
 }
+
+.auth-page { background: radial-gradient(circle at 20% 0%, rgba(216,245,106,.14), transparent 32%), var(--paper); }
+.forgot-link { margin: -8px 0 0; text-align: right; font-size: 12px; }
+.forgot-link a, .success-state a { color: var(--forest); font-weight: 800; text-decoration: none; }
+.success-state { padding: 18px; background: #f0f8ee; border: 1px solid #d2e7cd; border-radius: 12px; }
+.success-state strong, .success-state p { display: block; }
+.success-state p { color: var(--muted); line-height: 1.6; }

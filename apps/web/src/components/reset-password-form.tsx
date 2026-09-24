@@ -1,0 +1,9 @@
+"use client";
+import { FormEvent, useState } from "react";
+import { useRouter } from "next/navigation";
+import { errorMessage } from "@/lib/api-errors";
+export function ResetPasswordForm({ token }: { token: string }): React.ReactElement {
+ const router=useRouter(); const [error,setError]=useState<string|null>(null); const [pending,setPending]=useState(false);
+ async function submit(event:FormEvent<HTMLFormElement>):Promise<void>{event.preventDefault();setError(null);const form=new FormData(event.currentTarget);const password=String(form.get("password")??"");const confirmation=String(form.get("password_confirmation")??"");if(password!==confirmation){setError("Passwords do not match.");return;}setPending(true);try{const response=await fetch("/api/auth/reset-password",{method:"POST",credentials:"same-origin",headers:{"content-type":"application/json"},body:JSON.stringify({token,password})});const body:unknown=await response.json().catch(()=>null);if(!response.ok){setError(errorMessage(body,"Unable to reset the password."));return;}router.replace("/login?reset=success");router.refresh();}catch{setError("Password reset service is unavailable. Please try again.");}finally{setPending(false);}}
+ return <form className="login-form" onSubmit={submit}><div className="field"><label htmlFor="password">New password</label><input id="password" name="password" type="password" autoComplete="new-password" minLength={12} maxLength={1024} required placeholder="At least 12 characters" /></div><div className="field"><label htmlFor="password_confirmation">Confirm new password</label><input id="password_confirmation" name="password_confirmation" type="password" autoComplete="new-password" minLength={12} maxLength={1024} required placeholder="Repeat your password" /></div>{error?<div className="form-error" role="alert">{error}</div>:null}<button className="primary-button" type="submit" disabled={pending}>{pending?"Resetting…":"Reset password"}</button></form>;
+}

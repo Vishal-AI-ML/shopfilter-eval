@@ -17,6 +17,7 @@ EXPECTED_TABLES = {
     "users",
     "memberships",
     "auth_sessions",
+    "password_reset_tokens",
     "projects",
     "catalogs",
     "catalog_versions",

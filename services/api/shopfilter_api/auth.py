@@ -53,6 +53,10 @@ def session_token_hash(raw_token: str) -> str:
     return hashlib.sha256(raw_token.encode("utf-8")).hexdigest()
 
 
+def password_reset_token_hash(raw_token: str) -> str:
+    return hashlib.sha256(raw_token.encode("utf-8")).hexdigest()
+
+
 def authenticate_user(session: Session, email: str, password: str) -> UserRecord | None:
     user = session.scalar(
         select(UserRecord).where(UserRecord.email == normalize_email(email))

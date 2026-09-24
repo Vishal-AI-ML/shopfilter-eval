@@ -41,6 +41,7 @@ export default async function LoginPage(): Promise<React.ReactElement> {
           <h2>Sign in to your workspace</h2>
           <p className="muted">Sign in with your company account.</p>
           <LoginForm />
+          <p className="forgot-link"><Link href="/forgot-password">Forgot your password?</Link></p>
           <p className="auth-switch">New to ShopFilter? <Link href="/signup">Create a company workspace</Link></p>
         </div>
       </section>

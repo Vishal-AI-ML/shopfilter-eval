@@ -3,6 +3,7 @@ from __future__ import annotations
 import hashlib
 from datetime import UTC, datetime, timedelta
 from typing import cast
+from urllib.parse import parse_qs, urlparse
 
 from fastapi import FastAPI
 from fastapi.testclient import TestClient
@@ -14,7 +15,12 @@ from services.api.shopfilter_api.models import (
     AuthSessionRecord,
     MembershipRecord,
     Organization,
+    PasswordResetTokenRecord,
     UserRecord,
+)
+from services.api.shopfilter_api.password_reset_mailer import (
+    FilePasswordResetMailer,
+    InMemoryPasswordResetMailer,
 )
 
 PASSWORD = "correct-horse-battery-staple"
@@ -245,3 +251,111 @@ def test_registration_rejects_weak_password_and_unknown_fields(
     body["password"] = PASSWORD
     body["unexpected"] = "value"
     assert api_client.post("/v1/auth/register", json=body).status_code == 422
+
+
+
+def _reset_token(client: TestClient, email: str) -> str:
+    app = cast(FastAPI, client.app)
+    mailer = cast(InMemoryPasswordResetMailer, app.state.password_reset_mailer)
+    assert len(mailer.messages) == 1
+    assert mailer.messages[0].recipient == email
+    values = parse_qs(urlparse(mailer.messages[0].reset_url).query)
+    return values["token"][0]
+
+
+def test_forgot_password_is_non_enumerating_and_stores_only_token_hash(
+    api_client: TestClient,
+) -> None:
+    _identity(api_client)
+    known = api_client.post(
+        "/v1/auth/forgot-password", json={"email": "owner@example.com"}
+    )
+    unknown = api_client.post(
+        "/v1/auth/forgot-password", json={"email": "unknown@example.com"}
+    )
+    assert known.status_code == unknown.status_code == 202
+    assert known.json() == unknown.json()
+
+    raw_token = _reset_token(api_client, "owner@example.com")
+    app = cast(FastAPI, api_client.app)
+    with Session(app.state.database.engine) as session:
+        record = session.scalar(select(PasswordResetTokenRecord))
+        assert record is not None
+        assert record.token_hash == hashlib.sha256(raw_token.encode()).hexdigest()
+        assert raw_token != record.token_hash
+
+
+def test_password_reset_is_single_use_and_revokes_existing_sessions(
+    api_client: TestClient,
+) -> None:
+    _identity(api_client)
+    login = api_client.post(
+        "/v1/auth/login",
+        json={"email": "owner@example.com", "password": PASSWORD},
+    )
+    assert login.status_code == 200
+    forgot = api_client.post(
+        "/v1/auth/forgot-password", json={"email": "owner@example.com"}
+    )
+    assert forgot.status_code == 202
+    token = _reset_token(api_client, "owner@example.com")
+    new_password = "new-correct-horse-battery-staple"
+    reset = api_client.post(
+        "/v1/auth/reset-password",
+        json={"token": token, "password": new_password},
+    )
+    assert reset.status_code == 200, reset.text
+
+    app = cast(FastAPI, api_client.app)
+    with Session(app.state.database.engine) as session:
+        token_record = session.scalar(select(PasswordResetTokenRecord))
+        auth_session = session.scalar(select(AuthSessionRecord))
+        assert token_record is not None and token_record.used_at is not None
+        assert auth_session is not None and auth_session.revoked_at is not None
+
+    api_client.cookies.clear()
+    assert api_client.post(
+        "/v1/auth/login",
+        json={"email": "owner@example.com", "password": PASSWORD},
+    ).status_code == 401
+    assert api_client.post(
+        "/v1/auth/login",
+        json={"email": "owner@example.com", "password": new_password},
+    ).status_code == 200
+    assert api_client.post(
+        "/v1/auth/reset-password",
+        json={"token": token, "password": "another-secure-password"},
+    ).status_code == 400
+
+
+def test_expired_password_reset_token_is_rejected(api_client: TestClient) -> None:
+    _identity(api_client)
+    api_client.post(
+        "/v1/auth/forgot-password", json={"email": "owner@example.com"}
+    )
+    token = _reset_token(api_client, "owner@example.com")
+    app = cast(FastAPI, api_client.app)
+    with Session(app.state.database.engine) as session:
+        record = session.scalar(select(PasswordResetTokenRecord))
+        assert record is not None
+        record.expires_at = datetime.now(UTC) - timedelta(minutes=1)
+        session.commit()
+    assert api_client.post(
+        "/v1/auth/reset-password",
+        json={"token": token, "password": "another-secure-password"},
+    ).status_code == 400
+
+
+def test_file_password_reset_mailer_writes_ignored_local_email(tmp_path) -> None:
+    mailer = FilePasswordResetMailer(tmp_path / "mailbox")
+    reset_url = "http://localhost:3000/reset-password?token=test-token"
+    mailer.send(
+        recipient="owner@example.com",
+        display_name="Owner User",
+        reset_url=reset_url,
+    )
+    messages = list((tmp_path / "mailbox").glob("password-reset-*.eml"))
+    assert len(messages) == 1
+    content = messages[0].read_text(encoding="utf-8")
+    assert "To: owner@example.com" in content
+    assert reset_url in content

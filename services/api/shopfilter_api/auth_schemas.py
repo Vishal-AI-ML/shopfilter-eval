@@ -77,3 +77,28 @@ class AuthenticatedUserResponse(BaseModel):
 class LoginResponse(BaseModel):
     user: AuthenticatedUserResponse
     expires_at: datetime
+
+
+class ForgotPasswordRequest(BaseModel):
+    model_config = ConfigDict(extra="forbid")
+
+    email: str = Field(min_length=3, max_length=320)
+
+    @field_validator("email")
+    @classmethod
+    def normalize_email(cls, value: str) -> str:
+        value = value.strip().casefold()
+        if not _EMAIL.fullmatch(value):
+            raise ValueError("email must be valid")
+        return value
+
+
+class ResetPasswordRequest(BaseModel):
+    model_config = ConfigDict(extra="forbid")
+
+    token: str = Field(min_length=32, max_length=512)
+    password: str = Field(min_length=12, max_length=1024)
+
+
+class MessageResponse(BaseModel):
+    message: str

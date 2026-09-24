@@ -12,6 +12,7 @@ htmlcov/
 !.env.example
 
 artifacts/runs/*
+artifacts/mailbox/*
 data/raw/*
 data/processed/*
 

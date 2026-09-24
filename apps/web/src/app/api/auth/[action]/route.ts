@@ -10,6 +10,8 @@ const methodsByAction: Record<string, ReadonlySet<string>> = {
   logout: new Set(["POST"]),
   me: new Set(["GET"]),
   register: new Set(["POST"]),
+  "forgot-password": new Set(["POST"]),
+  "reset-password": new Set(["POST"]),
 };
 
 function firstHeaderValue(value: string): string {
