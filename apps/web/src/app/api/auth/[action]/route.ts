@@ -14,6 +14,7 @@ const methodsByAction: Record<string, ReadonlySet<string>> = {
   "reset-password": new Set(["POST"]),
   "resend-verification": new Set(["POST"]),
   "verify-email": new Set(["POST"]),
+  "accept-invitation": new Set(["POST"]),
 };
 
 function firstHeaderValue(value: string): string {

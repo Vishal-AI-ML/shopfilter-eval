@@ -38,6 +38,12 @@ class ApiSettings(BaseSettings):
     public_web_url: str = Field(
         default="http://localhost:3000", validation_alias="PUBLIC_WEB_URL"
     )
+    invitation_expiry_hours: int = Field(
+        default=168, ge=1, le=720, validation_alias="INVITATION_EXPIRY_HOURS"
+    )
+    invitation_email_directory: str | None = Field(
+        default=None, validation_alias="INVITATION_EMAIL_DIRECTORY"
+    )
     email_verification_expiry_minutes: int = Field(
         default=60, ge=5, le=10080, validation_alias="EMAIL_VERIFICATION_EXPIRY_MINUTES"
     )

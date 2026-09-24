@@ -18,7 +18,9 @@ from services.api.shopfilter_api.auth import (
     create_session,
     email_verification_token_hash,
     hash_password,
+    invitation_token_hash,
     password_reset_token_hash,
+    verify_password,
 )
 from services.api.shopfilter_api.auth_schemas import (
     AuthenticatedUserResponse,
@@ -39,11 +41,13 @@ from services.api.shopfilter_api.dependencies import (
 from services.api.shopfilter_api.email_verification_mailer import (
     EmailVerificationDeliveryError,
 )
+from services.api.shopfilter_api.invitation_schemas import InvitationAcceptRequest
 from services.api.shopfilter_api.models import (
     AuthSessionRecord,
     EmailVerificationTokenRecord,
     MembershipRecord,
     Organization,
+    OrganizationInvitationRecord,
     PasswordResetTokenRecord,
     UserRecord,
 )
@@ -278,6 +282,52 @@ def verify_email(body: VerifyEmailRequest, session: DbSession) -> MessageRespons
     )
     session.commit()
     return MessageResponse(message="Email verified successfully.")
+
+
+@router.post("/accept-invitation", response_model=LoginResponse)
+def accept_invitation(
+    body: InvitationAcceptRequest,
+    request: Request,
+    response: Response,
+    session: DbSession,
+) -> LoginResponse:
+    now = datetime.now(UTC)
+    record = session.scalar(
+        select(OrganizationInvitationRecord)
+        .where(
+            OrganizationInvitationRecord.token_hash == invitation_token_hash(body.token),
+            OrganizationInvitationRecord.accepted_at.is_(None),
+            OrganizationInvitationRecord.revoked_at.is_(None),
+            OrganizationInvitationRecord.expires_at > now,
+        )
+        .with_for_update()
+    )
+    failure = HTTPException(status_code=400, detail="Unable to accept invitation")
+    if record is None:
+        raise failure
+    user = session.scalar(select(UserRecord).where(UserRecord.email == record.email).with_for_update())
+    if user is None:
+        if body.display_name is None:
+            raise failure
+        user = UserRecord(email=record.email, display_name=body.display_name, password_hash=hash_password(body.password), is_active=True, email_verified_at=now)
+        session.add(user)
+        session.flush()
+    elif not user.is_active or not verify_password(user.password_hash, body.password):
+        raise failure
+    else:
+        user.email_verified_at = now
+    if session.scalar(select(MembershipRecord.id).where(MembershipRecord.organization_id == record.organization_id, MembershipRecord.user_id == user.id)) is not None:
+        raise failure
+    session.add(MembershipRecord(organization_id=record.organization_id, user_id=user.id, role=record.role))
+    record.accepted_at = now
+    duration = timedelta(hours=request.app.state.settings.session_duration_hours)
+    try:
+        created = create_session(session, user, duration=duration)
+    except IntegrityError as exc:
+        session.rollback()
+        raise failure from exc
+    _set_session_cookie(response, raw_token=created.raw_token, duration=duration, secure=request.app.state.settings.session_cookie_secure)
+    return LoginResponse(user=_user_response(session, user), expires_at=created.record.expires_at)
 
 
 @router.post(

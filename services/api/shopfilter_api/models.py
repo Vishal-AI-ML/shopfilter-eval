@@ -43,6 +43,9 @@ class Organization(TimestampMixin, Base):
     memberships: Mapped[list[MembershipRecord]] = relationship(
         back_populates="organization"
     )
+    invitations: Mapped[list[OrganizationInvitationRecord]] = relationship(
+        back_populates="organization"
+    )
 
 
 class UserRecord(TimestampMixin, Base):
@@ -65,6 +68,9 @@ class UserRecord(TimestampMixin, Base):
     )
     email_verification_tokens: Mapped[list[EmailVerificationTokenRecord]] = relationship(
         back_populates="user"
+    )
+    sent_invitations: Mapped[list[OrganizationInvitationRecord]] = relationship(
+        back_populates="invited_by", foreign_keys="OrganizationInvitationRecord.invited_by_user_id"
     )
     dataset_reviews: Mapped[list[DatasetReviewRecord]] = relationship(
         back_populates="reviewer"
@@ -92,6 +98,40 @@ class MembershipRecord(TimestampMixin, Base):
 
     organization: Mapped[Organization] = relationship(back_populates="memberships")
     user: Mapped[UserRecord] = relationship(back_populates="memberships")
+
+
+class OrganizationInvitationRecord(TimestampMixin, Base):
+    __tablename__ = "organization_invitations"
+    __table_args__ = (
+        CheckConstraint("email = lower(email)", name="invitation_email_normalized"),
+        CheckConstraint(
+            "role IN ('OWNER', 'ADMIN', 'ENGINEER', 'REVIEWER', 'VIEWER')",
+            name="invitation_valid_role",
+        ),
+    )
+
+    id: Mapped[uuid.UUID] = mapped_column(Uuid, primary_key=True, default=uuid.uuid4)
+    organization_id: Mapped[uuid.UUID] = mapped_column(
+        ForeignKey("organizations.id", ondelete="CASCADE"), nullable=False, index=True
+    )
+    email: Mapped[str] = mapped_column(String(320), nullable=False, index=True)
+    role: Mapped[str] = mapped_column(String(30), nullable=False)
+    invited_by_user_id: Mapped[uuid.UUID] = mapped_column(
+        ForeignKey("users.id", ondelete="RESTRICT"), nullable=False, index=True
+    )
+    token_hash: Mapped[str] = mapped_column(
+        String(64), nullable=False, unique=True, index=True
+    )
+    expires_at: Mapped[datetime] = mapped_column(
+        DateTime(timezone=True), nullable=False, index=True
+    )
+    accepted_at: Mapped[datetime | None] = mapped_column(DateTime(timezone=True))
+    revoked_at: Mapped[datetime | None] = mapped_column(DateTime(timezone=True))
+
+    organization: Mapped[Organization] = relationship(back_populates="invitations")
+    invited_by: Mapped[UserRecord] = relationship(
+        back_populates="sent_invitations", foreign_keys=[invited_by_user_id]
+    )
 
 
 class AuthSessionRecord(TimestampMixin, Base):

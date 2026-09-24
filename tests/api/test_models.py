@@ -12,6 +12,7 @@ def test_initial_metadata_contains_expected_tables() -> None:
         "auth_sessions",
     "password_reset_tokens",
     "email_verification_tokens",
+    "organization_invitations",
         "projects",
         "catalogs",
         "catalog_versions",
