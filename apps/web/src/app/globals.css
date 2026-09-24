@@ -153,3 +153,15 @@ button:disabled { cursor: wait; opacity: 0.66; }
   .principles-row div { padding: 0 0 18px; border-right: 0; border-bottom: 1px solid var(--line); }
   .foundation-card { grid-template-columns: 1fr; }
 }
+
+
+.signup-card { width: min(100%, 620px); }
+.form-grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 18px; }
+.full-field { grid-column: 1 / -1; }
+.auth-switch { margin: 24px 0 0; color: var(--muted); font-size: 13px; text-align: center; }
+.auth-switch a { color: var(--forest); font-weight: 800; text-decoration: none; }
+.auth-switch a:hover { text-decoration: underline; }
+@media (max-width: 620px) {
+  .form-grid { grid-template-columns: 1fr; }
+  .full-field { grid-column: auto; }
+}

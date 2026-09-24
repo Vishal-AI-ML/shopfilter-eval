@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import Link from "next/link";
 import { redirect } from "next/navigation";
 
 import { LoginForm } from "@/components/login-form";
@@ -38,8 +39,9 @@ export default async function LoginPage(): Promise<React.ReactElement> {
         <div className="login-card">
           <p className="eyebrow">WELCOME BACK</p>
           <h2>Sign in to your workspace</h2>
-          <p className="muted">Use the Owner account configured through the secure local bootstrap.</p>
+          <p className="muted">Sign in with your company account.</p>
           <LoginForm />
+          <p className="auth-switch">New to ShopFilter? <Link href="/signup">Create a company workspace</Link></p>
         </div>
       </section>
     </main>
