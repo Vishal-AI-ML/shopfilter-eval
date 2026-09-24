@@ -38,6 +38,12 @@ class ApiSettings(BaseSettings):
     public_web_url: str = Field(
         default="http://localhost:3000", validation_alias="PUBLIC_WEB_URL"
     )
+    email_verification_expiry_minutes: int = Field(
+        default=60, ge=5, le=10080, validation_alias="EMAIL_VERIFICATION_EXPIRY_MINUTES"
+    )
+    email_verification_email_directory: str | None = Field(
+        default=None, validation_alias="EMAIL_VERIFICATION_EMAIL_DIRECTORY"
+    )
     password_reset_expiry_minutes: int = Field(
         default=30, ge=5, le=1440, validation_alias="PASSWORD_RESET_EXPIRY_MINUTES"
     )

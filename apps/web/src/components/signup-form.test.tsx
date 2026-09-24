@@ -29,7 +29,7 @@ describe("SignupForm", () => {
     expect(screen.getByLabelText("Workspace slug")).toHaveValue("acme-commerce");
     fireEvent.click(screen.getByRole("button", { name: "Create company workspace" }));
 
-    await waitFor(() => expect(navigation.replace).toHaveBeenCalledWith("/dashboard"));
+    await waitFor(() => expect(navigation.replace).toHaveBeenCalledWith("/verify-email"));
     const init = fetchMock.mock.calls[0][1] as RequestInit;
     expect(fetchMock.mock.calls[0][0]).toBe("/api/auth/register");
     expect(init.credentials).toBe("same-origin");

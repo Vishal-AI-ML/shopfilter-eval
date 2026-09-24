@@ -24,6 +24,11 @@ def create_organization(
     current_user: CurrentUser,
     session: DbSession,
 ) -> Organization:
+    if current_user.email_verified_at is None:
+        raise HTTPException(
+            status_code=status.HTTP_403_FORBIDDEN,
+            detail="Verified email required to create an organization",
+        )
     organization = Organization(name=body.name, slug=body.slug)
     session.add(organization)
     try:

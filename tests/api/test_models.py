@@ -11,6 +11,7 @@ def test_initial_metadata_contains_expected_tables() -> None:
         "memberships",
         "auth_sessions",
     "password_reset_tokens",
+    "email_verification_tokens",
         "projects",
         "catalogs",
         "catalog_versions",
@@ -36,6 +37,7 @@ def test_every_tenant_owned_table_has_organization_id() -> None:
         "users",
         "auth_sessions",
         "password_reset_tokens",
+        "email_verification_tokens",
         "worker_heartbeats",
     }
     for table_name in set(Base.metadata.tables) - globally_scoped:

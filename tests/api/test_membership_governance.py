@@ -1,6 +1,7 @@
 from __future__ import annotations
 
 import uuid
+from datetime import UTC, datetime
 
 import pytest
 from fastapi.testclient import TestClient
@@ -32,6 +33,7 @@ def _create_user(client: TestClient, email: str, *, active: bool = True) -> User
             display_name=email.split("@", maxsplit=1)[0].title(),
             password_hash=hash_password(PASSWORD),
             is_active=active,
+            email_verified_at=datetime.now(UTC),
         )
         session.add(user)
         session.commit()

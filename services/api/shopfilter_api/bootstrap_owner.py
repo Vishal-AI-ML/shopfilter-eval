@@ -3,6 +3,7 @@ from __future__ import annotations
 import argparse
 import getpass
 import os
+from datetime import UTC, datetime
 
 from sqlalchemy import select
 
@@ -52,6 +53,7 @@ def main() -> None:
                     display_name=display_name,
                     password_hash=hash_password(password),
                     is_active=True,
+                    email_verified_at=datetime.now(UTC),
                 )
                 session.add(user)
                 session.flush()

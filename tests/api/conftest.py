@@ -1,6 +1,7 @@
 from __future__ import annotations
 
 from collections.abc import Iterator
+from datetime import UTC, datetime
 from pathlib import Path
 
 import pytest
@@ -38,6 +39,7 @@ def authenticated_client(api_client: TestClient) -> TestClient:
                 display_name="API Owner",
                 password_hash=hash_password(TEST_USER_PASSWORD),
                 is_active=True,
+                email_verified_at=datetime.now(UTC),
             )
         )
         session.commit()

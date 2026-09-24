@@ -15,6 +15,7 @@ export interface AuthenticatedUser {
   email: string;
   display_name: string;
   is_active: boolean;
+  email_verified: boolean;
   memberships: Membership[];
 }
 

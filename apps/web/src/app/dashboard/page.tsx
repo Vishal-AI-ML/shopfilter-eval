@@ -1,10 +1,14 @@
 import type { Metadata } from "next";
+import Link from "next/link";
+import { getCurrentUser } from "@/lib/server-auth";
 
 export const metadata: Metadata = { title: "Overview" };
 
-export default function DashboardPage(): React.ReactElement {
+export default async function DashboardPage(): Promise<React.ReactElement> {
+  const user = await getCurrentUser();
   return (
     <div className="dashboard-stack">
+      {user && !user.email_verified ? <section className="verification-banner"><div><strong>Verify your work email</strong><span>Required before sensitive organization and team actions.</span></div><Link href="/verify-email">Verify now</Link></section> : null}
       <section className="page-heading">
         <div>
           <p className="eyebrow">CONTROL PLANE</p>

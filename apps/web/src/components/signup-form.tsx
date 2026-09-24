@@ -53,7 +53,7 @@ export function SignupForm(): React.ReactElement {
         return;
       }
 
-      router.replace("/dashboard");
+      router.replace("/verify-email");
       router.refresh();
     } catch {
       setError("Registration service is unavailable. Please try again.");

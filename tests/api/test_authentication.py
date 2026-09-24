@@ -2,6 +2,8 @@ from __future__ import annotations
 
 import hashlib
 from datetime import UTC, datetime, timedelta
+from email import policy
+from email.parser import Parser
 from typing import cast
 from urllib.parse import parse_qs, urlparse
 
@@ -11,8 +13,13 @@ from sqlalchemy import func, select
 from sqlalchemy.orm import Session
 
 from services.api.shopfilter_api.auth import MembershipRole, hash_password
+from services.api.shopfilter_api.email_verification_mailer import (
+    FileEmailVerificationMailer,
+    InMemoryEmailVerificationMailer,
+)
 from services.api.shopfilter_api.models import (
     AuthSessionRecord,
+    EmailVerificationTokenRecord,
     MembershipRecord,
     Organization,
     PasswordResetTokenRecord,
@@ -35,6 +42,7 @@ def _identity(client: TestClient, *, active: bool = True) -> tuple[str, str]:
             display_name="Owner User",
             password_hash=hash_password(PASSWORD),
             is_active=active,
+            email_verified_at=datetime.now(UTC),
         )
         session.add_all([organization, user])
         session.flush()
@@ -64,6 +72,7 @@ def test_login_me_and_logout_use_revocable_hashed_session(
         "email": "owner@example.com",
         "display_name": "Owner User",
         "is_active": True,
+        "email_verified": True,
         "memberships": [
             {"organization_id": organization_id, "role": MembershipRole.OWNER.value}
         ],
@@ -160,6 +169,7 @@ def test_registration_atomically_creates_owner_organization_and_session(
     payload = response.json()
     assert payload["user"]["email"] == "first.owner@example.com"
     assert payload["user"]["display_name"] == "First Owner"
+    assert payload["user"]["email_verified"] is False
     assert payload["user"]["memberships"][0]["role"] == MembershipRole.OWNER.value
     assert "password" not in response.text.casefold()
     assert "httponly" in response.headers["set-cookie"].casefold()
@@ -359,3 +369,126 @@ def test_file_password_reset_mailer_writes_ignored_local_email(tmp_path) -> None
     content = messages[0].read_text(encoding="utf-8")
     assert "To: owner@example.com" in content
     assert reset_url in content
+
+
+def _email_verification_token(client: TestClient, index: int = -1) -> str:
+    app = cast(FastAPI, client.app)
+    mailer = cast(InMemoryEmailVerificationMailer, app.state.email_verification_mailer)
+    values = parse_qs(urlparse(mailer.messages[index].verification_url).query)
+    return values["token"][0]
+
+
+def test_registration_requires_single_use_hashed_email_verification(
+    api_client: TestClient,
+) -> None:
+    response = api_client.post(
+        "/v1/auth/register",
+        json={
+            "display_name": "Verification Owner",
+            "email": "verify@example.com",
+            "password": PASSWORD,
+            "organization_name": "Verification Company",
+            "organization_slug": "verification-company",
+        },
+    )
+    assert response.status_code == 201, response.text
+    assert response.json()["user"]["email_verified"] is False
+    token = _email_verification_token(api_client)
+
+    app = cast(FastAPI, api_client.app)
+    with Session(app.state.database.engine) as session:
+        record = session.scalar(select(EmailVerificationTokenRecord))
+        user = session.scalar(
+            select(UserRecord).where(UserRecord.email == "verify@example.com")
+        )
+        assert record is not None
+        assert record.token_hash == hashlib.sha256(token.encode()).hexdigest()
+        assert token != record.token_hash
+        assert user is not None and user.email_verified_at is None
+
+    verified = api_client.post("/v1/auth/verify-email", json={"token": token})
+    assert verified.status_code == 200, verified.text
+    assert api_client.get("/v1/auth/me").json()["email_verified"] is True
+    assert api_client.post("/v1/auth/verify-email", json={"token": token}).status_code == 400
+
+
+def test_resend_invalidates_previous_verification_token(api_client: TestClient) -> None:
+    registration = api_client.post(
+        "/v1/auth/register",
+        json={
+            "display_name": "Resend Owner",
+            "email": "resend@example.com",
+            "password": PASSWORD,
+            "organization_name": "Resend Company",
+            "organization_slug": "resend-company",
+        },
+    )
+    assert registration.status_code == 201
+    first_token = _email_verification_token(api_client)
+    resent = api_client.post("/v1/auth/resend-verification", json={})
+    assert resent.status_code == 202
+    second_token = _email_verification_token(api_client)
+    assert second_token != first_token
+    assert api_client.post(
+        "/v1/auth/verify-email", json={"token": first_token}
+    ).status_code == 400
+    assert api_client.post(
+        "/v1/auth/verify-email", json={"token": second_token}
+    ).status_code == 200
+
+    message_count = len(
+        cast(
+            InMemoryEmailVerificationMailer,
+            cast(FastAPI, api_client.app).state.email_verification_mailer,
+        ).messages
+    )
+    same_response = api_client.post("/v1/auth/resend-verification", json={})
+    assert same_response.status_code == 202
+    assert len(
+        cast(
+            InMemoryEmailVerificationMailer,
+            cast(FastAPI, api_client.app).state.email_verification_mailer,
+        ).messages
+    ) == message_count
+
+
+def test_expired_email_verification_token_is_rejected(api_client: TestClient) -> None:
+    response = api_client.post(
+        "/v1/auth/register",
+        json={
+            "display_name": "Expired Owner",
+            "email": "expired-verify@example.com",
+            "password": PASSWORD,
+            "organization_name": "Expired Verification",
+            "organization_slug": "expired-verification",
+        },
+    )
+    assert response.status_code == 201
+    token = _email_verification_token(api_client)
+    app = cast(FastAPI, api_client.app)
+    with Session(app.state.database.engine) as session:
+        record = session.scalar(select(EmailVerificationTokenRecord))
+        assert record is not None
+        record.expires_at = datetime.now(UTC) - timedelta(minutes=1)
+        session.commit()
+    assert api_client.post(
+        "/v1/auth/verify-email", json={"token": token}
+    ).status_code == 400
+
+
+def test_file_email_verification_mailer_writes_ignored_local_email(tmp_path) -> None:
+    mailer = FileEmailVerificationMailer(tmp_path / "mailbox")
+    verification_url = "http://localhost:3000/verify-email?token=test-token"
+    mailer.send(
+        recipient="owner@example.com",
+        display_name="Owner User",
+        verification_url=verification_url,
+    )
+    messages = list((tmp_path / "mailbox").glob("email-verification-*.eml"))
+    assert len(messages) == 1
+    content = messages[0].read_text(encoding="utf-8")
+    assert "To: owner@example.com" in content
+    parsed = Parser(policy=policy.default).parsestr(content)
+    body = parsed.get_body(preferencelist=("plain",))
+    assert body is not None
+    assert verification_url in body.get_content()

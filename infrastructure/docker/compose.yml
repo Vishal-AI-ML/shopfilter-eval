@@ -55,6 +55,8 @@ services:
       MINIO_SECURE: "false"
       MINIO_BUCKET: shopfilter-artifacts
       PUBLIC_WEB_URL: http://localhost:3000
+      EMAIL_VERIFICATION_EXPIRY_MINUTES: "60"
+      EMAIL_VERIFICATION_EMAIL_DIRECTORY: /app/artifacts/mailbox
       PASSWORD_RESET_EXPIRY_MINUTES: "30"
       PASSWORD_RESET_EMAIL_DIRECTORY: /app/artifacts/mailbox
     ports:
@@ -107,7 +109,7 @@ services:
       api:
         condition: service_started
     healthcheck:
-      test: ["CMD", "wget", "--quiet", "--tries=1", "--spider", "http://localhost:3000/login"]
+      test: ["CMD-SHELL", "wget --quiet --tries=1 --spider http://$${HOSTNAME}:3000/login"]
       interval: 10s
       timeout: 5s
       retries: 10

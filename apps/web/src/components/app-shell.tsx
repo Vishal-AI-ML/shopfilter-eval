@@ -14,7 +14,7 @@ export function AppShell({ user, membership, children }: AppShellProps): React.R
     { label: "Projects", available: true },
     { label: "Evaluation runs", available: true },
     { label: "Dataset review", available: can(membership.role, "review_dataset") },
-    { label: "Members", available: can(membership.role, "manage_members") },
+    { label: "Members", available: user.email_verified && can(membership.role, "manage_members") },
   ];
 
   return (

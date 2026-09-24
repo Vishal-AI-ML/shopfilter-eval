@@ -68,6 +68,13 @@ button:disabled { cursor: wait; opacity: 0.66; }
 .primary-button { min-height: 50px; padding: 0 20px; color: #17352f; background: var(--mint); border: 0; border-radius: 12px; font-weight: 850; transition: transform .16s ease, background .16s ease; }
 .primary-button:hover { background: #c9ed51; transform: translateY(-1px); }
 .form-error { padding: 12px 14px; color: var(--danger); background: #fff3f2; border: 1px solid #f1cdca; border-radius: 10px; font-size: 13px; }
+.form-success, .verification-note { padding: 12px 14px; color: var(--forest); background: #f4f9df; border: 1px solid #dbe9aa; border-radius: 10px; font-size: 13px; line-height: 1.5; }
+.button-link { display: grid; place-items: center; text-decoration: none; }
+.secondary-button { min-height: 46px; padding: 0 18px; color: var(--forest); background: white; border: 1px solid var(--line); border-radius: 12px; font-weight: 800; cursor: pointer; }
+.verification-banner { display: flex; align-items: center; justify-content: space-between; gap: 20px; padding: 16px 20px; color: #493c04; background: #fff8d8; border: 1px solid #eadb91; border-radius: 14px; }
+.verification-banner div { display: grid; gap: 4px; }
+.verification-banner span { font-size: 13px; }
+.verification-banner a { color: var(--forest); font-weight: 850; }
 .security-note { margin: -4px 0 0; color: #7f908c; font-size: 11px; line-height: 1.55; text-align: center; }
 
 .app-frame { display: grid; min-height: 100vh; grid-template-columns: 260px 1fr; }

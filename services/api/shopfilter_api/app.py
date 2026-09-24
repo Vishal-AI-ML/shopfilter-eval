@@ -8,6 +8,12 @@ from fastapi import FastAPI
 
 from services.api.shopfilter_api.config import ApiSettings, get_settings
 from services.api.shopfilter_api.database import Database
+from services.api.shopfilter_api.email_verification_mailer import (
+    EmailVerificationMailer,
+    FileEmailVerificationMailer,
+    InMemoryEmailVerificationMailer,
+    SmtpEmailVerificationMailer,
+)
 from services.api.shopfilter_api.job_queue import InMemoryJobQueue, RedisJobQueue
 from services.api.shopfilter_api.password_reset_mailer import (
     FilePasswordResetMailer,
@@ -35,8 +41,17 @@ def create_app(settings: ApiSettings | None = None) -> FastAPI:
         if resolved.redis_url
         else InMemoryJobQueue()
     )
+    email_verification_mailer: EmailVerificationMailer
     password_reset_mailer: PasswordResetMailer
     if resolved.smtp_host:
+        email_verification_mailer = SmtpEmailVerificationMailer(
+            host=resolved.smtp_host,
+            port=resolved.smtp_port,
+            sender=resolved.smtp_from_email,
+            use_starttls=resolved.smtp_use_starttls,
+            username=resolved.smtp_username,
+            password=resolved.smtp_password,
+        )
         password_reset_mailer = SmtpPasswordResetMailer(
             host=resolved.smtp_host,
             port=resolved.smtp_port,
@@ -45,11 +60,23 @@ def create_app(settings: ApiSettings | None = None) -> FastAPI:
             username=resolved.smtp_username,
             password=resolved.smtp_password,
         )
-    elif resolved.password_reset_email_directory:
+    elif resolved.password_reset_email_directory or resolved.email_verification_email_directory:
+        email_verification_mailer = FileEmailVerificationMailer(
+            Path(
+                resolved.email_verification_email_directory
+                or resolved.password_reset_email_directory
+                or "artifacts/mailbox"
+            )
+        )
         password_reset_mailer = FilePasswordResetMailer(
-            Path(resolved.password_reset_email_directory)
+            Path(
+                resolved.password_reset_email_directory
+                or resolved.email_verification_email_directory
+                or "artifacts/mailbox"
+            )
         )
     else:
+        email_verification_mailer = InMemoryEmailVerificationMailer()
         password_reset_mailer = InMemoryPasswordResetMailer()
 
     @asynccontextmanager
@@ -68,6 +95,7 @@ def create_app(settings: ApiSettings | None = None) -> FastAPI:
     app.state.settings = resolved
     app.state.job_queue = job_queue
     app.state.password_reset_mailer = password_reset_mailer
+    app.state.email_verification_mailer = email_verification_mailer
     app.include_router(health.router)
     app.include_router(authentication.router)
     app.include_router(organizations.router)

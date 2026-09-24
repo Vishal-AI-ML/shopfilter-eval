@@ -22,6 +22,11 @@ DbSession = Annotated[Session, Depends(get_session)]
 
 
 def _require_manager(access: OrganizationContext) -> None:
+    if access.user.email_verified_at is None:
+        raise HTTPException(
+            status_code=status.HTTP_403_FORBIDDEN,
+            detail="Verified email required for membership management",
+        )
     if access.role not in {MembershipRole.OWNER, MembershipRole.ADMIN}:
         raise HTTPException(
             status_code=status.HTTP_403_FORBIDDEN,

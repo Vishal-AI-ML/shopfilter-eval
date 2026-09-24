@@ -54,10 +54,16 @@ class UserRecord(TimestampMixin, Base):
     display_name: Mapped[str] = mapped_column(String(200), nullable=False)
     password_hash: Mapped[str] = mapped_column(Text, nullable=False)
     is_active: Mapped[bool] = mapped_column(Boolean, nullable=False, default=True)
+    email_verified_at: Mapped[datetime | None] = mapped_column(
+        DateTime(timezone=True)
+    )
 
     memberships: Mapped[list[MembershipRecord]] = relationship(back_populates="user")
     sessions: Mapped[list[AuthSessionRecord]] = relationship(back_populates="user")
     password_reset_tokens: Mapped[list[PasswordResetTokenRecord]] = relationship(
+        back_populates="user"
+    )
+    email_verification_tokens: Mapped[list[EmailVerificationTokenRecord]] = relationship(
         back_populates="user"
     )
     dataset_reviews: Mapped[list[DatasetReviewRecord]] = relationship(
@@ -118,6 +124,24 @@ class PasswordResetTokenRecord(TimestampMixin, Base):
     used_at: Mapped[datetime | None] = mapped_column(DateTime(timezone=True))
 
     user: Mapped[UserRecord] = relationship(back_populates="password_reset_tokens")
+
+
+class EmailVerificationTokenRecord(TimestampMixin, Base):
+    __tablename__ = "email_verification_tokens"
+
+    id: Mapped[uuid.UUID] = mapped_column(Uuid, primary_key=True, default=uuid.uuid4)
+    user_id: Mapped[uuid.UUID] = mapped_column(
+        ForeignKey("users.id", ondelete="CASCADE"), nullable=False, index=True
+    )
+    token_hash: Mapped[str] = mapped_column(
+        String(64), nullable=False, unique=True, index=True
+    )
+    expires_at: Mapped[datetime] = mapped_column(
+        DateTime(timezone=True), nullable=False, index=True
+    )
+    used_at: Mapped[datetime | None] = mapped_column(DateTime(timezone=True))
+
+    user: Mapped[UserRecord] = relationship(back_populates="email_verification_tokens")
 
 
 class Project(TimestampMixin, Base):

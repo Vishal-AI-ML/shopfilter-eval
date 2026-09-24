@@ -71,6 +71,7 @@ class AuthenticatedUserResponse(BaseModel):
     email: str
     display_name: str
     is_active: bool
+    email_verified: bool
     memberships: list[MembershipResponse]
 
 
@@ -91,6 +92,12 @@ class ForgotPasswordRequest(BaseModel):
         if not _EMAIL.fullmatch(value):
             raise ValueError("email must be valid")
         return value
+
+
+class VerifyEmailRequest(BaseModel):
+    model_config = ConfigDict(extra="forbid")
+
+    token: str = Field(min_length=32, max_length=512)
 
 
 class ResetPasswordRequest(BaseModel):
