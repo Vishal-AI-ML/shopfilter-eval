@@ -89,6 +89,25 @@ services:
       minio:
         condition: service_started
 
+
+  web:
+    build:
+      context: ../..
+      dockerfile: infrastructure/docker/Dockerfile.web
+    environment:
+      SHOPFILTER_API_INTERNAL_URL: http://api:8000
+      NEXT_TELEMETRY_DISABLED: "1"
+    ports:
+      - "3000:3000"
+    depends_on:
+      api:
+        condition: service_started
+    healthcheck:
+      test: ["CMD", "wget", "--quiet", "--tries=1", "--spider", "http://localhost:3000/login"]
+      interval: 10s
+      timeout: 5s
+      retries: 10
+
 volumes:
   shopfilter_postgres:
   shopfilter_minio:
