@@ -361,7 +361,15 @@ class DatasetReviewRecord(TimestampMixin, Base):
 
 class SearchSystemRecord(TimestampMixin, Base):
     __tablename__ = "search_systems"
-    __table_args__ = (UniqueConstraint("project_id", "name"),)
+    __table_args__ = (
+        UniqueConstraint("project_id", "name"),
+        CheckConstraint(
+            "system_type IN ('LEXICAL_SEARCH', 'SEMANTIC_SEARCH', 'HYBRID_SEARCH', "
+            "'RAG_ASSISTANT', 'EXTERNAL_SEARCH_API', 'EXTERNAL_ASSISTANT_API')",
+            name="valid_system_type",
+        ),
+        CheckConstraint("status IN ('ACTIVE', 'ARCHIVED')", name="valid_ai_system_status"),
+    )
 
     id: Mapped[uuid.UUID] = mapped_column(Uuid, primary_key=True, default=uuid.uuid4)
     organization_id: Mapped[uuid.UUID] = mapped_column(
@@ -372,6 +380,11 @@ class SearchSystemRecord(TimestampMixin, Base):
     )
     name: Mapped[str] = mapped_column(String(200), nullable=False)
     provider: Mapped[str] = mapped_column(String(100), nullable=False)
+    system_type: Mapped[str] = mapped_column(
+        String(40), nullable=False, default="LEXICAL_SEARCH"
+    )
+    description: Mapped[str | None] = mapped_column(Text)
+    status: Mapped[str] = mapped_column(String(30), nullable=False, default="ACTIVE")
 
     project: Mapped[Project] = relationship(back_populates="search_systems")
     versions: Mapped[list[SearchSystemVersionRecord]] = relationship(
@@ -381,7 +394,12 @@ class SearchSystemRecord(TimestampMixin, Base):
 
 class SearchSystemVersionRecord(TimestampMixin, Base):
     __tablename__ = "search_system_versions"
-    __table_args__ = (UniqueConstraint("search_system_id", "version"),)
+    __table_args__ = (
+        UniqueConstraint("search_system_id", "version"),
+        CheckConstraint(
+            "status IN ('PUBLISHED', 'ARCHIVED')", name="valid_ai_system_version_status"
+        ),
+    )
 
     id: Mapped[uuid.UUID] = mapped_column(Uuid, primary_key=True, default=uuid.uuid4)
     organization_id: Mapped[uuid.UUID] = mapped_column(
@@ -392,6 +410,9 @@ class SearchSystemVersionRecord(TimestampMixin, Base):
     )
     version: Mapped[str] = mapped_column(String(200), nullable=False)
     configuration: Mapped[dict[str, Any]] = mapped_column(JSON, nullable=False, default=dict)
+    capabilities: Mapped[dict[str, Any]] = mapped_column(JSON, nullable=False, default=dict)
+    status: Mapped[str] = mapped_column(String(30), nullable=False, default="PUBLISHED")
+    content_hash: Mapped[str] = mapped_column(String(64), nullable=False)
 
     search_system: Mapped[SearchSystemRecord] = relationship(back_populates="versions")
     evaluation_runs: Mapped[list[EvaluationRunRecord]] = relationship(

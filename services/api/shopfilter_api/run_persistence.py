@@ -10,6 +10,13 @@ from sqlalchemy import func, select
 from sqlalchemy.orm import Session
 
 from packages.evaluation_engine.runner import EvaluationRunArtifact
+from services.api.shopfilter_api.ai_systems import (
+    AISystemStatus,
+    AISystemType,
+    AISystemVersionStatus,
+    canonical_ai_system_version_hash,
+    legacy_search_capabilities,
+)
 from services.api.shopfilter_api.artifact_storage import (
     ArtifactStorage,
     content_addressed_run_key,
@@ -96,6 +103,8 @@ def _search_system_version(
             project_id=project_id,
             name=artifact.adapter_provider,
             provider=artifact.adapter_provider,
+            system_type=AISystemType.LEXICAL_SEARCH.value,
+            status=AISystemStatus.ACTIVE.value,
         )
         session.add(system)
         session.flush()
@@ -107,11 +116,20 @@ def _search_system_version(
         )
     )
     if version is None:
+        configuration = {"adapter_provider": artifact.adapter_provider}
+        capabilities = legacy_search_capabilities()
         version = SearchSystemVersionRecord(
             organization_id=organization_id,
             search_system_id=system.id,
             version=artifact.search_system_version,
-            configuration={"adapter_provider": artifact.adapter_provider},
+            configuration=configuration,
+            capabilities=capabilities,
+            status=AISystemVersionStatus.PUBLISHED.value,
+            content_hash=canonical_ai_system_version_hash(
+                version=artifact.search_system_version,
+                configuration=configuration,
+                capabilities=capabilities,
+            ),
         )
         session.add(version)
         session.flush()

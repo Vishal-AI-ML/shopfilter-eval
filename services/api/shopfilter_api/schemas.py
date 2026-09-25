@@ -7,6 +7,13 @@ from datetime import datetime
 
 from pydantic import BaseModel, ConfigDict, Field, field_validator
 
+from services.api.shopfilter_api.ai_systems import (
+    AISystemCapabilities,
+    AISystemStatus,
+    AISystemType,
+    AISystemVersionStatus,
+)
+
 _SLUG = re.compile(r"^[a-z0-9]+(?:-[a-z0-9]+)*$")
 
 
@@ -144,6 +151,42 @@ class SearchSystemVersionResponse(BaseModel):
     search_system_id: uuid.UUID
     version: str
     configuration: dict[str, object]
+    created_at: datetime
+
+
+class AISystemCreate(EntityCreate):
+    project_id: uuid.UUID
+    system_type: AISystemType
+    provider: str = Field(min_length=1, max_length=100)
+    description: str | None = Field(default=None, max_length=2000)
+
+
+class AISystemResponse(EntityResponse):
+    organization_id: uuid.UUID
+    project_id: uuid.UUID
+    system_type: AISystemType
+    provider: str
+    description: str | None
+    status: AISystemStatus
+
+
+class AISystemVersionCreate(StrictSchema):
+    version: str = Field(min_length=1, max_length=200)
+    configuration: dict[str, object] = Field(default_factory=dict)
+    capabilities: AISystemCapabilities
+
+
+class AISystemVersionResponse(BaseModel):
+    model_config = ConfigDict(from_attributes=True)
+
+    id: uuid.UUID
+    organization_id: uuid.UUID
+    ai_system_id: uuid.UUID = Field(validation_alias="search_system_id")
+    version: str
+    configuration: dict[str, object]
+    capabilities: AISystemCapabilities
+    status: AISystemVersionStatus
+    content_hash: str
     created_at: datetime
 
 

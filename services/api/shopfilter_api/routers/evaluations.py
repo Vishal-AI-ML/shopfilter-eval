@@ -9,6 +9,13 @@ from sqlalchemy import func, select
 from sqlalchemy.exc import IntegrityError
 from sqlalchemy.orm import Session
 
+from services.api.shopfilter_api.ai_systems import (
+    AISystemStatus,
+    AISystemType,
+    AISystemVersionStatus,
+    canonical_ai_system_version_hash,
+    legacy_search_capabilities,
+)
 from services.api.shopfilter_api.dependencies import (
     ResourceWriter,
     get_organization_id,
@@ -24,6 +31,10 @@ from services.api.shopfilter_api.models import (
     SearchSystemVersionRecord,
 )
 from services.api.shopfilter_api.schemas import (
+    AISystemCreate,
+    AISystemResponse,
+    AISystemVersionCreate,
+    AISystemVersionResponse,
     EvaluationRunDetailResponse,
     EvaluationRunResponse,
     SearchSystemCreate,
@@ -74,6 +85,8 @@ def create_search_system(
         project_id=body.project_id,
         name=body.name,
         provider=body.provider.strip(),
+        system_type=AISystemType.LEXICAL_SEARCH.value,
+        status=AISystemStatus.ACTIVE.value,
     )
     _commit(session, record, "Search system name already exists in this project")
     session.refresh(record)
@@ -113,11 +126,20 @@ def create_search_system_version(
     )
     if system is None:
         raise HTTPException(status_code=404, detail="Search system not found")
+    version = body.version.strip()
+    capabilities = legacy_search_capabilities()
     record = SearchSystemVersionRecord(
         organization_id=organization_id,
         search_system_id=search_system_id,
-        version=body.version.strip(),
+        version=version,
         configuration=body.configuration,
+        capabilities=capabilities,
+        status=AISystemVersionStatus.PUBLISHED.value,
+        content_hash=canonical_ai_system_version_hash(
+            version=version,
+            configuration=body.configuration,
+            capabilities=capabilities,
+        ),
     )
     _commit(session, record, "Search system version already exists")
     session.refresh(record)
@@ -138,6 +160,107 @@ def list_search_system_versions(
             select(SearchSystemVersionRecord)
             .where(
                 SearchSystemVersionRecord.search_system_id == search_system_id,
+                SearchSystemVersionRecord.organization_id == organization_id,
+            )
+            .order_by(SearchSystemVersionRecord.created_at)
+        ).all()
+    )
+
+
+@router.post(
+    "/ai-systems",
+    response_model=AISystemResponse,
+    status_code=status.HTTP_201_CREATED,
+)
+def create_ai_system(
+    body: AISystemCreate,
+    organization_id: TenantId,
+    session: DbSession,
+    _writer: ResourceWriter,
+) -> SearchSystemRecord:
+    _require_project(session, organization_id, body.project_id)
+    record = SearchSystemRecord(
+        organization_id=organization_id,
+        project_id=body.project_id,
+        name=body.name,
+        provider=body.provider.strip(),
+        system_type=body.system_type.value,
+        description=body.description.strip() if body.description else None,
+        status=AISystemStatus.ACTIVE.value,
+    )
+    _commit(session, record, "AI system name already exists in this project")
+    session.refresh(record)
+    return record
+
+
+@router.get("/ai-systems", response_model=list[AISystemResponse])
+def list_ai_systems(
+    organization_id: TenantId,
+    session: DbSession,
+    project_id: uuid.UUID | None = None,
+) -> list[SearchSystemRecord]:
+    query = select(SearchSystemRecord).where(
+        SearchSystemRecord.organization_id == organization_id
+    )
+    if project_id is not None:
+        query = query.where(SearchSystemRecord.project_id == project_id)
+    return list(session.scalars(query.order_by(SearchSystemRecord.name)).all())
+
+
+@router.post(
+    "/ai-systems/{ai_system_id}/versions",
+    response_model=AISystemVersionResponse,
+    status_code=status.HTTP_201_CREATED,
+)
+def create_ai_system_version(
+    ai_system_id: uuid.UUID,
+    body: AISystemVersionCreate,
+    organization_id: TenantId,
+    session: DbSession,
+    _writer: ResourceWriter,
+) -> SearchSystemVersionRecord:
+    system = session.scalar(
+        select(SearchSystemRecord).where(
+            SearchSystemRecord.id == ai_system_id,
+            SearchSystemRecord.organization_id == organization_id,
+        )
+    )
+    if system is None:
+        raise HTTPException(status_code=404, detail="AI system not found")
+    version = body.version.strip()
+    capabilities = body.capabilities.model_dump()
+    record = SearchSystemVersionRecord(
+        organization_id=organization_id,
+        search_system_id=ai_system_id,
+        version=version,
+        configuration=body.configuration,
+        capabilities=capabilities,
+        status=AISystemVersionStatus.PUBLISHED.value,
+        content_hash=canonical_ai_system_version_hash(
+            version=version,
+            configuration=body.configuration,
+            capabilities=capabilities,
+        ),
+    )
+    _commit(session, record, "AI system version already exists")
+    session.refresh(record)
+    return record
+
+
+@router.get(
+    "/ai-systems/{ai_system_id}/versions",
+    response_model=list[AISystemVersionResponse],
+)
+def list_ai_system_versions(
+    ai_system_id: uuid.UUID,
+    organization_id: TenantId,
+    session: DbSession,
+) -> list[SearchSystemVersionRecord]:
+    return list(
+        session.scalars(
+            select(SearchSystemVersionRecord)
+            .where(
+                SearchSystemVersionRecord.search_system_id == ai_system_id,
                 SearchSystemVersionRecord.organization_id == organization_id,
             )
             .order_by(SearchSystemVersionRecord.created_at)
