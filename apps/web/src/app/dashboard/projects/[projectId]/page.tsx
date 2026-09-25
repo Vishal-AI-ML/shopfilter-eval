@@ -47,12 +47,15 @@ export default async function ProjectWorkspacePage({
       </section>
 
       <section className="project-module-grid" aria-label="Project modules">
-        <article className="project-module-card next-module">
+        <Link
+          className="project-module-card next-module available-module"
+          href={`/dashboard/projects/${project.id}/catalogs`}
+        >
           <span>01</span>
-          <div><p className="eyebrow">NEXT CHECKPOINT</p><h2>Catalogs</h2></div>
+          <div><p className="eyebrow">AVAILABLE NOW</p><h2>Catalogs</h2></div>
           <p>Import, validate, version, and publish product catalogs.</p>
-          <small>Coming next</small>
-        </article>
+          <small>Open catalogs →</small>
+        </Link>
         <article className="project-module-card">
           <span>02</span>
           <div><p className="eyebrow">CONFIGURATION</p><h2>Search systems</h2></div>

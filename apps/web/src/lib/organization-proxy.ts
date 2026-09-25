@@ -28,11 +28,13 @@ function sameOrigin(request: NextRequest): boolean {
 }
 
 const UUID_PATTERN = /^[0-9a-f]{8}-[0-9a-f]{4}-[1-5][0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$/i;
+const DEFAULT_MAX_BODY_BYTES = 1024 * 1024;
 
 export async function proxyOrganizationRequest(
   request: NextRequest,
   path: string,
   allowedMethods: ReadonlySet<string>,
+  maxBodyBytes = DEFAULT_MAX_BODY_BYTES,
 ): Promise<NextResponse> {
   if (!allowedMethods.has(request.method)) {
     return NextResponse.json({ detail: "Not found" }, { status: 404 });
@@ -58,12 +60,22 @@ export async function proxyOrganizationRequest(
   if (cookie) headers.set("cookie", cookie);
   if (contentType) headers.set("content-type", contentType);
 
+  let body: ArrayBuffer | undefined;
+  if (["POST", "PATCH"].includes(request.method)) {
+    const contentLength = Number(request.headers.get("content-length"));
+    if (Number.isFinite(contentLength) && contentLength > maxBodyBytes) {
+      return NextResponse.json({ detail: "Request is too large" }, { status: 413 });
+    }
+    body = await request.arrayBuffer();
+    if (body.byteLength > maxBodyBytes) {
+      return NextResponse.json({ detail: "Request is too large" }, { status: 413 });
+    }
+  }
+
   const upstream = await fetch(`${apiBaseUrl()}${path}`, {
     method: request.method,
     headers,
-    body: ["POST", "PATCH"].includes(request.method)
-      ? await request.arrayBuffer()
-      : undefined,
+    body,
     cache: "no-store",
     redirect: "manual",
   });

@@ -2,6 +2,11 @@ import "server-only";
 
 import { cookies } from "next/headers";
 
+import type {
+  CatalogSummary,
+  CatalogVersionSummary,
+  CatalogWithVersions,
+} from "@/lib/catalog-types";
 import { apiBaseUrl } from "@/lib/server-auth";
 import type {
   OrganizationInvitation,
@@ -44,4 +49,24 @@ export function getOrganizationProjects(
   organizationId: string,
 ): Promise<ProjectSummary[]> {
   return organizationRequest("/v1/projects", organizationId);
+}
+
+export async function getProjectCatalogs(
+  organizationId: string,
+  projectId: string,
+): Promise<CatalogWithVersions[]> {
+  const catalogs = await organizationRequest<CatalogSummary[]>(
+    "/v1/catalogs",
+    organizationId,
+  );
+  const scoped = catalogs.filter((catalog) => catalog.project_id === projectId);
+  return Promise.all(
+    scoped.map(async (catalog) => ({
+      ...catalog,
+      versions: await organizationRequest<CatalogVersionSummary[]>(
+        `/v1/catalogs/${catalog.id}/versions`,
+        organizationId,
+      ),
+    })),
+  );
 }

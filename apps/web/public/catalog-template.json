@@ -1,0 +1,24 @@
+{
+  "catalog_id": "my-catalog",
+  "version": "v1",
+  "products": [
+    {
+      "product_id": "SKU-001",
+      "title": "Example product",
+      "description": "Optional product description",
+      "category": "example-category",
+      "subcategory": null,
+      "brand": null,
+      "gender": null,
+      "color": null,
+      "sizes": [],
+      "price": "999.00",
+      "currency": "INR",
+      "availability": "in_stock",
+      "rating": null,
+      "attributes": {},
+      "source_metadata": {},
+      "field_provenance": {}
+    }
+  ]
+}

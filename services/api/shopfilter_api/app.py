@@ -29,6 +29,7 @@ from services.api.shopfilter_api.password_reset_mailer import (
 )
 from services.api.shopfilter_api.routers import (
     authentication,
+    catalog_imports,
     evaluations,
     health,
     invitations,
@@ -116,6 +117,7 @@ def create_app(settings: ApiSettings | None = None) -> FastAPI:
     app.include_router(organizations.router)
     app.include_router(memberships.router)
     app.include_router(resources.router)
+    app.include_router(catalog_imports.router)
     app.include_router(reviews.router)
     app.include_router(evaluations.router)
     app.include_router(jobs.router)

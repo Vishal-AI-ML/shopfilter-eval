@@ -5,6 +5,7 @@ export type Capability =
   | "execute_evaluation"
   | "review_dataset"
   | "manage_projects"
+  | "manage_catalogs"
   | "manage_members";
 
 const capabilities: Record<MembershipRole, ReadonlySet<Capability>> = {
@@ -13,6 +14,7 @@ const capabilities: Record<MembershipRole, ReadonlySet<Capability>> = {
     "execute_evaluation",
     "review_dataset",
     "manage_projects",
+    "manage_catalogs",
     "manage_members",
   ]),
   ADMIN: new Set([
@@ -20,9 +22,15 @@ const capabilities: Record<MembershipRole, ReadonlySet<Capability>> = {
     "execute_evaluation",
     "review_dataset",
     "manage_projects",
+    "manage_catalogs",
     "manage_members",
   ]),
-  ENGINEER: new Set(["view", "execute_evaluation", "manage_projects"]),
+  ENGINEER: new Set([
+    "view",
+    "execute_evaluation",
+    "manage_projects",
+    "manage_catalogs",
+  ]),
   REVIEWER: new Set(["view", "review_dataset"]),
   VIEWER: new Set(["view"]),
 };
