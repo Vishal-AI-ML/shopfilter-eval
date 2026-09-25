@@ -28,6 +28,7 @@ from services.api.shopfilter_api.password_reset_mailer import (
     SmtpPasswordResetMailer,
 )
 from services.api.shopfilter_api.routers import (
+    assistant,
     authentication,
     catalog_imports,
     evaluations,
@@ -113,6 +114,7 @@ def create_app(settings: ApiSettings | None = None) -> FastAPI:
     app.state.email_verification_mailer = email_verification_mailer
     app.state.invitation_mailer = invitation_mailer
     app.include_router(health.router)
+    app.include_router(assistant.router)
     app.include_router(authentication.router)
     app.include_router(organizations.router)
     app.include_router(memberships.router)

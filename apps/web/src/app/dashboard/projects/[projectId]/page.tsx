@@ -48,7 +48,7 @@ export default async function ProjectWorkspacePage({
 
       <section className="project-module-grid" aria-label="Project modules">
         <Link
-          className="project-module-card next-module available-module"
+          className="project-module-card available-module"
           href={`/dashboard/projects/${project.id}/catalogs`}
         >
           <span>01</span>
@@ -56,20 +56,29 @@ export default async function ProjectWorkspacePage({
           <p>Import, validate, version, and publish product catalogs.</p>
           <small>Open catalogs →</small>
         </Link>
-        <article className="project-module-card">
+        <Link
+          className="project-module-card next-module available-module"
+          href={`/dashboard/projects/${project.id}/assistant`}
+        >
           <span>02</span>
-          <div><p className="eyebrow">CONFIGURATION</p><h2>Search systems</h2></div>
-          <p>Connect provider versions and inspect supported trace evidence.</p>
-          <small>Planned</small>
-        </article>
+          <div><p className="eyebrow">VISIBLE NOW</p><h2>Assistant Playground</h2></div>
+          <p>Ask shopping questions and inspect grounded products, citations, filters, and retrieval evidence.</p>
+          <small>Open playground →</small>
+        </Link>
         <article className="project-module-card">
           <span>03</span>
+          <div><p className="eyebrow">CONFIGURATION</p><h2>AI systems</h2></div>
+          <p>Configure provider versions and inspect declared capabilities.</p>
+          <small>Backend available</small>
+        </article>
+        <article className="project-module-card">
+          <span>04</span>
           <div><p className="eyebrow">GROUND TRUTH</p><h2>Datasets</h2></div>
           <p>Review immutable golden cases against exact catalog versions.</p>
           <small>Planned</small>
         </article>
         <article className="project-module-card">
-          <span>04</span>
+          <span>05</span>
           <div><p className="eyebrow">EXECUTION</p><h2>Evaluation runs</h2></div>
           <p>Start durable jobs and inspect metrics, failures, and artifacts.</p>
           <small>Planned</small>

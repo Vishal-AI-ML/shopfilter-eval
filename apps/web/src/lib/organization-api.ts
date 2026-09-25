@@ -3,6 +3,11 @@ import "server-only";
 import { cookies } from "next/headers";
 
 import type {
+  AISystemSummary,
+  AISystemVersionSummary,
+  AISystemWithVersions,
+} from "@/lib/assistant-types";
+import type {
   CatalogSummary,
   CatalogVersionSummary,
   CatalogWithVersions,
@@ -65,6 +70,25 @@ export async function getProjectCatalogs(
       ...catalog,
       versions: await organizationRequest<CatalogVersionSummary[]>(
         `/v1/catalogs/${catalog.id}/versions`,
+        organizationId,
+      ),
+    })),
+  );
+}
+
+export async function getProjectAISystems(
+  organizationId: string,
+  projectId: string,
+): Promise<AISystemWithVersions[]> {
+  const systems = await organizationRequest<AISystemSummary[]>(
+    `/v1/ai-systems?project_id=${encodeURIComponent(projectId)}`,
+    organizationId,
+  );
+  return Promise.all(
+    systems.map(async (system) => ({
+      ...system,
+      versions: await organizationRequest<AISystemVersionSummary[]>(
+        `/v1/ai-systems/${system.id}/versions`,
         organizationId,
       ),
     })),
