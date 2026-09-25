@@ -7,6 +7,7 @@ import type {
   OrganizationInvitation,
   OrganizationMember,
 } from "@/lib/organization-types";
+import type { ProjectSummary } from "@/lib/project-types";
 
 async function organizationRequest<T>(
   path: string,
@@ -37,4 +38,10 @@ export function getOrganizationInvitations(
   organizationId: string,
 ): Promise<OrganizationInvitation[]> {
   return organizationRequest("/v1/organization-invitations", organizationId);
+}
+
+export function getOrganizationProjects(
+  organizationId: string,
+): Promise<ProjectSummary[]> {
+  return organizationRequest("/v1/projects", organizationId);
 }

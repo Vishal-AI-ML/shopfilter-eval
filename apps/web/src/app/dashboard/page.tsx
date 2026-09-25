@@ -32,7 +32,7 @@ export default async function DashboardPage(): Promise<React.ReactElement> {
       </section>
 
       <section className="module-grid" aria-label="Upcoming product modules">
-        <article><span>01</span><h3>Projects</h3><p>Scope catalogs, datasets and search systems by tenant.</p><small>Next checkpoint</small></article>
+        <article><span>01</span><h3>Projects</h3><p>Scope catalogs, datasets and search systems by tenant.</p><small><Link href="/dashboard/projects">Open projects →</Link></small></article>
         <article><span>02</span><h3>Evaluation runs</h3><p>Start durable jobs and monitor live progress.</p><small>Planned</small></article>
         <article><span>03</span><h3>Failure explorer</h3><p>Inspect expected versus actual results with evidence.</p><small>Planned</small></article>
         <article><span>04</span><h3>Regression</h3><p>Compare immutable baseline and candidate versions.</p><small>Planned</small></article>

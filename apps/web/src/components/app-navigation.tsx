@@ -18,7 +18,7 @@ export function AppNavigation({
   const pathname = usePathname();
   const items: NavigationItem[] = [
     { label: "Overview", href: "/dashboard", available: true },
-    { label: "Projects", available: true, status: "Next" },
+    { label: "Projects", href: "/dashboard/projects", available: true },
     { label: "Evaluation runs", available: true, status: "Planned" },
     { label: "Dataset review", available: false, status: "Planned" },
     {
